@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/board">
+        <file>boardFiles/board1.txt</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file>img/cannon.png</file>
+        <file>img/castle.png</file>
+        <file>img/fence.png</file>
+        <file>img/grass.png</file>
+        <file>img/icon.png</file>
+    </qresource>
+</RCC>
