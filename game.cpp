@@ -1,6 +1,7 @@
+#include <QLineF>
 #include "game.h"
 #include "fence.h"
-
+#include "bullet.h"
 
 Game::Game() {
     // initialize variables
@@ -42,6 +43,20 @@ void Game::start() {
     timer->start(1000);
     show();
 }
+
+
+void Game::mousePressEvent(QMouseEvent *event)
+{
+    Bullet* b = new Bullet();
+    int offset = 35;
+    int newX = cannon->getX() + offset, newY = cannon->getY() + offset;
+    b->setPos(newX, newY); // set the position of the bullet to the center of the cannon
+    QLineF ln(QPointF(newX, newY), event->pos());
+    int angle = -1 * ln.angle();
+    b->setRotation(angle);
+    scene->addItem(b);
+}
+
 
 // getters
 int Game::getBlockUnit() {return blockUnit;}
@@ -88,10 +103,9 @@ void Game::drawBoard(QString path) {
                 scene->addItem(castle);
                 castle->setZValue(2);
             } else if(boardData[i][j] == 2) {
-                cannon = new Cannon();
+                cannon = new Cannon(x, y);
                 scene->addItem(cannon);
                 // scene->removeItem(&boardImages[i][j]);
-                cannon->setPos(x, y);
                 cannon->setZValue(2);
             }
 
