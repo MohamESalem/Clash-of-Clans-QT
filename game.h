@@ -1,9 +1,16 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <QApplication>
+#include <QLabel>
+#include <QTimer>
+#include <QVBoxLayout>
+#include <QWidget>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QGraphicsItem>
 #include <QFile>
+#include <QTimer>
 #include <QTextStream>
 #include <QGraphicsPixmapItem>
 #include <QDebug>
@@ -22,12 +29,18 @@ private:
     Cannon* cannon;
     void readBoardData(QString path);
     void drawBoard(QString path);
+    //timer
+    int duration;
+    QTimer* timer;
+    QGraphicsTextItem* timerLabel;
 public:
     Game();
     void start();
     int getBlockUnit();
     Castle* getCastle();
     Cannon* getCannon();
+public slots:
+    void updateTimer();
 };
 
 #endif // GAME_H

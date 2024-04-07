@@ -1,6 +1,6 @@
 #include "game.h"
 #include "fence.h"
-#include "startmenu.h"
+
 
 Game::Game() {
     // initialize variables
@@ -14,6 +14,21 @@ Game::Game() {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setWindowTitle("Clash Of Clans");
     setWindowIcon(QIcon(":/images/img/icon.png"));
+    //design the timer label
+    timerLabel = new QGraphicsTextItem();
+    timerLabel->setPos(10, 10);
+    timerLabel->setZValue(10);
+    timerLabel->setDefaultTextColor(Qt::white);
+    // Set the font size
+    QFont font = timerLabel->font();
+    font.setPointSize(18);
+    timerLabel->setFont(font);
+    scene->addItem(timerLabel);
+    //update the timer
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &Game::updateTimer);
+    duration = 10;
+
 }
 
 //.create a startMenu .add to scene
@@ -23,7 +38,8 @@ void Game::start() {
     setScene(scene);
     //drawe board
     drawBoard(":/board/boardFiles/board1.txt");
-    // show the view
+    //timer
+    timer->start(1000);
     show();
 }
 
@@ -83,4 +99,22 @@ void Game::drawBoard(QString path) {
 
         }
     }
+}
+
+void Game::updateTimer()
+{
+    duration--;
+
+    if (duration <= 0) {
+        timer->stop();
+
+    }
+
+    int minutes = (duration % 3600) / 60;
+    int seconds = duration % 60;
+
+    // Format the time string
+    QString timeString = QString("%1:%2").arg(minutes, 2, 10, QChar('0'))
+                                         .arg(seconds, 2, 10, QChar('0'));
+    timerLabel->setPlainText(timeString);
 }
