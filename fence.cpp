@@ -9,3 +9,24 @@ Fence::Fence(int x, int y) {
     setPixmap(fenceImg);
     setPos(x, y);
 }
+
+void Fence::setHealth(int x)
+{
+    health = x;
+}
+
+void Fence::decrementHealth(int x)
+{
+    health -= x;
+}
+
+
+void Fence::incrementHealth(int x)
+{
+    health += x;
+}
+
+int Fence::getHealth()
+{
+    return health;
+}

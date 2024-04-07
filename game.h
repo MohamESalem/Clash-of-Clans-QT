@@ -33,12 +33,15 @@ private:
     int duration;
     QTimer* timer;
     QGraphicsTextItem* timerLabel;
+
 public:
     Game();
     void start();
     int getBlockUnit();
     Castle* getCastle();
     Cannon* getCannon();
+
+
 public slots:
     void updateTimer();
 };
