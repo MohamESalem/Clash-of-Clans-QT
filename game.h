@@ -5,8 +5,6 @@
 #include <QGraphicsScene>
 #include <QFile>
 #include <QTextStream>
-#include <QMediaPlayer>
-#include <QAudioOutput>
 #include <QGraphicsPixmapItem>
 #include <QDebug>
 #include "castle.h"

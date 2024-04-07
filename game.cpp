@@ -1,5 +1,6 @@
 #include "game.h"
 #include "fence.h"
+#include "startmenu.h"
 
 Game::Game() {
     // initialize variables
@@ -15,14 +16,13 @@ Game::Game() {
     setWindowIcon(QIcon(":/images/img/icon.png"));
 }
 
+//.create a startMenu .add to scene
+
 void Game::start() {
     // add the scene to the view
     setScene(scene);
-
-    // draw the board
+    //drawe board
     drawBoard(":/board/boardFiles/board1.txt");
-
-
     // show the view
     show();
 }
@@ -32,7 +32,7 @@ int Game::getBlockUnit() {return blockUnit;}
 Castle* Game::getCastle() {return castle;}
 Cannon* Game::getCannon() {return cannon;}
 
-// public methods
+// public methods //! read file and write to array(boardData)
 void Game::readBoardData(QString path) {
     QFile file(path);
     file.open(QIODevice::ReadOnly);
@@ -46,6 +46,7 @@ void Game::readBoardData(QString path) {
     }
 }
 
+//
 void Game::drawBoard(QString path) {
     readBoardData(path);
     bool isCastleDrawn = false;
