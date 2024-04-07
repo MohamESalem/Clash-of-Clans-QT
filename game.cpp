@@ -65,7 +65,6 @@ void Game::readBoardData(QString path) {
 //
 void Game::drawBoard(QString path) {
     readBoardData(path);
-    bool isCastleDrawn = false;
     QPixmap grass(":/images/img/grass.png");
     grass = grass.scaled(blockUnit, blockUnit);
     for(int i = 0; i < 12; i++) {
@@ -83,11 +82,10 @@ void Game::drawBoard(QString path) {
                 Fence* f = new Fence(x, y);
                 scene->addItem(f);
                 f->setZValue(1);
-            } else if(boardData[i][j] == 1 && !isCastleDrawn) {
+            } else if(boardData[i][j] == 1) {
                 castle = new Castle();
                 castle->setPos(x, y);
                 scene->addItem(castle);
-                isCastleDrawn = true;
                 castle->setZValue(2);
             } else if(boardData[i][j] == 2) {
                 cannon = new Cannon();
@@ -106,7 +104,6 @@ void Game::updateTimer() {
 
     if (duration <= 0) {
         timer->stop();
-
     }
 
     int minutes = (duration % 3600) / 60;

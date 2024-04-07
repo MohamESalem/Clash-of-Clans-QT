@@ -39,6 +39,9 @@ Thumbs.db
 *.pro.user*
 CMakeLists.txt.user*
 
+# debug folder
+build-Clash_of_Clans-Desktop_Qt_6_6_2_MinGW_64_bit-Debug/
+
 # xemacs temporary files
 *.flc
 

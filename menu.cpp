@@ -66,6 +66,6 @@ void menu::on_startButton_clicked()
 
 void menu::on_exitButton_clicked()
 {
-    hide();
+    close();
 }
 
