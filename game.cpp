@@ -47,14 +47,26 @@ void Game::start() {
 
 void Game::mousePressEvent(QMouseEvent *event)
 {
-    Bullet* b = new Bullet();
-    int offset = 35;
-    int newX = cannon->getX() + offset, newY = cannon->getY() + offset;
-    b->setPos(newX, newY); // set the position of the bullet to the center of the cannon
-    QLineF ln(QPointF(newX, newY), event->pos());
+    if(event->button() == Qt::LeftButton) {
+        Bullet* b = new Bullet();
+        int offset = 25;
+        int newX = cannon->getX() + offset, newY = cannon->getY() + offset;
+        b->setPos(newX, newY); // set the position of the bullet to the center of the cannon
+
+        QLineF ln(QPointF(newX, newY), event->pos());
+        int angle = -1 * ln.angle();
+
+        b->setRotation(angle);
+        scene->addItem(b);
+    }
+
+}
+
+void Game::mouseMoveEvent(QMouseEvent *event)
+{
+    QLineF ln(QPointF(cannon->getX(), cannon->getY()), event->pos());
     int angle = -1 * ln.angle();
-    b->setRotation(angle);
-    scene->addItem(b);
+    // cannon->setRotation(angle - 30);
 }
 
 
@@ -105,7 +117,6 @@ void Game::drawBoard(QString path) {
             } else if(boardData[i][j] == 2) {
                 cannon = new Cannon(x, y);
                 scene->addItem(cannon);
-                // scene->removeItem(&boardImages[i][j]);
                 cannon->setZValue(2);
             }
 

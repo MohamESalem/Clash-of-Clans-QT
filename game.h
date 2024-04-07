@@ -37,7 +37,9 @@ private:
 public:
     Game();
     void start();
+    // overload mousePressEven
     void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent* event);
     int getBlockUnit();
     Castle* getCastle();
     Cannon* getCannon();

@@ -8,6 +8,7 @@ Cannon::Cannon(int x, int y) {
     this->x = x;
     this->y = y;
     setPos(x, y);
+    setTransformOriginPoint(30, 30);
 }
 
 // getters
