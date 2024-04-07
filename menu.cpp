@@ -45,7 +45,7 @@ menu::menu(QWidget *parent)
     ui->startButton->setStyleSheet(startStyle);
     ui->exitButton->setStyleSheet(exitStyle);
 
-    QPixmap bkgnd("D:/code/university/CSII Lab/Clash of Clans/Clash-of-Clans-QT/img/background.png");
+    QPixmap bkgnd(":/images/img/background.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatioByExpanding);
     QPalette palette;
     palette.setBrush(QPalette::Window, bkgnd);

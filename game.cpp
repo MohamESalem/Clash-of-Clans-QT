@@ -27,7 +27,7 @@ Game::Game() {
     //update the timer
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &Game::updateTimer);
-    duration = 10;
+    duration = 1 * 60;
 
 }
 
@@ -101,8 +101,7 @@ void Game::drawBoard(QString path) {
     }
 }
 
-void Game::updateTimer()
-{
+void Game::updateTimer() {
     duration--;
 
     if (duration <= 0) {

@@ -8,5 +8,6 @@
         <file>img/fence.png</file>
         <file>img/grass.png</file>
         <file>img/icon.png</file>
+        <file>img/background.png</file>
     </qresource>
 </RCC>
