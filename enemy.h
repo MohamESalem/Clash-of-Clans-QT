@@ -17,10 +17,11 @@ private:
     int health;
     QString k; //movement of enemy
 
+public slots:
+    void moveRandomly();
+
 public:
     Enemy(int x, int y);
-    void moveRandomly(int angle);
-    void move(int angle);
     void setHealth(int);
     void decrementHealth(int);
     void incrementHealth(int);

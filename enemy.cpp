@@ -1,5 +1,11 @@
 #include "enemy.h"
 #include "game.h"
+#include <QPixmap>
+#include <QTimer>
+#include <qmath.h>
+#include <QDebug>
+#include <QGraphicsScene>
+#include "fence.h"
 
 extern Game* game;
 
@@ -9,22 +15,32 @@ Enemy::Enemy(int x, int y)
     enemyImg = enemyImg.scaled(game->getBlockUnit(), game->getBlockUnit());
     setPixmap(enemyImg);
     setPos(x,y);
-
-}
-
-void Enemy::move(int angle) {
     QTimer* timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(moveRandomly(angle)));
+    connect(timer, SIGNAL(timeout()), this, SLOT(moveRandomly()));
     timer->start(50);
+
 }
 
 
-void Enemy::moveRandomly(int angle)
-{
-    const int STEP_SIZE = 20; // this represents the velocity of the bullet
 
-    double dy = STEP_SIZE * qSin(qDegreesToRadians(angle));
-    double dx = STEP_SIZE * qCos(qDegreesToRadians(angle));
+void Enemy::moveRandomly()
+{
+    QList<QGraphicsItem *> collided_items = collidingItems();
+    foreach(auto& item, collided_items) {
+        if(typeid(*item) == typeid(Fence)) {
+            // remove the item from the scene
+            scene()->removeItem(this);
+            delete this;
+            return;
+        }
+    }
+
+    const int STEP_SIZE = 1; //the velocity of the enemy
+
+    double theta = rotation(); // degrees
+
+    double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
+    double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
 
     setPos(x()+dx, y()+dy);
 
