@@ -1,3 +1,5 @@
+
+include(qge/qge.pri)
 QT       += core gui
 
 QT

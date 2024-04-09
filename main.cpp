@@ -7,7 +7,7 @@ Game* game;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    //game
+    //gameN
     game = new Game();
     //menu
     menu m;
