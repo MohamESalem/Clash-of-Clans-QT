@@ -1,4 +1,5 @@
 #include "bullet.h"
+#include "enemy.h"
 #include <QPixmap>
 #include <QTimer>
 #include <qmath.h>
@@ -19,16 +20,16 @@ void Bullet::move() {
 
     // *** UNCOMMENT this part when the Enemy class is created ***
 
-    // QList<QGraphicsItem *> collided_items = collidingItems();
-    // foreach(auto& item, collided_items) {
-    //     if(typeid(*item) == typeid(Enemy)) {
-    //         // remove the item from the scene
-    //         scene()->removeItem(this);
-    //         // release the memory from the heap
-    //         delete this;
-    //         return;
-    //     }
-    // }
+    QList<QGraphicsItem *> collided_items = collidingItems();
+    foreach(auto& item, collided_items) {
+        if(typeid(*item) == typeid(Enemy)) {
+            // remove the item from the scene
+            scene()->removeItem(this);
+            // release the memory from the heap
+            delete this;
+            return;
+        }
+    }
 
     // handle the bullet movement
 

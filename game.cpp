@@ -135,9 +135,14 @@ void Game::drawBoard(QString path) {
         int x = j * blockUnit, y = i * blockUnit;
         if(boardData[i][j]==0) {
             Enemy* enemy = new Enemy(x,y);
+            QLineF ln(QPointF(8 * blockUnit, 7 * blockUnit), enemy->pos());
+            int angle = -1 * ln.angle();
+
             scene->addItem(enemy);
             enemy->setZValue(1);
+            enemy->move(angle);
             enemyNumber--;
+
 
         }
 

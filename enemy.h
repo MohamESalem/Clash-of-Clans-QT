@@ -19,7 +19,8 @@ private:
 
 public:
     Enemy(int x, int y);
-    void moveRandomly();
+    void moveRandomly(int angle);
+    void move(int angle);
     void setHealth(int);
     void decrementHealth(int);
     void incrementHealth(int);

@@ -13,6 +13,10 @@ public:
     void decrementHealth(int);
     void incrementHealth(int);
     int getHealth();
+    // add castle coordinates
+    // add getters and setters
+    // getX()
+    // getY()
 };
 
 #endif // CASTLE_H
