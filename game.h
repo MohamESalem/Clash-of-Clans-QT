@@ -27,6 +27,7 @@ private:
     QGraphicsPixmapItem boardImages[12][16];
     Castle* castle;
     Cannon* cannon;
+
     void readBoardData(QString path);
     void drawBoard(QString path);
     //timer

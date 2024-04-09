@@ -2,6 +2,11 @@
 #include "game.h"
 #include "fence.h"
 #include "bullet.h"
+#include "enemy.h"
+#include <cstdlib>
+#include <ctime>
+
+
 
 Game::Game() {
     // initialize variables
@@ -121,6 +126,21 @@ void Game::drawBoard(QString path) {
             }
 
         }
+    }
+    int enemyNumber = 10;
+    srand(time(0));
+    while(enemyNumber) {
+        int i = rand() % 16;
+        int j = rand() % 12;
+        int x = j * blockUnit, y = i * blockUnit;
+        if(boardData[i][j]==0) {
+            Enemy* enemy = new Enemy(x,y);
+            scene->addItem(enemy);
+            enemy->setZValue(1);
+            enemyNumber--;
+
+        }
+
     }
 }
 

@@ -13,6 +13,7 @@ SOURCES += \
     bullet.cpp \
     cannon.cpp \
     castle.cpp \
+    enemy.cpp \
     fence.cpp \
     game.cpp \
     main.cpp \
@@ -22,6 +23,7 @@ HEADERS += \
     bullet.h \
     cannon.h \
     castle.h \
+    enemy.h \
     fence.h \
     game.h \
     menu.h
@@ -42,6 +44,7 @@ DISTFILES += \
     img/background.png \
     img/cannon.png \
     img/castle.png \
+    img/enemy.png \
     img/fence.png \
     img/grass.png \
     img/icon.png

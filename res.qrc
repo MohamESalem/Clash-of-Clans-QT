@@ -10,5 +10,6 @@
         <file>img/icon.png</file>
         <file>img/background.png</file>
         <file>img/bullet.png</file>
+        <file>img/enemy.png</file>
     </qresource>
 </RCC>
