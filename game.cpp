@@ -2,13 +2,18 @@
 #include "game.h"
 #include "fence.h"
 #include "bullet.h"
-#include "enemy.h"
-#include <cstdlib>
-#include <ctime>
+#include "worker.h"
+#include <QTime>
+
+// #include "enemy.h"
+// #include <cstdlib>
+// #include <ctime>
 
 Game::Game() {
     // initialize variables
     blockUnit = 50;
+    workersMaxCount = 3;
+    workersAvaCount = 0;
     // initialize the scene
     scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, 800, 600);
@@ -45,8 +50,15 @@ void Game::start() {
     //timer
     timer->start(1000);
     show();
-}
 
+    // used for testing workers functionality - COMMENT IT IF YOU WANT
+
+    delay(1);
+    castle->decrementCurrHealth(40);
+    delay(9);
+    castle->decrementCurrHealth(30);
+
+}
 
 void Game::mousePressEvent(QMouseEvent *event)
 {
@@ -57,7 +69,7 @@ void Game::mousePressEvent(QMouseEvent *event)
         b->setPos(newX, newY); // set the position of the bullet to the center of the cannon
 
         QLineF ln(QPointF(newX, newY), event->pos());
-        int angle = -1 * ln.angle();
+        double angle = -1 * ln.angle();
 
         b->setRotation(angle);
         scene->addItem(b);
@@ -68,7 +80,7 @@ void Game::mousePressEvent(QMouseEvent *event)
 void Game::mouseMoveEvent(QMouseEvent *event)
 {
     QLineF ln(QPointF(cannon->getX(), cannon->getY()), event->pos());
-    int angle = -1 * ln.angle();
+    double angle = -1 * ln.angle();
     // cannon->setRotation(angle - 30);
 }
 
@@ -77,6 +89,34 @@ void Game::mouseMoveEvent(QMouseEvent *event)
 int Game::getBlockUnit() {return blockUnit;}
 Castle* Game::getCastle() {return castle;}
 Cannon* Game::getCannon() {return cannon;}
+Tent* Game::getTent() {return tent;}
+
+void Game::makeWorkers()
+{
+    qDebug() << "Castle health is now " << castle->getCurrHealth() << '\n';
+    int last = workersMaxCount - workersAvaCount;
+    for(int i = 0; i < last; i++) {
+        Worker* w = new Worker();
+        scene->addItem(w);
+        incrementWorkersAvaCount();
+        if(i != last - 1) delay(2);
+    }
+}
+
+void Game::decrementWorkersMaxCount()
+{
+    if(workersMaxCount > 0) workersMaxCount--;
+}
+
+void Game::incrementWorkersAvaCount()
+{
+    if(workersAvaCount < workersMaxCount) workersAvaCount++;
+}
+
+void Game::decrementWorkersAvaCount()
+{
+    if(workersAvaCount > 0) workersAvaCount--;
+}
 
 // public methods //! read file and write to array(boardData)
 void Game::readBoardData(QString path) {
@@ -119,7 +159,11 @@ void Game::drawBoard(QString path) {
             } else if(boardData[i][j] == 2) {
                 cannon = new Cannon(x, y);
                 scene->addItem(cannon);
-                cannon->setZValue(2);
+                cannon->setZValue(3);
+            } else if(boardData[i][j] == 4) {
+                int offset = 20;
+                tent = new Tent(x + offset, y - offset);
+                scene->addItem(tent);
             }
 
         }
@@ -130,27 +174,30 @@ void Game::drawBoard(QString path) {
     // IT'S BETTER IF THE CREATION OF THE ENEMY IS IN A SEPARATE FUNCTION CALLED SPAWN (FOR INSTANCE)
     // WHICH's CALLED AFTER A TIMEOUT
 
-    int enemyNumber = 10;
-    srand(time(0));
-    while(enemyNumber) {
-        int i = rand() % 16;
-        int j = rand() % 12;
-        int x = j * blockUnit, y = i * blockUnit;
-        if(boardData[i][j]==0) {
+    // int enemyNumber = 5;
+    // srand(time(0));
+    // while(enemyNumber) {
+        // int i = rand() % 16;
+        // int j = rand() % 12;
+        // int x = j * blockUnit, y = i * blockUnit;
+        // if(boardData[i][j]==0) {
 
-            Enemy* enemy = new Enemy(x,y);
-            scene->addItem(enemy);
-            enemy->setZValue(2);
-            enemyNumber--;
+            // Enemy* enemy = new Enemy(x,y);
+            // scene->addItem(enemy);
+            // enemy->setZValue(4);
+            // enemyNumber--;
 
             // instead of 8 and 7 add coordinates of the castle
-            QLineF ln(QPointF(x, y), QPointF(8 * blockUnit, 7* blockUnit));
-            int angle = -1 * ln.angle();
+            // QLineF ln(QPointF(x, y), QPointF(8 * blockUnit, 7* blockUnit));
+            // int angle = -1 * ln.angle();
+            // enemy->setRotation(angle);
+               // **************** NOTE ****************
+                // try not to set the enemy rotation - the image will get inverted and won't look good :(
+                // but in moveRandomly() Function you need to the write the code to get angle
+                 // and assign angle to theta (ine moveRandomly() Function)
+        // }
+    // }
 
-            enemy->setRotation(angle);
-        }
-
-    }
 }
 
 void Game::updateTimer() {
@@ -169,4 +216,12 @@ void Game::updateTimer() {
     QString timeString = QString("%1:%2").arg(minutes, 2, 10, QChar('0'))
                                          .arg(seconds, 2, 10, QChar('0'));
     timerLabel->setPlainText(timeString);
+}
+
+void Game::delay(int sec)
+{
+    QTime dieTime = QTime::currentTime().addSecs(sec);
+    while(QTime::currentTime() < dieTime) {
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    }
 }

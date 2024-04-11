@@ -14,6 +14,7 @@ Bullet::Bullet() {
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);
     damage = 20;
+    setZValue(5);
 }
 
 int Bullet::getDamage() {return damage;}
@@ -21,8 +22,6 @@ void Bullet::setDamage(int x) {damage = x;}
 
 void Bullet::move() {
     // handle if the bullet collides with an enemy
-
-    // *** UNCOMMENT this part when the Enemy class is created ***
 
     QList<QGraphicsItem *> collided_items = collidingItems();
     foreach(auto& item, collided_items) {
@@ -47,10 +46,9 @@ void Bullet::move() {
 
     setPos(x()+dx, y()+dy);
 
-    // handle if the bullet goes out of the view
+    // handle the case when the bullet goes out of the view
     if(y() < 0  || y() > scene()->height() || x() < 0 || x() > scene()->width()) {
         scene()->removeItem(this);
         delete this;
     }
-
 }

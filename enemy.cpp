@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include "fence.h"
+#include "worker.h"
 
 extern Game* game;
 
@@ -14,6 +15,7 @@ Enemy::Enemy(int x, int y)
     QPixmap enemyImg(":/images/img/enemy.png");
     enemyImg = enemyImg.scaled(game->getBlockUnit(), game->getBlockUnit());
     setPixmap(enemyImg);
+    setTransformOriginPoint(game->getBlockUnit()/2.0,game->getBlockUnit()/2.0);
     setPos(x,y);
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(moveRandomly()));
@@ -31,10 +33,12 @@ void Enemy::moveRandomly()
             delete item;
             return;
         } // if the enemy collides with a worker, the worker gets killed immediately
-        // else if(typeid(*item) == typeid(Worker)) {
-            // scene()->removeItem(item);
-            // delete item;
-        //}
+        else if(typeid(*item) == typeid(Worker)) {
+            scene()->removeItem(item);
+            game->decrementWorkersMaxCount();
+            game->decrementWorkersAvaCount();
+            delete item;
+        }
     }
 
     const int STEP_SIZE = 1; //the velocity of the enemy

@@ -17,7 +17,9 @@ SOURCES += \
     fence.cpp \
     game.cpp \
     main.cpp \
-    menu.cpp
+    menu.cpp \
+    tent.cpp \
+    worker.cpp
 
 HEADERS += \
     bullet.h \
@@ -26,7 +28,9 @@ HEADERS += \
     enemy.h \
     fence.h \
     game.h \
-    menu.h
+    menu.h \
+    tent.h \
+    worker.h
 
 FORMS += \
     menu.ui
