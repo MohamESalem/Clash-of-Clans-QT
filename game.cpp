@@ -6,8 +6,6 @@
 #include <cstdlib>
 #include <ctime>
 
-
-
 Game::Game() {
     // initialize variables
     blockUnit = 50;
@@ -115,8 +113,7 @@ void Game::drawBoard(QString path) {
                 scene->addItem(f);
                 f->setZValue(1);
             } else if(boardData[i][j] == 1) {
-                castle = new Castle();
-                castle->setPos(x, y);
+                castle = new Castle(x, y);
                 scene->addItem(castle);
                 castle->setZValue(2);
             } else if(boardData[i][j] == 2) {
@@ -127,6 +124,12 @@ void Game::drawBoard(QString path) {
 
         }
     }
+
+    // I THINK YOU WERE JUST TESTING
+    // YET, JUST FOR THE RECORD,
+    // IT'S BETTER IF THE CREATION OF THE ENEMY IS IN A SEPARATE FUNCTION CALLED SPAWN (FOR INSTANCE)
+    // WHICH's CALLED AFTER A TIMEOUT
+
     int enemyNumber = 10;
     srand(time(0));
     while(enemyNumber) {
@@ -145,10 +148,6 @@ void Game::drawBoard(QString path) {
             int angle = -1 * ln.angle();
 
             enemy->setRotation(angle);
-
-
-
-
         }
 
     }
@@ -159,6 +158,8 @@ void Game::updateTimer() {
 
     if (duration <= 0) {
         timer->stop();
+        // show the winning window
+
     }
 
     int minutes = (duration % 3600) / 60;

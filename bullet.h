@@ -7,8 +7,12 @@
 class Bullet : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
+private:
+    int damage;
 public:
     Bullet();
+    int getDamage();
+    void setDamage(int);
 public slots:
     void move();
 };

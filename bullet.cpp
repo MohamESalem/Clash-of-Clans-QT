@@ -13,7 +13,11 @@ Bullet::Bullet() {
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);
+    damage = 20;
 }
+
+int Bullet::getDamage() {return damage;}
+void Bullet::setDamage(int x) {damage = x;}
 
 void Bullet::move() {
     // handle if the bullet collides with an enemy
@@ -23,7 +27,8 @@ void Bullet::move() {
     QList<QGraphicsItem *> collided_items = collidingItems();
     foreach(auto& item, collided_items) {
         if(typeid(*item) == typeid(Enemy)) {
-            // remove the item from the scene
+            dynamic_cast<Enemy*> (item)->decrementHealth(damage);
+            // remove the bullet from the scene
             scene()->removeItem(this);
             // release the memory from the heap
             delete this;

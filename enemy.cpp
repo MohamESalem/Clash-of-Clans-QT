@@ -18,10 +18,8 @@ Enemy::Enemy(int x, int y)
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(moveRandomly()));
     timer->start(50);
-
+    health = 60;
 }
-
-
 
 void Enemy::moveRandomly()
 {
@@ -29,10 +27,14 @@ void Enemy::moveRandomly()
     foreach(auto& item, collided_items) {
         if(typeid(*item) == typeid(Fence)) {
             // remove the item from the scene
-            scene()->removeItem(this);
-            delete this;
+            scene()->removeItem(item);
+            delete item;
             return;
-        }
+        } // if the enemy collides with a worker, the worker gets killed immediately
+        // else if(typeid(*item) == typeid(Worker)) {
+            // scene()->removeItem(item);
+            // delete item;
+        //}
     }
 
     const int STEP_SIZE = 1; //the velocity of the enemy
@@ -46,7 +48,7 @@ void Enemy::moveRandomly()
 
 }
 
-
+// health functions
 void Enemy::setHealth(int x)
 {
     health = x;
@@ -55,6 +57,11 @@ void Enemy::setHealth(int x)
 void Enemy::decrementHealth(int x)
 {
     health -= x;
+    if(health <= 0) {
+        // remove the enemy if its health goes below zero
+        scene()->removeItem(this);
+        delete this;
+    }
 }
 
 

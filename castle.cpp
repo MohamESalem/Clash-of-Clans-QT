@@ -3,37 +3,47 @@
 
 extern Game* game;
 
-Castle::Castle() {
+// constructor
+Castle::Castle(int x, int y) {
     QPixmap castleImg(":/images/img/castle.png");
     castleImg = castleImg.scaled(100, 100);
     setPixmap(castleImg);
+    this->x = x;
+    this->y = y;
+    setPos(this->x, this->y);
+    maxHealth = 100;
+    currHealth = maxHealth;
 }
 
-/*
-void setHealth(int);
-    void decrementHealth(int);
-    void incrementHealth(int);
-    int getHealth();
-*/
-
-void Castle::setHealth(int x)
+// health functions
+void Castle::setCurrHealth(int x)
 {
-    health = x;
+    currHealth = x;
 }
 
-void Castle::decrementHealth(int x)
+void Castle::decrementCurrHealth(int x)
 {
-    health -= x;
+    currHealth -= x;
+    if(currHealth < 0) currHealth = 0;
+    // show the game overwindow if currHealth == 0
+
 }
 
-
-void Castle::incrementHealth(int x)
+void Castle::incrementCurrHealth(int x)
 {
-    health += x;
+    currHealth += x;
+    if(currHealth > maxHealth) currHealth = maxHealth;
 }
 
-int Castle::getHealth()
+int Castle::getCurrHealth()
 {
-    return health;
+    return currHealth;
 }
 
+// getters
+int Castle::getX() {return x;}
+int Castle::getY() {return y;}
+
+// setters
+void Castle::setX(int x) {this->x = x;}
+void Castle::setY(int y) {this->y = y;}

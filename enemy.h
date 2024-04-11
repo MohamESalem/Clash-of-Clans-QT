@@ -22,10 +22,10 @@ public slots:
 
 public:
     Enemy(int x, int y);
+    int getHealth();
     void setHealth(int);
     void decrementHealth(int);
     void incrementHealth(int);
-    int getHealth();
 };
 
 #endif // ENEMY_H

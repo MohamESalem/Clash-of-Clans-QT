@@ -6,17 +6,23 @@
 class Castle : public QGraphicsPixmapItem
 {
 private:
-    int health;
+    int currHealth;
+    int maxHealth;
+    int x;
+    int y;
 public:
-    Castle();
-    void setHealth(int);
-    void decrementHealth(int);
-    void incrementHealth(int);
-    int getHealth();
-    // add castle coordinates
-    // add getters and setters
-    // getX()
-    // getY()
+    Castle(int x, int y);
+    // health functions
+    int getCurrHealth();
+    void setCurrHealth(int);
+    void decrementCurrHealth(int);
+    void incrementCurrHealth(int);
+    // getters
+    int getX();
+    int getY();
+    // setters
+    void setX(int x);
+    void setY(int y);
 };
 
 #endif // CASTLE_H

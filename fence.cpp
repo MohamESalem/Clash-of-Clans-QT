@@ -8,6 +8,7 @@ Fence::Fence(int x, int y) {
     fenceImg = fenceImg.scaled(game->getBlockUnit(), game->getBlockUnit());
     setPixmap(fenceImg);
     setPos(x, y);
+    health = 25;
 }
 
 void Fence::setHealth(int x)
@@ -18,6 +19,11 @@ void Fence::setHealth(int x)
 void Fence::decrementHealth(int x)
 {
     health -= x;
+    if(health <= 0) {
+        // enemy destroys the fence when the fence's health goes below zero
+        scene()->removeItem(this);
+        delete this;
+    }
 }
 
 
