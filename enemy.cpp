@@ -36,7 +36,7 @@ void Enemy::moveRandomly()
         detY =castle->getY() + detOffset;
 
     // move to the destination
-    const int STEP_SIZE = 1; // this represents the velocity of the worker
+    const int STEP_SIZE = 20; // this represents the velocity of the worker
     QLineF ln(QPointF(x(), y()), QPointF(detX, detY));
     double angle = -1 * ln.angle();
 

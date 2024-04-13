@@ -16,9 +16,11 @@ SOURCES += \
     enemy.cpp \
     fence.cpp \
     game.cpp \
+    gameover.cpp \
     main.cpp \
     menu.cpp \
     tent.cpp \
+    winning.cpp \
     worker.cpp
 
 HEADERS += \
@@ -28,12 +30,16 @@ HEADERS += \
     enemy.h \
     fence.h \
     game.h \
+    gameover.h \
     menu.h \
     tent.h \
+    winning.h \
     worker.h
 
 FORMS += \
-    menu.ui
+    gameover.ui \
+    menu.ui \
+    winning.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -50,5 +56,6 @@ DISTFILES += \
     img/castle.png \
     img/enemy.png \
     img/fence.png \
+    img/gameover.jpg \
     img/grass.png \
     img/icon.png

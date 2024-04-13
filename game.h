@@ -18,6 +18,7 @@
 #include "cannon.h"
 #include "tent.h"
 
+
 class Game : public QGraphicsView
 {
     Q_OBJECT
@@ -45,6 +46,8 @@ private:
 public:
     Game();
     void start();
+    void deleteItems();
+    void gameOver();
     // overload mousePressEvent and mouseMoveEvent
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent* event);

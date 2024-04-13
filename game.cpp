@@ -3,6 +3,7 @@
 #include "fence.h"
 #include "bullet.h"
 #include "worker.h"
+#include "gameover.h"
 // #include "enemy.h"
 #include <QTime>
 
@@ -11,12 +12,21 @@
 #include <ctime>
 
 Game::Game() {
+
+    // initialize the scene
+    scene = new QGraphicsScene();
+
+}
+
+//.create a startMenu .add to scene
+
+void Game::start() {
     // initialize variables
     blockUnit = 50;
     workersMaxCount = 3;
     workersAvaCount = 0;
-    // initialize the scene
-    scene = new QGraphicsScene();
+    // add the scene to the view
+    setScene(scene);
     scene->setSceneRect(0, 0, 800, 600);
     // create a view
     setFixedSize(800, 600);
@@ -24,6 +34,10 @@ Game::Game() {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setWindowTitle("Clash Of Clans");
     setWindowIcon(QIcon(":/images/img/icon.png"));
+    //draw board
+    drawBoard(":/board/boardFiles/board1.txt");
+    //spawning enemies
+
     //design the timer label
     timerLabel = new QGraphicsTextItem();
     timerLabel->setPos(10, 10);
@@ -39,25 +53,32 @@ Game::Game() {
     connect(timer, &QTimer::timeout, this, &Game::updateTimer);
     duration = 1 * 60;
 
-}
-
-//.create a startMenu .add to scene
-
-void Game::start() {
-    // add the scene to the view
-    setScene(scene);
-    //drawe board
-    drawBoard(":/board/boardFiles/board1.txt");
-    //spawning enemies
-
     //timer
     timer->start(1000);
     show();
 
     //spawning enemies
-    spawnEnemies();
+    // spawnEnemies();
+    castle->decrementCurrHealth(90);
+    delay(1);
+    castle->decrementCurrHealth(10);
+
+
 
 }
+
+void Game::gameOver()
+{
+    gameover *o = new gameover;
+    o->show();
+    hide();
+    // foreach(QGraphicsItem *item, scene->items()) { // not working
+        // scene->removeItem(item);
+        // delete item;
+    // }
+    // scene->clear();
+}
+
 
 void Game::mousePressEvent(QMouseEvent *event)
 {
@@ -219,6 +240,7 @@ void Game::updateTimer() {
     QString timeString = QString("%1:%2").arg(minutes, 2, 10, QChar('0'))
                                          .arg(seconds, 2, 10, QChar('0'));
     timerLabel->setPlainText(timeString);
+
 }
 
 void Game::delay(int sec)

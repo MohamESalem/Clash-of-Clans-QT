@@ -9,7 +9,6 @@ menu::menu(QWidget *parent)
     , ui(new Ui::menu)
 {
     ui->setupUi(this);
-    this->resize(800, 600);
     QString startStyle = "QPushButton#startButton {"
                          "    background-color: #FFB901;" // Set the background color to #FFB901
                          "    border: 2px solid #FFB901;" // Set the border color to #FFB901
@@ -44,7 +43,7 @@ menu::menu(QWidget *parent)
 
     ui->startButton->setStyleSheet(startStyle);
     ui->exitButton->setStyleSheet(exitStyle);
-
+    // ui->startButton->setGeometry()
     QPixmap bkgnd(":/images/img/background.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatioByExpanding);
     QPalette palette;

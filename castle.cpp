@@ -13,6 +13,7 @@ Castle::Castle(int x, int y) {
     setPos(this->x, this->y);
     maxHealth = 100;
     currHealth = maxHealth;
+    o = new gameover;
 }
 
 // health functions
@@ -23,9 +24,16 @@ void Castle::setCurrHealth(int x)
 
 void Castle::decrementCurrHealth(int x)
 {
-    if(currHealth - x >= 0) currHealth -= x;
-    game->makeWorkers();
-    // show the game overwindow if currHealth == 0
+    if(currHealth - x >= 0)
+    {
+        currHealth -= x;
+        // game->makeWorkers();
+    }
+
+    if(currHealth <= 0) // show the game overwindow if currHealth == 0
+    {
+        game->gameOver();
+    }
 
 }
 
