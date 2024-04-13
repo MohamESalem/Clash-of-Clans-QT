@@ -3,11 +3,12 @@
 #include "fence.h"
 #include "bullet.h"
 #include "worker.h"
+// #include "enemy.h"
 #include <QTime>
 
-// #include "enemy.h"
-// #include <cstdlib>
-// #include <ctime>
+#include "enemy.h"
+#include <cstdlib>
+#include <ctime>
 
 Game::Game() {
     // initialize variables
@@ -47,16 +48,14 @@ void Game::start() {
     setScene(scene);
     //drawe board
     drawBoard(":/board/boardFiles/board1.txt");
+    //spawning enemies
+
     //timer
     timer->start(1000);
     show();
 
-    // used for testing workers functionality - COMMENT IT IF YOU WANT
-
-    delay(1);
-    castle->decrementCurrHealth(40);
-    delay(9);
-    castle->decrementCurrHealth(30);
+    //spawning enemies
+    spawnEnemies();
 
 }
 
@@ -118,6 +117,38 @@ void Game::decrementWorkersAvaCount()
     if(workersAvaCount > 0) workersAvaCount--;
 }
 
+void Game::spawnEnemies()
+{
+    int enemyNumber = 5;
+    srand(time(0));
+    while(enemyNumber) {
+        int i = rand() % 4;
+        if(i==0) {
+
+            Enemy* enemy = new Enemy(0,0);
+            scene->addItem(enemy);
+        }
+
+        else if(i==1) {
+            Enemy* enemy = new Enemy(800,600);
+            scene->addItem(enemy);
+        }
+
+        else if(i==2) {
+            Enemy* enemy = new Enemy(800,0);
+            scene->addItem(enemy);
+        }
+
+        else {
+            Enemy* enemy = new Enemy(0,600);
+            scene->addItem(enemy);
+        }
+
+        enemyNumber--;
+        delay(2);
+    }
+}
+
 // public methods //! read file and write to array(boardData)
 void Game::readBoardData(QString path) {
     QFile file(path);
@@ -169,34 +200,6 @@ void Game::drawBoard(QString path) {
         }
     }
 
-    // I THINK YOU WERE JUST TESTING
-    // YET, JUST FOR THE RECORD,
-    // IT'S BETTER IF THE CREATION OF THE ENEMY IS IN A SEPARATE FUNCTION CALLED SPAWN (FOR INSTANCE)
-    // WHICH's CALLED AFTER A TIMEOUT
-
-    // int enemyNumber = 5;
-    // srand(time(0));
-    // while(enemyNumber) {
-        // int i = rand() % 16;
-        // int j = rand() % 12;
-        // int x = j * blockUnit, y = i * blockUnit;
-        // if(boardData[i][j]==0) {
-
-            // Enemy* enemy = new Enemy(x,y);
-            // scene->addItem(enemy);
-            // enemy->setZValue(4);
-            // enemyNumber--;
-
-            // instead of 8 and 7 add coordinates of the castle
-            // QLineF ln(QPointF(x, y), QPointF(8 * blockUnit, 7* blockUnit));
-            // int angle = -1 * ln.angle();
-            // enemy->setRotation(angle);
-               // **************** NOTE ****************
-                // try not to set the enemy rotation - the image will get inverted and won't look good :(
-                // but in moveRandomly() Function you need to the write the code to get angle
-                 // and assign angle to theta (ine moveRandomly() Function)
-        // }
-    // }
 
 }
 

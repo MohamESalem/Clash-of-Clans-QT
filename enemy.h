@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include <QObject>
+#include "castle.h"
 using namespace std;
 class Enemy: public QObject, public QGraphicsPixmapItem
 {
@@ -15,12 +16,15 @@ private:
     int row;
     int col;
     int health;
-    QString k; //movement of enemy
+    QTimer* moveTimer;
+    Castle* castle;
 
 public slots:
     void moveRandomly();
 
+
 public:
+    void delay(int sec);
     Enemy(int x, int y);
     int getHealth();
     void setHealth(int);

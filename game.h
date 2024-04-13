@@ -57,6 +57,7 @@ public:
     void decrementWorkersMaxCount();
     void incrementWorkersAvaCount();
     void decrementWorkersAvaCount();
+    void spawnEnemies();
 
 public slots:
     void updateTimer();

@@ -58,3 +58,4 @@ int Castle::getY() {return y;}
 // setters
 void Castle::setX(int x) {this->x = x;}
 void Castle::setY(int y) {this->y = y;}
+

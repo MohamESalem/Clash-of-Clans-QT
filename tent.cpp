@@ -6,7 +6,7 @@ Tent::Tent(int x, int y)
     this->x = x; this->y = y;
     setPixmap(QPixmap(":/images/img/tent.png").scaled(len, len));
     setPos(x, y);
-    setZValue(4);
+    setZValue(3);
 }
 
 int Tent::getX() {return x;}
