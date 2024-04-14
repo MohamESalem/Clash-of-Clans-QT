@@ -18,7 +18,7 @@ This project is a clone of the popular mobile game Clash of Clans, developed usi
 
 1. Clone the repository:
 ```bash
-git clone [https://github.com/MohamESalem/Clash-of-Clans-QT.git](https://github.com/MohamESalem/Clash-of-Clans-QT.git) 
+git clone https://github.com/MohamESalem/Clash-of-Clans-QT.git
 ```
 2. Open the project in QT Creator and build the project.
 
