@@ -21,7 +21,8 @@ Worker::Worker() {
     connect(moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     healTimer = new QTimer(this);
     connect(healTimer, &QTimer::timeout, [this](){
-        castle->incrementCurrHealth(this->healAbility, this->moveTimer,this->healTimer);
+        if(castle->getCurrHealth() > 0)
+            castle->incrementCurrHealth(this->healAbility, this->moveTimer,this->healTimer);
     });
     moveTimer->start(250);
 }

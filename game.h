@@ -34,14 +34,15 @@ private:
     // workers
     int workersMaxCount;
     int workersAvaCount;
+    bool underExec;
     //timer
     int duration;
-    QTimer* timer;
+    QTimer* gameTimer;
+    QTimer* enemyTimer;
     QGraphicsTextItem* timerLabel;
     // private methods
     void readBoardData(QString path);
     void drawBoard(QString path);
-    void delay(int sec);
 
 public:
     Game();
@@ -60,10 +61,11 @@ public:
     void decrementWorkersMaxCount();
     void incrementWorkersAvaCount();
     void decrementWorkersAvaCount();
-    void spawnEnemies();
-
+    // delay
+    void delay(int sec);
 public slots:
     void updateTimer();
+    void spawnEnemies();
 };
 
 #endif // GAME_H

@@ -24,16 +24,14 @@ void Castle::setCurrHealth(int x)
 
 void Castle::decrementCurrHealth(int x)
 {
-    if(currHealth - x >= 0)
-    {
-        currHealth -= x;
-        // game->makeWorkers();
-    }
 
-    if(currHealth <= 0) // show the game overwindow if currHealth == 0
-    {
-        game->gameOver();
-    }
+    currHealth -= x;
+    game->makeWorkers();
+
+
+    // if(currHealth <= 0) // show the game overwindow if currHealth == 0
+    // {
+    // }
 
 }
 
@@ -42,7 +40,6 @@ void Castle::incrementCurrHealth(int x, QTimer*& moveTimer, QTimer*& healTimer)
 
     if(currHealth + x <= maxHealth)
         currHealth += x;
-    qDebug() << "Castle health is " << game->getCastle()->getCurrHealth() << '\n';
     if(isCurrHealthMax()) {
         healTimer->stop();
         moveTimer->start(250);

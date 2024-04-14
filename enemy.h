@@ -24,7 +24,6 @@ public slots:
 
 
 public:
-    void delay(int sec);
     Enemy(int x, int y);
     int getHealth();
     void setHealth(int);

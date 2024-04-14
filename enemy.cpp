@@ -20,12 +20,10 @@ Enemy::Enemy(int x, int y)
     setPos(x,y);
     setZValue(3);
     castle = game->getCastle();
-    QTimer* timer = new QTimer(this);
+    QTimer* timer = new QTimer(game);
     connect(timer, SIGNAL(timeout()), this, SLOT(moveRandomly()));
     timer->start(50);
     health = 60;
-
-
 }
 
 void Enemy::moveRandomly()
@@ -36,7 +34,7 @@ void Enemy::moveRandomly()
         detY =castle->getY() + detOffset;
 
     // move to the destination
-    const int STEP_SIZE = 20; // this represents the velocity of the worker
+    const int STEP_SIZE = 3; // this represents the velocity of the worker
     QLineF ln(QPointF(x(), y()), QPointF(detX, detY));
     double angle = -1 * ln.angle();
 
@@ -65,20 +63,13 @@ void Enemy::moveRandomly()
 
         else if(typeid(*item) == typeid(Castle)) {
             game->getCastle()->decrementCurrHealth(10);
-            setPos(x()-20*dx, y()-20*dy);
-            if(game->getCastle()->getCurrHealth()<=0) {
-                scene()->removeItem(item);
-                delete item;
-
+            setPos(x() - 4 * dx, y() - 4 * dy);
+            if(game->getCastle() && game->getCastle()->getCurrHealth()<=0) {
+                if(game->getCastle()) game->gameOver();
             }
-            delay(1);
-
+            // game->delay(1);
         }
     }
-
-
-
-
 }
 
 // health functions
@@ -106,12 +97,4 @@ void Enemy::incrementHealth(int x)
 int Enemy::getHealth()
 {
     return health;
-}
-
-void Enemy::delay(int sec)
-{
-    QTime dieTime = QTime::currentTime().addSecs(sec);
-    while(QTime::currentTime() < dieTime) {
-        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-    }
 }

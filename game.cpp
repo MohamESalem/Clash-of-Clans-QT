@@ -10,12 +10,6 @@
 #include <ctime>
 
 Game::Game() {
-
-    // initialize variables
-    blockUnit = 50;
-    workersMaxCount = 3;
-    workersAvaCount = 0;
-
     // initialize the scene
     scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, 800, 600);
@@ -33,8 +27,12 @@ void Game::start() {
 
     // add the scene to the view
     setScene(scene);
-    // create a view
-
+    // initialize variables
+    blockUnit = 50;
+    workersMaxCount = 3;
+    workersAvaCount = 0;
+    duration = 1 * 60;
+    underExec = false;
 
     //draw board
     drawBoard(":/board/boardFiles/board1.txt");
@@ -51,26 +49,31 @@ void Game::start() {
     timerLabel->setFont(font);
     scene->addItem(timerLabel);
     //update the timer
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateTimer()));
-    duration = 1 * 60;
+    gameTimer = new QTimer(this);
+    connect(gameTimer, SIGNAL(timeout()), this, SLOT(updateTimer()));
+    enemyTimer = new QTimer(this);
+    connect(enemyTimer, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
 
-    // start the timer
-    timer->start(1000);
+    // start the timers
+    gameTimer->start(1000);
+    enemyTimer->start(2000);
 
     show();
-    delay(2);
-    gameOver();
-    //spawning enemies
-    // spawnEnemies();
+    // testing gameOver() window
+    // delay(4);
+    // gameOver();
 }
 
 void Game::gameOver()
 {
     gameover *o = new gameover();
-    timer->stop();
+    // stop timers
+    gameTimer->stop();
+    enemyTimer->stop();
+    // close and show the correct windows
     close();
     o->show();
+    // clear the scene
     foreach(QGraphicsItem *item, scene->items()) { // not working
         scene->removeItem(item);
         delete item;
@@ -112,13 +115,20 @@ Tent* Game::getTent() {return tent;}
 
 void Game::makeWorkers()
 {
-    qDebug() << "Castle health is now " << castle->getCurrHealth() << '\n';
-    int last = workersMaxCount - workersAvaCount;
-    for(int i = 0; i < last; i++) {
-        Worker* w = new Worker();
-        scene->addItem(w);
-        incrementWorkersAvaCount();
-        if(i != last - 1) delay(2);
+    if(castle && !underExec) {
+        underExec = true;
+        int last = workersMaxCount - workersAvaCount;
+        for(int i = 0; i < last; i++) {
+            if(castle) {
+                incrementWorkersAvaCount();
+                Worker* w = new Worker();
+                scene->addItem(w);
+                if(i != last - 1) delay(2);
+            } else {
+                break;
+            }
+        }
+        if(castle) underExec = false;
     }
 }
 
@@ -139,33 +149,28 @@ void Game::decrementWorkersAvaCount()
 
 void Game::spawnEnemies()
 {
-    int enemyNumber = 5;
     srand(time(0));
-    while(enemyNumber) {
-        int i = rand() % 4;
-        if(i==0) {
-
-            Enemy* enemy = new Enemy(0,0);
-            scene->addItem(enemy);
-        }
-
-        else if(i==1) {
-            Enemy* enemy = new Enemy(800,600);
-            scene->addItem(enemy);
-        }
-
-        else if(i==2) {
-            Enemy* enemy = new Enemy(800,0);
-            scene->addItem(enemy);
-        }
-
-        else {
-            Enemy* enemy = new Enemy(0,600);
-            scene->addItem(enemy);
-        }
-
-        enemyNumber--;
-        delay(2);
+    int i = rand() % 4;
+    int randX = rand() % 801, randY = rand() % 601;
+    if(i == 0) {
+        // spawn at the top
+        Enemy* enemy = new Enemy(randX, 0);
+        scene->addItem(enemy);
+    }
+    else if(i == 1) {
+        // spawn at the bottom
+        Enemy* enemy = new Enemy(randX, 600);
+        scene->addItem(enemy);
+    }
+    else if(i == 2) {
+        // spawn on the left
+        Enemy* enemy = new Enemy(800, randY);
+        scene->addItem(enemy);
+    }
+    else {
+        // spawn at the right
+        Enemy* enemy = new Enemy(800, randY);
+        scene->addItem(enemy);
     }
 }
 
@@ -228,7 +233,7 @@ void Game::updateTimer() {
     duration--;
 
     if (duration <= 0) {
-        timer->stop();
+        gameTimer->stop();
         // show the winning window
 
     }
