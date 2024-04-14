@@ -49,6 +49,8 @@ menu::menu(QWidget *parent)
     QPalette palette;
     palette.setBrush(QPalette::Window, bkgnd);
     this->setPalette(palette);
+    setWindowTitle("Welcome!");
+    setWindowIcon(QIcon(":/images/img/icon.png"));
 }
 
 menu::~menu()

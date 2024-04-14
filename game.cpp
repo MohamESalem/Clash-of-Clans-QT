@@ -4,41 +4,43 @@
 #include "bullet.h"
 #include "worker.h"
 #include "gameover.h"
-// #include "enemy.h"
 #include <QTime>
-
 #include "enemy.h"
 #include <cstdlib>
 #include <ctime>
 
 Game::Game() {
 
-    // initialize the scene
-    scene = new QGraphicsScene();
-
-}
-
-//.create a startMenu .add to scene
-
-void Game::start() {
     // initialize variables
     blockUnit = 50;
     workersMaxCount = 3;
     workersAvaCount = 0;
-    // add the scene to the view
-    setScene(scene);
+
+    // initialize the scene
+    scene = new QGraphicsScene();
     scene->setSceneRect(0, 0, 800, 600);
-    // create a view
+    // initialize the view's properties
     setFixedSize(800, 600);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setWindowTitle("Clash Of Clans");
     setWindowIcon(QIcon(":/images/img/icon.png"));
+}
+
+//.create a startMenu .add to scene
+
+void Game::start() {
+
+    // add the scene to the view
+    setScene(scene);
+    // create a view
+
+
     //draw board
     drawBoard(":/board/boardFiles/board1.txt");
-    //spawning enemies
 
     //design the timer label
+
     timerLabel = new QGraphicsTextItem();
     timerLabel->setPos(10, 10);
     timerLabel->setZValue(10);
@@ -50,33 +52,30 @@ void Game::start() {
     scene->addItem(timerLabel);
     //update the timer
     timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &Game::updateTimer);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateTimer()));
     duration = 1 * 60;
 
-    //timer
+    // start the timer
     timer->start(1000);
-    show();
 
+    show();
+    delay(2);
+    gameOver();
     //spawning enemies
     // spawnEnemies();
-    castle->decrementCurrHealth(90);
-    delay(1);
-    castle->decrementCurrHealth(10);
-
-
-
 }
 
 void Game::gameOver()
 {
-    gameover *o = new gameover;
+    gameover *o = new gameover();
+    timer->stop();
+    close();
     o->show();
-    hide();
-    // foreach(QGraphicsItem *item, scene->items()) { // not working
-        // scene->removeItem(item);
-        // delete item;
-    // }
-    // scene->clear();
+    foreach(QGraphicsItem *item, scene->items()) { // not working
+        scene->removeItem(item);
+        delete item;
+    }
+    scene->clear();
 }
 
 
@@ -195,11 +194,12 @@ void Game::drawBoard(QString path) {
             int x = j * blockUnit, y = i * blockUnit;
 
             // add the grass to the scene
-            boardImages[i][j].setPixmap(grass);
-            boardImages[i][j].setPos(x, y);
-            scene->addItem(&boardImages[i][j]);
+            boardImages[i][j] = new QGraphicsPixmapItem(grass);
+            boardImages[i][j]->setPos(x, y);
+            scene->addItem(boardImages[i][j]);
 
             // check the boardData
+
             if(boardData[i][j] == 3) {
                 Fence* f = new Fence(x, y);
                 scene->addItem(f);

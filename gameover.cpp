@@ -9,7 +9,7 @@ gameover::gameover(QWidget *parent)
     , ui(new Ui::gameover)
 {
     ui->setupUi(this);
-    QPixmap bkgnd("D:/code/university/CSII Lab/Clash of Clans/Clash-of-Clans-QT/img/gameover.jpg");
+    QPixmap bkgnd(":/images/img/gameover.jpg");
     bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatioByExpanding);
     QPalette palette;
     palette.setBrush(QPalette::Window, bkgnd);
@@ -25,6 +25,8 @@ gameover::gameover(QWidget *parent)
                          "QPushButton:hover {"
                          "    background-color: #505050;" // Darker background color on hover
                          "}");
+    setWindowTitle("Game Over!");
+    setWindowIcon(QIcon(":/images/img/icon.png"));
 }
 
 gameover::~gameover()
@@ -34,7 +36,7 @@ gameover::~gameover()
 
 void gameover::on_replayButton_clicked()
 {
-    hide();
+    close();
     game->start();
 }
 

@@ -13,5 +13,6 @@
         <file>img/enemy.png</file>
         <file>img/tent.png</file>
         <file>img/worker.png</file>
+        <file>img/gameover.jpg</file>
     </qresource>
 </RCC>

@@ -6,6 +6,8 @@ winning::winning(QWidget *parent)
     , ui(new Ui::winning)
 {
     ui->setupUi(this);
+    setWindowTitle("You Won!");
+    setWindowIcon(QIcon(":/images/img/icon.png"));
 }
 
 winning::~winning()

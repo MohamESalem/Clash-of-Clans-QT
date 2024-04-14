@@ -27,7 +27,7 @@ private:
     QGraphicsScene* scene;
     int boardData[12][16];
     int blockUnit;
-    QGraphicsPixmapItem boardImages[12][16];
+    QGraphicsPixmapItem* boardImages[12][16];
     Castle* castle;
     Cannon* cannon;
     Tent* tent;
