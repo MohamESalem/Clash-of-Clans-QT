@@ -29,7 +29,7 @@ void Game::start() {
     setScene(scene);
     // initialize variables
     blockUnit = 50;
-    workersMaxCount = 3;
+    workersMaxCount = 5;
     workersAvaCount = 0;
     duration = 1 * 60;
     underExec = false;
@@ -103,7 +103,8 @@ void Game::mouseMoveEvent(QMouseEvent *event)
 {
     QLineF ln(QPointF(cannon->getX(), cannon->getY()), event->pos());
     double angle = -1 * ln.angle();
-    // cannon->setRotation(angle - 30);
+    int offset = 30;
+    cannon->setRotation(angle - offset);
 }
 
 
@@ -128,7 +129,7 @@ void Game::makeWorkers()
                 break;
             }
         }
-        if(castle) underExec = false;
+        underExec = false;
     }
 }
 

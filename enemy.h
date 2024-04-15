@@ -18,6 +18,7 @@ private:
     int health;
     QTimer* moveTimer;
     Castle* castle;
+    int damage;
 
 public slots:
     void moveRandomly();

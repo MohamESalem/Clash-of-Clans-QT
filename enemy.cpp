@@ -24,6 +24,7 @@ Enemy::Enemy(int x, int y)
     connect(timer, SIGNAL(timeout()), this, SLOT(moveRandomly()));
     timer->start(50);
     health = 60;
+    damage = 10;
 }
 
 void Enemy::moveRandomly()
@@ -60,9 +61,8 @@ void Enemy::moveRandomly()
             game->decrementWorkersAvaCount();
             delete item;
         }
-
         else if(typeid(*item) == typeid(Castle)) {
-            game->getCastle()->decrementCurrHealth(10);
+            game->getCastle()->decrementCurrHealth(damage);
             setPos(x() - 4 * dx, y() - 4 * dy);
             if(game->getCastle() && game->getCastle()->getCurrHealth()<=0) {
                 if(game->getCastle()) game->gameOver();
