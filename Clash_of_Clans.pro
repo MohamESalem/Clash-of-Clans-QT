@@ -21,7 +21,8 @@ SOURCES += \
     menu.cpp \
     tent.cpp \
     winning.cpp \
-    worker.cpp
+    worker.cpp \
+    workersclan.cpp
 
 HEADERS += \
     bullet.h \
@@ -34,7 +35,8 @@ HEADERS += \
     menu.h \
     tent.h \
     winning.h \
-    worker.h
+    worker.h \
+    workersclan.h
 
 FORMS += \
     gameover.ui \

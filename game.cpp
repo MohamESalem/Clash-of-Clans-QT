@@ -2,7 +2,6 @@
 #include "game.h"
 #include "fence.h"
 #include "bullet.h"
-#include "worker.h"
 #include "gameover.h"
 #include <QTime>
 #include "enemy.h"
@@ -19,6 +18,7 @@ Game::Game() {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setWindowTitle("Clash Of Clans");
     setWindowIcon(QIcon(":/images/img/icon.png"));
+    testFence = test2 = NULL;
 }
 
 //.create a startMenu .add to scene
@@ -33,6 +33,7 @@ void Game::start() {
     workersAvaCount = 0;
     duration = 1 * 60;
     underExec = false;
+    tent1 = tent2 = NULL;
 
     //draw board
     drawBoard(":/board/boardFiles/board1.txt");
@@ -56,12 +57,106 @@ void Game::start() {
 
     // start the timers
     gameTimer->start(1000);
-    enemyTimer->start(2000);
+    // STOPING ENEMY TIMER FOR TESTING
+    // enemyTimer->start(2000);
 
     show();
-    // testing gameOver() window
+
+    // // stops group 2 for testing
+    // group2->isAllClanDead = true;
+    // group2->changeAvailability(false);
+
+    // // testing WorkersClan
+    // delay(3);
+    // if(test2) {
+    //     qDebug() << "Begin!\n";
+    //     test2->decrementHealth(30);
+    // }
+    // delay(3);
+    // if(testFence) {
+    //     qDebug() << "New Test!\n";
+    //     testFence->decrementHealth(10);
+    //     qDebug() << "Test2 health = " << testFence->getHealth() << '\n';
+    // }
+    // delay(1);
+    // if(test3) {
+    //     qDebug() << "Hopefully, last test!\n";
+    //     test3->decrementHealth(40);
+    // }
+
+    // // testing gameOver() window
     // delay(4);
     // gameOver();
+
+}
+
+// public methods //! read file and write to array(boardData)
+void Game::readBoardData(QString path) {
+    QFile file(path);
+    file.open(QIODevice::ReadOnly);
+    QTextStream stream(&file);
+    for(int i = 0; i < 12; i++) {
+        for(int j = 0; j < 16; j++) {
+            QString tmp;
+            stream >> tmp;
+            boardData[i][j] = tmp.toInt();
+        }
+    }
+}
+
+//
+void Game::drawBoard(QString path) {
+    readBoardData(path);
+    QPixmap grass(":/images/img/grass.png");
+    grass = grass.scaled(blockUnit, blockUnit);
+    for(int i = 0; i < 12; i++) {
+        for(int j = 0; j < 16; j++) {
+            // the x and y positions for the current iteration
+            int x = j * blockUnit, y = i * blockUnit;
+
+            // add the grass to the scene
+            boardImages[i][j] = new QGraphicsPixmapItem(grass);
+            boardImages[i][j]->setPos(x, y);
+            scene->addItem(boardImages[i][j]);
+
+            // check the boardData
+
+            if(boardData[i][j] == 3) {
+                Fence* f = new Fence(x, y);
+                scene->addItem(f);
+                f->setZValue(1);
+                if(i == 5 && j == 3) {
+                    testFence = f;
+                } else if(i == 7 && j == 12) {
+                    test2 = f;
+                } else if(i == 3 && j == 8) {
+                    test3 = f;
+                }
+            } else if(boardData[i][j] == 1) {
+                castle = new Castle(x, y);
+                scene->addItem(castle);
+                castle->setZValue(2);
+            } else if(boardData[i][j] == 2) {
+                cannon = new Cannon(x, y);
+                scene->addItem(cannon);
+                cannon->setZValue(3);
+            } else if(boardData[i][j] == 4) {
+                int offset = 20;
+                int tentX = x + offset, tentY = y - offset;
+                if(tent1 == NULL) {
+                    tent1 = new Tent(tentX, tentY);
+                    group1 = new WorkersClan(2, tent1);
+                    scene->addItem(tent1);
+                } else {
+                    tent2 = new Tent(tentX, tentY);
+                    group2 = new WorkersClan(2, tent2);
+                    scene->addItem(tent2);
+                }
+            }
+
+        }
+    }
+
 }
 
 void Game::gameOver()
@@ -112,41 +207,34 @@ void Game::mouseMoveEvent(QMouseEvent *event)
 int Game::getBlockUnit() {return blockUnit;}
 Castle* Game::getCastle() {return castle;}
 Cannon* Game::getCannon() {return cannon;}
-Tent* Game::getTent() {return tent;}
+QGraphicsScene *Game::getScene() {return scene;}
 
-void Game::makeWorkers()
+
+// WorkersClan functions
+
+int Game::getAvailableGroup(int x, int y)
 {
-    if(castle && !underExec) {
-        underExec = true;
-        int last = workersMaxCount - workersAvaCount;
-        for(int i = 0; i < last; i++) {
-            if(castle) {
-                incrementWorkersAvaCount();
-                Worker* w = new Worker();
-                scene->addItem(w);
-                if(i != last - 1) delay(2);
-            } else {
-                break;
-            }
-        }
-        underExec = false;
+    if(group1->getAvailability() && group2->getAvailability()) {
+        // qDebug() << "In your function, sir!\n";
+        double dist1 = pow(group1->getTent()->getX() - x, 2) + pow(group1->getTent()->getY() - y, 2);
+        double dist2 = pow(group2->getTent()->getX() - x, 2) + pow(group2->getTent()->getY() - y, 2);
+        if(dist1 <= dist2) return 1; // the closer moves to the damaged fence
+        else return 2;
     }
+    else if(group1->getAvailability() && !group2->getAvailability())
+        return 1; // group 1 should move
+    else if(group2->getAvailability() && !group1->getAvailability())
+        return 2; // group 2 should move
+    else if(!group1->getIsAllClanDead() || !group2->getIsAllClanDead())
+        return 0; // if one of the groups is not dead but all are busy
+    else
+        return -1; // the two groups are dead
 }
 
-void Game::decrementWorkersMaxCount()
-{
-    if(workersMaxCount > 0) workersMaxCount--;
-}
+WorkersClan *Game::getGroup1() {return group1;}
+WorkersClan *Game::getGroup2() {return group2;}
 
-void Game::incrementWorkersAvaCount()
-{
-    if(workersAvaCount < workersMaxCount) workersAvaCount++;
-}
-
-void Game::decrementWorkersAvaCount()
-{
-    if(workersAvaCount > 0) workersAvaCount--;
-}
+// enemies functions
 
 void Game::spawnEnemies()
 {
@@ -175,60 +263,6 @@ void Game::spawnEnemies()
     }
 }
 
-// public methods //! read file and write to array(boardData)
-void Game::readBoardData(QString path) {
-    QFile file(path);
-    file.open(QIODevice::ReadOnly);
-    QTextStream stream(&file);
-    for(int i = 0; i < 12; i++) {
-        for(int j = 0; j < 16; j++) {
-            QString tmp;
-            stream >> tmp;
-            boardData[i][j] = tmp.toInt();
-        }
-    }
-}
-
-//
-void Game::drawBoard(QString path) {
-    readBoardData(path);
-    QPixmap grass(":/images/img/grass.png");
-    grass = grass.scaled(blockUnit, blockUnit);
-    for(int i = 0; i < 12; i++) {
-        for(int j = 0; j < 16; j++) {
-            // the x and y positions for the current iteration
-            int x = j * blockUnit, y = i * blockUnit;
-
-            // add the grass to the scene
-            boardImages[i][j] = new QGraphicsPixmapItem(grass);
-            boardImages[i][j]->setPos(x, y);
-            scene->addItem(boardImages[i][j]);
-
-            // check the boardData
-
-            if(boardData[i][j] == 3) {
-                Fence* f = new Fence(x, y);
-                scene->addItem(f);
-                f->setZValue(1);
-            } else if(boardData[i][j] == 1) {
-                castle = new Castle(x, y);
-                scene->addItem(castle);
-                castle->setZValue(2);
-            } else if(boardData[i][j] == 2) {
-                cannon = new Cannon(x, y);
-                scene->addItem(cannon);
-                cannon->setZValue(3);
-            } else if(boardData[i][j] == 4) {
-                int offset = 20;
-                tent = new Tent(x + offset, y - offset);
-                scene->addItem(tent);
-            }
-
-        }
-    }
-
-
-}
 
 void Game::updateTimer() {
     duration--;

@@ -17,7 +17,8 @@
 #include "castle.h"
 #include "cannon.h"
 #include "tent.h"
-
+#include "workersclan.h"
+#include "fence.h"
 
 class Game : public QGraphicsView
 {
@@ -30,7 +31,12 @@ private:
     QGraphicsPixmapItem* boardImages[12][16];
     Castle* castle;
     Cannon* cannon;
-    Tent* tent;
+    // workers clan
+    Tent* tent1;
+    Tent* tent2;
+    WorkersClan* group1;
+    WorkersClan* group2;
+    // damaged fence
     // workers
     int workersMaxCount;
     int workersAvaCount;
@@ -46,6 +52,7 @@ private:
 
 public:
     Game();
+    QList<Fence*> damagedFence;
     void start();
     void deleteItems();
     void gameOver();
@@ -55,14 +62,20 @@ public:
     int getBlockUnit();
     Castle* getCastle();
     Cannon* getCannon();
-    Tent* getTent();
-    // workers functions
-    void makeWorkers();
-    void decrementWorkersMaxCount();
-    void incrementWorkersAvaCount();
-    void decrementWorkersAvaCount();
+    QGraphicsScene *getScene();
+    // WorkersClan functions
+    int getAvailableGroup(int x, int y);
+    WorkersClan* getGroup1();
+    WorkersClan* getGroup2();
     // delay
     void delay(int sec);
+
+    // testing data members
+    Fence* testFence;
+    Fence* test2;
+    Fence* test3;
+
+
 public slots:
     void updateTimer();
     void spawnEnemies();

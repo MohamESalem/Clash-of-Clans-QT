@@ -26,13 +26,6 @@ void Castle::decrementCurrHealth(int x)
 {
 
     currHealth -= x;
-    game->makeWorkers();
-
-
-    // if(currHealth <= 0) // show the game overwindow if currHealth == 0
-    // {
-    // }
-
 }
 
 void Castle::incrementCurrHealth(int x, QTimer*& moveTimer, QTimer*& healTimer)

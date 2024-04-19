@@ -1,5 +1,6 @@
 #include "fence.h"
 #include "game.h"
+#include "worker.h"
 
 extern Game* game;
 
@@ -7,32 +8,84 @@ Fence::Fence(int x, int y) {
     QPixmap fenceImg(":/images/img/fence.png");
     fenceImg = fenceImg.scaled(game->getBlockUnit(), game->getBlockUnit());
     setPixmap(fenceImg);
-    setPos(x, y);
-    health = 25;
+    this->x = x;
+    this->y = y;
+    setPos(this->x, this->y);
+    maxHealth = 50;
+    health = maxHealth;
+    healGroup = NULL;
 }
+
+int Fence::getX() {return x;}
+int Fence::getY() {return y;}
 
 void Fence::setHealth(int x)
 {
     health = x;
 }
 
-void Fence::decrementHealth(int x)
+void Fence::decrementHealth(int x, QTimer* moveTimer, QTimer* healTimer)
+// PASS THEM BE REFERENCE FOR ENEMY DAMAGING FENCE
+// LOOK AT DECREMENTHEALTH() IN CASTLE CLASS
 {
     health -= x;
-    if(health <= 0) {
+
+    if(health > 0) {
+        int ava = game->getAvailableGroup(this->x, this->y);
+        if(ava == 1) {
+            healGroup = game->getGroup1();
+            healGroup->changeAvailability(false);
+            healGroup->createWorkers(this->x, this->y);
+        } else if(ava == 2) {
+            healGroup = game->getGroup2();
+            healGroup->changeAvailability(false);
+            healGroup->createWorkers(this->x, this->y);
+        } else if(ava == 0) {
+            if(!game->damagedFence.contains(this)) {
+                game->damagedFence.append(this);
+            }
+        } // otherwise ava = -1, i.e., no group are availble, don't do anything
+    }
+    else {
         // enemy destroys the fence when the fence's health goes below zero
         scene()->removeItem(this);
+        if(healGroup) healGroup->changeAvailability(true);
         delete this;
+        return;
     }
 }
 
 
-void Fence::incrementHealth(int x)
+void Fence::incrementHealth(int x, QTimer*& returnTimer, QTimer*& healTimer)
 {
-    health += x;
+    Worker* w = dynamic_cast<Worker*>(returnTimer->parent());
+
+    if(health == maxHealth) {
+        healTimer->stop();
+        returnTimer->start(250);
+    } else if(health + x < maxHealth) {
+        health += x;
+    }
+    else {
+
+        health = maxHealth;
+
+        // code to check if there are other damaged fences before returning back
+        if(!game->damagedFence.isEmpty()) {
+            Fence* f = game->damagedFence.first();
+            f->setHealGroup(w->getGroup());
+            f->getHealGroup()->createWorkers(f->getX(), f->getY());
+            game->damagedFence.removeFirst();
+        } else {
+            w->getGroup()->changeAvailability(true);
+        }
+
+        healTimer->stop();
+        returnTimer->start(250);
+    }
 }
 
-int Fence::getHealth()
-{
-    return health;
-}
+int Fence::getHealth() {return health;}
+int Fence::getMaxHealth() {return maxHealth;}
+WorkersClan* Fence::getHealGroup() {return healGroup;}
+void Fence::setHealGroup(WorkersClan* g) {healGroup = g;}

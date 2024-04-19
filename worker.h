@@ -3,8 +3,9 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
-#include "castle.h"
-#include "tent.h"
+
+class WorkersClan;
+class Fence;
 
 class Worker : public QObject, public QGraphicsPixmapItem
 {
@@ -13,15 +14,21 @@ private:
     int healAbility;
     QTimer* moveTimer;
     QTimer* healTimer;
-    Castle* castle;
-    Tent* tent;
+    QTimer* returnTimer;
+    WorkersClan* group;
+    int clanIndex;
+
 public:
-    Worker();
+    Worker(WorkersClan* g, int index);
     int getHealAbility();
     void setHealAbility(int);
-    void healCastle();
+    WorkersClan* getGroup();
+    int getClanIndex();
+    void healFence(Fence*);
+
 public slots:
     void move();
+    void returnBack();
 };
 
 #endif // WORKER_H

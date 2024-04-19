@@ -46,7 +46,8 @@ void Enemy::moveRandomly()
 
     setPos(x()+dx, y()+dy);
 
-    //will need to recheck the case when touch the fence (it'll need to stop for a while until it removed, so I'll implement decreasing health later)
+    //will need to recheck the case when touch the fence (it'll need to stop for a while until it removed,
+    // so I'll implement decreasing health later)
     QList<QGraphicsItem *> collided_items = collidingItems();
     foreach(auto& item, collided_items) {
         if(typeid(*item) == typeid(Fence)) {
@@ -56,16 +57,19 @@ void Enemy::moveRandomly()
             return;
         } // if the enemy collides with a worker, the worker gets killed immediately
         else if(typeid(*item) == typeid(Worker)) {
-            scene()->removeItem(item);
-            game->decrementWorkersMaxCount();
-            game->decrementWorkersAvaCount();
-            delete item;
+            Worker *w = dynamic_cast<Worker*>(item);
+            if(w) {
+                scene()->removeItem(item);
+                w->getGroup()->changeIsAlive(w->getClanIndex());
+                delete item;
+            }
         }
         else if(typeid(*item) == typeid(Castle)) {
             game->getCastle()->decrementCurrHealth(damage);
             setPos(x() - 4 * dx, y() - 4 * dy);
             if(game->getCastle() && game->getCastle()->getCurrHealth()<=0) {
                 if(game->getCastle()) game->gameOver();
+                // don't remove the castle; this may cause some bugs as many objects interact with the castle simultaneously
             }
             // game->delay(1);
         }
