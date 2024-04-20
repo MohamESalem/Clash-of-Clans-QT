@@ -66,12 +66,11 @@ void Enemy::moveRandomly()
         }
         else if(typeid(*item) == typeid(Castle)) {
             game->getCastle()->decrementCurrHealth(damage);
-            setPos(x() - 4 * dx, y() - 4 * dy);
             if(game->getCastle() && game->getCastle()->getCurrHealth()<=0) {
                 if(game->getCastle()) game->gameOver();
                 // don't remove the castle; this may cause some bugs as many objects interact with the castle simultaneously
             }
-            // game->delay(1);
+            game->delay(1);
         }
     }
 }

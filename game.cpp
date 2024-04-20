@@ -58,7 +58,7 @@ void Game::start() {
     // start the timers
     gameTimer->start(1000);
     // STOPING ENEMY TIMER FOR TESTING
-    // enemyTimer->start(2000);
+    enemyTimer->start(2000);
 
     show();
 
