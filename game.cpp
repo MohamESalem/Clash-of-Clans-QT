@@ -57,8 +57,8 @@ void Game::start() {
 
     // start the timers
     gameTimer->start(1000);
-    // STOPING ENEMY TIMER FOR TESTING
-    enemyTimer->start(2000);
+    // spawnEnemies();
+    enemyTimer->start(4000);
 
     show();
 
@@ -90,7 +90,6 @@ void Game::start() {
 
 }
 
-// public methods //! read file and write to array(boardData)
 void Game::readBoardData(QString path) {
     QFile file(path);
     file.open(QIODevice::ReadOnly);
@@ -214,17 +213,23 @@ QGraphicsScene *Game::getScene() {return scene;}
 
 int Game::getAvailableGroup(int x, int y)
 {
+    qDebug() << "group1's ava = " << group1->getAvailability() << ", group's 2 ava = " << group2->getAvailability() << '\n';
     if(group1->getAvailability() && group2->getAvailability()) {
         // qDebug() << "In your function, sir!\n";
         double dist1 = pow(group1->getTent()->getX() - x, 2) + pow(group1->getTent()->getY() - y, 2);
         double dist2 = pow(group2->getTent()->getX() - x, 2) + pow(group2->getTent()->getY() - y, 2);
-        if(dist1 <= dist2) return 1; // the closer moves to the damaged fence
-        else return 2;
+        if(dist1 <= dist2)
+            return 1;
+        // the closer moves to the damaged fence
+        else
+            return 2;
     }
-    else if(group1->getAvailability() && !group2->getAvailability())
+    else if(group1->getAvailability() && !group2->getAvailability()) {
         return 1; // group 1 should move
-    else if(group2->getAvailability() && !group1->getAvailability())
+    }
+    else if(group2->getAvailability() && !group1->getAvailability()) {
         return 2; // group 2 should move
+    }
     else if(!group1->getIsAllClanDead() || !group2->getIsAllClanDead())
         return 0; // if one of the groups is not dead but all are busy
     else
@@ -286,6 +291,14 @@ void Game::updateTimer() {
 void Game::delay(int sec)
 {
     QTime dieTime = QTime::currentTime().addSecs(sec);
+    while(QTime::currentTime() < dieTime) {
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    }
+}
+
+void Game::mDelay(int mSec)
+{
+    QTime dieTime = QTime::currentTime().addMSecs(mSec);
     while(QTime::currentTime() < dieTime) {
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }

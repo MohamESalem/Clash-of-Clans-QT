@@ -11,7 +11,7 @@ Castle::Castle(int x, int y) {
     this->x = x;
     this->y = y;
     setPos(this->x, this->y);
-    maxHealth = 1000;
+    maxHealth = 100;
     currHealth = maxHealth;
     o = new gameover;
 }

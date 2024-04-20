@@ -24,27 +24,27 @@ Enemy::Enemy(int x, int y)
     connect(timer, SIGNAL(timeout()), this, SLOT(moveRandomly()));
     timer->start(50);
     health = 60;
-    damage = 10;
+    damage = 20;
 }
 
 void Enemy::moveRandomly()
 {
-    // set the destination (either to the castle or the tent)
-
-    int detOffset = 45;
-    int detX = castle->getX() + detOffset,
-        detY =castle->getY() + detOffset;
-
-    // move to the destination
-    const int STEP_SIZE = 3; // this represents the velocity of the worker
-    QLineF ln(QPointF(x(), y()), QPointF(detX, detY));
-    double angle = -1 * ln.angle();
-
-    double theta = angle; // degrees
-
-    double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
-    double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
     if(!contact) {
+        // set the destination (either to the castle or the tent)
+
+        int detOffset = 45;
+        int detX = castle->getX() + detOffset,
+            detY =castle->getY() + detOffset;
+
+        // move to the destination
+        const int STEP_SIZE = 3; // this represents the velocity of the worker
+        QLineF ln(QPointF(x(), y()), QPointF(detX, detY));
+        double angle = -1 * ln.angle();
+
+        double theta = angle; // degrees
+
+        double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
+        double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
         setPos(x()+dx, y()+dy);
     }
 
@@ -57,6 +57,7 @@ void Enemy::moveRandomly()
             Fence *f = dynamic_cast<Fence*>(item);
             f->decrementHealth(damage);
             contact = true;
+            game->mDelay(650);
             return;
 
         } // if the enemy collides with a worker, the worker gets killed immediately
@@ -70,11 +71,14 @@ void Enemy::moveRandomly()
         }
         else if(typeid(*item) == typeid(Castle)) {
             game->getCastle()->decrementCurrHealth(damage);
+            qDebug() << "Castle's health =  " << game->getCastle()->getCurrHealth() << '\n';
             if(game->getCastle() && game->getCastle()->getCurrHealth()<=0) {
                 if(game->getCastle()) game->gameOver();
                 // don't remove the castle; this may cause some bugs as many objects interact with the castle simultaneously
             }
-            game->delay(1);
+            contact = true;
+            game->mDelay(850);
+            return;
         }
 
         contact = false;

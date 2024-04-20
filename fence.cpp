@@ -11,7 +11,7 @@ Fence::Fence(int x, int y) {
     this->x = x;
     this->y = y;
     setPos(this->x, this->y);
-    maxHealth = 200;
+    maxHealth = 60;
     health = maxHealth;
     healGroup = NULL;
 }
@@ -31,20 +31,23 @@ void Fence::decrementHealth(int x, QTimer* moveTimer, QTimer* healTimer)
     health -= x;
 
     if(health > 0) {
-        int ava = game->getAvailableGroup(this->x, this->y);
-        if(ava == 1) {
-            healGroup = game->getGroup1();
-            healGroup->changeAvailability(false);
-            healGroup->createWorkers(this->x, this->y);
-        } else if(ava == 2) {
-            healGroup = game->getGroup2();
-            healGroup->changeAvailability(false);
-            healGroup->createWorkers(this->x, this->y);
-        } else if(ava == 0) {
-            if(!game->damagedFence.contains(this)) {
-                game->damagedFence.append(this);
-            }
-        } // otherwise ava = -1, i.e., no group are availble, don't do anything
+        if(healGroup == NULL) {
+            int ava = game->getAvailableGroup(this->x, this->y);
+            qDebug() << "ava = " << ava << '\n';
+            if(ava == 1) {
+                healGroup = game->getGroup1();
+                healGroup->changeAvailability(false);
+                healGroup->createWorkers(this->x, this->y);
+            } else if(ava == 2) {
+                healGroup = game->getGroup2();
+                healGroup->changeAvailability(false);
+                healGroup->createWorkers(this->x, this->y);
+            } else if(ava == 0) {
+                if(!game->damagedFence.contains(this)) {
+                    game->damagedFence.append(this);
+                }
+            } // otherwise ava = -1, i.e., no group are availble, don't do anything
+        }
     }
     else {
         // enemy destroys the fence when the fence's health goes below zero
@@ -65,13 +68,17 @@ void Fence::incrementHealth(int x, QTimer*& returnTimer, QTimer*& healTimer)
         returnTimer->start(250);
     } else if(health + x < maxHealth) {
         health += x;
+        qDebug() << "Improving Health\n";
     }
     else {
 
         health = maxHealth;
+        qDebug() << "health is maximum";
+        healGroup = NULL;
 
         // code to check if there are other damaged fences before returning back
         if(!game->damagedFence.isEmpty()) {
+            qDebug() << "Heading to a new fence\n";
             Fence* f = game->damagedFence.first();
             f->setHealGroup(w->getGroup());
             f->getHealGroup()->createWorkers(f->getX(), f->getY());

@@ -69,6 +69,7 @@ public:
     WorkersClan* getGroup2();
     // delay
     void delay(int sec);
+    void mDelay(int mSec);
 
     // testing data members
     Fence* testFence;
