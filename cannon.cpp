@@ -4,7 +4,7 @@
 extern Game* game;
 
 Cannon::Cannon(int x, int y) {
-    setPixmap(QPixmap(":/images/img/cannon.png").scaled(60, 60));
+    setPixmap(QPixmap(":/images/img/cannon2.png").scaled(80, 80));
     this->x = x;
     this->y = y;
     setPos(x, y);

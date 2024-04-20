@@ -55,6 +55,7 @@ DISTFILES += \
     img/background.jpeg \
     img/background.png \
     img/cannon.png \
+    img/cannon2.png \
     img/castle.png \
     img/enemy.png \
     img/fence.png \

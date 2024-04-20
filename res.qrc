@@ -14,5 +14,6 @@
         <file>img/tent.png</file>
         <file>img/worker.png</file>
         <file>img/gameover.jpg</file>
+        <file>img/cannon2.png</file>
     </qresource>
 </RCC>

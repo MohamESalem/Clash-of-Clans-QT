@@ -181,7 +181,7 @@ void Game::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton) {
         Bullet* b = new Bullet();
-        int offset = 25;
+        int offset = 40;
         int newX = cannon->getX() + offset, newY = cannon->getY() + offset;
         b->setPos(newX, newY); // set the position of the bullet to the center of the cannon
 
@@ -199,7 +199,7 @@ void Game::mouseMoveEvent(QMouseEvent *event)
     QLineF ln(QPointF(cannon->getX(), cannon->getY()), event->pos());
     double angle = -1 * ln.angle();
     int offset = 30;
-    cannon->setRotation(angle - offset);
+    // cannon->setRotation(angle - offset);
 }
 
 
