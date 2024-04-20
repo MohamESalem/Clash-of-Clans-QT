@@ -11,7 +11,7 @@ Fence::Fence(int x, int y) {
     this->x = x;
     this->y = y;
     setPos(this->x, this->y);
-    maxHealth = 50;
+    maxHealth = 200;
     health = maxHealth;
     healGroup = NULL;
 }

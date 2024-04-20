@@ -30,6 +30,7 @@ Enemy::Enemy(int x, int y)
 void Enemy::moveRandomly()
 {
     // set the destination (either to the castle or the tent)
+
     int detOffset = 45;
     int detX = castle->getX() + detOffset,
         detY =castle->getY() + detOffset;
@@ -43,18 +44,21 @@ void Enemy::moveRandomly()
 
     double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
     double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
+    if(!contact) {
+        setPos(x()+dx, y()+dy);
+    }
 
-    setPos(x()+dx, y()+dy);
-
-    //will need to recheck the case when touch the fence (it'll need to stop for a while until it removed,
-    // so I'll implement decreasing health later)
     QList<QGraphicsItem *> collided_items = collidingItems();
     foreach(auto& item, collided_items) {
         if(typeid(*item) == typeid(Fence)) {
-            // remove the item from the scene
-            scene()->removeItem(item);
-            delete item;
+            //Logic Explanation: when a contact happens, a pointer is created to the current
+            // damaged fence, the health decreases, and the contact is changed to true to stop
+            // the enemy from moving (because movement causes some errors)
+            Fence *f = dynamic_cast<Fence*>(item);
+            f->decrementHealth(damage);
+            contact = true;
             return;
+
         } // if the enemy collides with a worker, the worker gets killed immediately
         else if(typeid(*item) == typeid(Worker)) {
             Worker *w = dynamic_cast<Worker*>(item);
@@ -72,6 +76,8 @@ void Enemy::moveRandomly()
             }
             game->delay(1);
         }
+
+        contact = false;
     }
 }
 

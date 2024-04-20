@@ -20,6 +20,9 @@ private:
     Castle* castle;
     int damage;
 
+    //contact with the fence
+    bool contact = false;
+
 public slots:
     void moveRandomly();
 
