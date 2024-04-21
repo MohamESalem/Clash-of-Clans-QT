@@ -56,6 +56,7 @@ public:
     void start();
     void deleteItems();
     void gameOver();
+    void showWinningWdn();
     // overload mousePressEvent and mouseMoveEvent
     void mousePressEvent(QMouseEvent *event);
     void mouseMoveEvent(QMouseEvent* event);

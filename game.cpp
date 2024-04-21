@@ -32,7 +32,7 @@ void Game::start() {
     blockUnit = 50;
     workersMaxCount = 5;
     workersAvaCount = 0;
-    duration = 1 * 2;
+    duration = 1 * 60;
     underExec = false;
     tent1 = tent2 = NULL;
 
@@ -85,8 +85,9 @@ void Game::start() {
     //     test3->decrementHealth(40);
     // }
 
-    // // testing gameOver() window
+    // // testing gameOver() and showWinningWdn()
     // delay(4);
+    // showWinningWdn();
     // gameOver();
 
 }
@@ -176,6 +177,23 @@ void Game::gameOver()
     scene->clear();
 }
 
+void Game::showWinningWdn()
+{
+    winning *w = new winning();
+    // stop the timers
+    gameTimer->stop();
+    enemyTimer->stop();
+    // close and show the winning window
+    close();
+    w->show();
+    // clear the scene
+    foreach(QGraphicsItem *item, scene->items()) { // not working
+        scene->removeItem(item);
+        delete item;
+    }
+    scene->clear();
+}
+
 
 void Game::mousePressEvent(QMouseEvent *event)
 {
@@ -214,7 +232,7 @@ QGraphicsScene *Game::getScene() {return scene;}
 
 int Game::getAvailableGroup(int x, int y)
 {
-    qDebug() << "group1's ava = " << group1->getAvailability() << ", group's 2 ava = " << group2->getAvailability() << '\n';
+    // qDebug() << "group1's ava = " << group1->getAvailability() << ", group's 2 ava = " << group2->getAvailability() << '\n';
     if(group1->getAvailability() && group2->getAvailability()) {
         // qDebug() << "In your function, sir!\n";
         double dist1 = pow(group1->getTent()->getX() - x, 2) + pow(group1->getTent()->getY() - y, 2);
@@ -274,20 +292,8 @@ void Game::updateTimer() {
     duration--;
 
     if (duration <= 0) {
-        // stop timers
-        gameTimer->stop();
-        enemyTimer->stop();
-        // show the winning window
-        close();
-        winning *w = new winning;
-        w->show();
-        // clear the scene
-        foreach(QGraphicsItem *item, scene->items()) { // not working
-            scene->removeItem(item);
-            delete item;
-        }
-        scene->clear();
-
+        showWinningWdn();
+        return;
     }
 
     int minutes = (duration % 3600) / 60;

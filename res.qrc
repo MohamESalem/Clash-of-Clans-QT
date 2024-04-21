@@ -15,5 +15,6 @@
         <file>img/worker.png</file>
         <file>img/gameover.jpg</file>
         <file>img/cannon2.png</file>
+        <file>img/winning.jpg</file>
     </qresource>
 </RCC>

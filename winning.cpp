@@ -12,7 +12,7 @@ winning::winning(QWidget *parent)
     setWindowTitle("You Won!");
     setWindowIcon(QIcon(":/images/img/icon.png"));
     //bkgnd stlying
-    QPixmap bkgnd("D:/code/university/CSII Lab/Clash of Clans/Clash-of-Clans-QT/img/winning.jpg");
+    QPixmap bkgnd(":/images/img/winning.jpg");
     bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatioByExpanding);
     QPalette palette;
     palette.setBrush(QPalette::Window, bkgnd);
