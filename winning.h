@@ -15,6 +15,9 @@ public:
     explicit winning(QWidget *parent = nullptr);
     ~winning();
 
+private slots:
+    void on_replayButton_clicked();
+
 private:
     Ui::winning *ui;
 };

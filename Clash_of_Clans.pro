@@ -61,4 +61,5 @@ DISTFILES += \
     img/fence.png \
     img/gameover.jpg \
     img/grass.png \
-    img/icon.png
+    img/icon.png \
+    img/winning.jpg

@@ -5,6 +5,7 @@
 #include "gameover.h"
 #include <QTime>
 #include "enemy.h"
+#include "winning.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -31,7 +32,7 @@ void Game::start() {
     blockUnit = 50;
     workersMaxCount = 5;
     workersAvaCount = 0;
-    duration = 1 * 60;
+    duration = 1 * 2;
     underExec = false;
     tent1 = tent2 = NULL;
 
@@ -273,8 +274,19 @@ void Game::updateTimer() {
     duration--;
 
     if (duration <= 0) {
+        // stop timers
         gameTimer->stop();
+        enemyTimer->stop();
         // show the winning window
+        close();
+        winning *w = new winning;
+        w->show();
+        // clear the scene
+        foreach(QGraphicsItem *item, scene->items()) { // not working
+            scene->removeItem(item);
+            delete item;
+        }
+        scene->clear();
 
     }
 
