@@ -69,8 +69,8 @@ public:
     WorkersClan* getGroup1();
     WorkersClan* getGroup2();
     // delay
-    void delay(int sec);
-    void mDelay(int mSec);
+    void delay(int sec); // delay in seconds
+    void mDelay(int mSec); // delay in milliseconds
 
     // testing data members
     Fence* testFence;

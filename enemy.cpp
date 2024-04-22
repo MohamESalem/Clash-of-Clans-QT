@@ -71,7 +71,7 @@ void Enemy::moveRandomly()
         }
         else if(typeid(*item) == typeid(Castle)) {
             game->getCastle()->decrementCurrHealth(damage);
-            qDebug() << "Castle's health =  " << game->getCastle()->getCurrHealth() << '\n';
+            // qDebug() << "Castle's health =  " << game->getCastle()->getCurrHealth() << '\n';
             if(game->getCastle() && game->getCastle()->getCurrHealth()<=0) {
                 if(game->getCastle()) game->gameOver();
                 // don't remove the castle; this may cause some bugs as many objects interact with the castle simultaneously

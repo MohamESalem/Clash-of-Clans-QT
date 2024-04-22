@@ -24,7 +24,7 @@ void Fence::setHealth(int x)
     health = x;
 }
 
-void Fence::decrementHealth(int x, QTimer* moveTimer, QTimer* healTimer)
+void Fence::decrementHealth(int x)
 // PASS THEM BE REFERENCE FOR ENEMY DAMAGING FENCE
 // LOOK AT DECREMENTHEALTH() IN CASTLE CLASS
 {

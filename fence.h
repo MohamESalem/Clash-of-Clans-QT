@@ -19,7 +19,7 @@ public:
     int getHealth();
     int getMaxHealth();
     void setHealth(int);
-    void decrementHealth(int,QTimer* = 0,QTimer* = NULL);
+    void decrementHealth(int);
     void incrementHealth(int,QTimer*&,QTimer*&);
     WorkersClan* getHealGroup();
     void setHealGroup(WorkersClan*);

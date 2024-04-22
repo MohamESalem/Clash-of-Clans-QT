@@ -2,8 +2,6 @@
 #define CASTLE_H
 
 #include <QGraphicsPixmapItem>
-#include "gameover.h"
-
 
 class Castle : public QGraphicsPixmapItem
 {
@@ -12,7 +10,6 @@ private:
     int maxHealth;
     int x;
     int y;
-    gameover *o;
 public:
     Castle(int x, int y);
     // health functions
