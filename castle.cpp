@@ -23,8 +23,10 @@ void Castle::setCurrHealth(int x)
 
 void Castle::decrementCurrHealth(int x)
 {
-
     currHealth -= x;
+    // qDebug() << "Health = " << currHealth << '\n';
+    if(currHealth <= 0)
+        game->gameOver();
 }
 
 void Castle::incrementCurrHealth(int x, QTimer*& moveTimer, QTimer*& healTimer)

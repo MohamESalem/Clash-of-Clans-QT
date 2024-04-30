@@ -56,6 +56,8 @@ void Game::start() {
     enemyTimer = new QTimer(this);
     connect(enemyTimer, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
 
+    // spawnEnemies();
+    // spawnEnemies();
     // start the timers
     gameTimer->start(1000);
     // spawnEnemies();
@@ -70,8 +72,8 @@ void Game::start() {
     // // testing WorkersClan
     // delay(3);
     // if(test2) {
-    //     qDebug() << "Begin!\n";
-    //     test2->decrementHealth(30);
+    //     // qDebug() << "Begin!\n";
+    //     test2->decrementHealth(40);
     // }
     // delay(3);
     // if(testFence) {
@@ -86,7 +88,7 @@ void Game::start() {
     // }
 
     // // testing gameOver() and showWinningWdn()
-    // delay(4);
+    // delay(3);
     // showWinningWdn();
     // gameOver();
 
@@ -262,7 +264,7 @@ WorkersClan *Game::getGroup2() {return group2;}
 
 void Game::spawnEnemies()
 {
-    srand(time(0));
+    // srand(time(0));
     int i = rand() % 4;
     int randX = rand() % 801, randY = rand() % 601;
     if(i == 0) {

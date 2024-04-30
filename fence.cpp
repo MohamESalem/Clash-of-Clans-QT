@@ -24,38 +24,44 @@ void Fence::setHealth(int x)
     health = x;
 }
 
-void Fence::decrementHealth(int x)
+void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence)
 // PASS THEM BE REFERENCE FOR ENEMY DAMAGING FENCE
 // LOOK AT DECREMENTHEALTH() IN CASTLE CLASS
 {
     health -= x;
+    // if(this) qDebug() << "after, Finished = " << finished;
+    // qDebug() << getX() << ' ' << getY() << '\n';
+    // qDebug() << "Health = " << health << '\n';
 
-    if(health > 0) {
-        if(healGroup == NULL) {
-            int ava = game->getAvailableGroup(this->x, this->y);
-            // qDebug() << "ava = " << ava << '\n';
-            if(ava == 1) {
-                healGroup = game->getGroup1();
-                healGroup->changeAvailability(false);
-                healGroup->createWorkers(this->x, this->y);
-            } else if(ava == 2) {
-                healGroup = game->getGroup2();
-                healGroup->changeAvailability(false);
-                healGroup->createWorkers(this->x, this->y);
-            } else if(ava == 0) {
-                if(!game->damagedFence.contains(this)) {
-                    game->damagedFence.append(this);
-                }
-            } // otherwise ava = -1, i.e., no group are availble, don't do anything
+        if(health > 0) {
+            if(healGroup == NULL) {
+                int ava = game->getAvailableGroup(this->x, this->y);
+                // qDebug() << "ava = " << ava << '\n';
+                if(ava == 1) {
+                    healGroup = game->getGroup1();
+                    healGroup->changeAvailability(false);
+                    healGroup->createWorkers(this->x, this->y);
+                } else if(ava == 2) {
+                    healGroup = game->getGroup2();
+                    healGroup->changeAvailability(false);
+                    healGroup->createWorkers(this->x, this->y);
+                } else if(ava == 0) {
+                    if(!game->damagedFence.contains(this)) {
+                        game->damagedFence.append(this);
+                    }
+                } // otherwise ava = -1, i.e., no group are availble, don't do anything
+            }
         }
-    }
-    else {
-        // enemy destroys the fence when the fence's health goes below zero
-        scene()->removeItem(this);
-        if(healGroup) healGroup->changeAvailability(true);
-        delete this;
-        return;
-    }
+        else {
+            // enemy destroys the fence when the fence's health goes below zero
+            if(healGroup) healGroup->changeAvailability(true);
+            scene()->removeItem(this);
+            damageFence->stop();
+            moveTimer->start(50);
+            finished = true;
+            delete this;
+            return;
+        }
 }
 
 

@@ -11,10 +11,14 @@ class Worker : public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 private:
+    int imgLen;
     int healAbility;
     QTimer* moveTimer;
     QTimer* healTimer;
     QTimer* returnTimer;
+    QTimer* healAnimationTimer;
+    QStringList healImgs;
+    QStringList dieImgs;
     WorkersClan* group;
     int clanIndex;
 
@@ -25,6 +29,7 @@ public:
     WorkersClan* getGroup();
     int getClanIndex();
     void healFence(Fence*);
+    void die();
 
 public slots:
     void move();

@@ -12,9 +12,27 @@
         <file>img/bullet.png</file>
         <file>img/enemy.png</file>
         <file>img/tent.png</file>
-        <file>img/worker.png</file>
         <file>img/gameover.jpg</file>
         <file>img/cannon2.png</file>
         <file>img/winning.jpg</file>
+        <file>img/citizen_workers/worker.png</file>
+        <file>img/citizen_workers/heal/1.png</file>
+        <file>img/citizen_workers/heal/2.png</file>
+        <file>img/citizen_workers/heal/3.png</file>
+        <file>img/citizen_workers/heal/4.png</file>
+        <file>img/citizen_workers/heal/5.png</file>
+        <file>img/citizen_workers/heal/6.png</file>
+        <file>img/citizen_workers/die/1.png</file>
+        <file>img/citizen_workers/die/2.png</file>
+        <file>img/citizen_workers/die/3.png</file>
+        <file>img/citizen_workers/die/4.png</file>
+        <file>img/citizen_workers/die/5.png</file>
+        <file>img/citizen_workers/die/6.png</file>
+        <file>img/enemy/enemy.png</file>
+        <file>img/enemy/1.png</file>
+        <file>img/enemy/2.png</file>
+        <file>img/enemy/3.png</file>
+        <file>img/enemy/4.png</file>
+        <file>img/enemy/testEnemy.png</file>
     </qresource>
 </RCC>

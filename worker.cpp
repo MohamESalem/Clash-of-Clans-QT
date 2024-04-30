@@ -5,9 +5,9 @@ extern Game* game;
 
 Worker::Worker(WorkersClan* g, int index) {
     // set the workers' appearance
-    int len = 56;
-    setPixmap(QPixmap(":/images/img/worker.png").scaled(len, len));
-    setTransformOriginPoint(len/2.0, len/2.0);
+    imgLen = 50;
+    setPixmap(QPixmap(":/images/img/citizen_workers/worker.png").scaled(imgLen, imgLen));
+    setTransformOriginPoint(imgLen/2.0, imgLen/2.0);
 
     // set the parameters & privat attributes
     group = g;
@@ -19,13 +19,28 @@ Worker::Worker(WorkersClan* g, int index) {
     setPos(group->getTent()->getX() - offset, group->getTent()->getY() + offset);
     setZValue(3);
 
-
     // set timers
     moveTimer = new QTimer(this);
     connect(moveTimer, SIGNAL(timeout()), this, SLOT(move()));
     returnTimer = new QTimer(this);
     connect(returnTimer, SIGNAL(timeout()), this, SLOT(returnBack()));
     healTimer = new QTimer(this);
+    healAnimationTimer = new QTimer(this);
+
+    // fill healImgs
+    healImgs.append(":/images/img/citizen_workers/heal/1.png");
+    healImgs.append(":/images/img/citizen_workers/heal/2.png");
+    healImgs.append(":/images/img/citizen_workers/heal/3.png");
+    healImgs.append(":/images/img/citizen_workers/heal/4.png");
+    healImgs.append(":/images/img/citizen_workers/heal/5.png");
+    healImgs.append(":/images/img/citizen_workers/heal/6.png");
+
+    // fill dieImgs
+    dieImgs.append(":/images/img/citizen_workers/die/2.png");
+    dieImgs.append(":/images/img/citizen_workers/die/3.png");
+    dieImgs.append(":/images/img/citizen_workers/die/4.png");
+    dieImgs.append(":/images/img/citizen_workers/die/5.png");
+    dieImgs.append(":/images/img/citizen_workers/die/6.png");
 
     // start the moveTimer
     moveTimer->start(250);
@@ -43,10 +58,28 @@ void Worker::healFence(Fence*f)
         connect(healTimer, &QTimer::timeout, [this, f](){
             f->incrementHealth(this->healAbility, this->returnTimer, this->healTimer);
         });
+        connect(healAnimationTimer, &QTimer::timeout, [this]() {
+            static int i = 0;
+            setPixmap(QPixmap(healImgs[i]).scaled(imgLen,imgLen));
+            i = (i + 1) % healImgs.size();
+        });
         healTimer->start(1000);
+        healAnimationTimer->start(1000.0/healImgs.size());
     } else {
         returnTimer->start(250);
     }
+}
+
+void Worker::die() {
+    healAnimationTimer->stop();
+    healTimer->stop();
+    for(int i = 0; i < dieImgs.size(); i++) {
+        if(!game->getScene()->items().isEmpty()) setPixmap(QPixmap(dieImgs[i]).scaled(imgLen, imgLen));
+        game->mDelay(80);
+    }
+    game->getScene()->removeItem(this);
+    // delete this;
+    return;
 }
 
 void Worker::move() {
@@ -58,6 +91,9 @@ void Worker::move() {
         return;
     } else {
         // the workers are under mission
+        // stop the animation timer (if it was already started)
+        healAnimationTimer->stop();
+        setPixmap(QPixmap(":/images/img/citizen_workers/worker.png").scaled(imgLen, imgLen));
         QList<QGraphicsItem *> collided_items = collidingItems();
         foreach(auto& item, collided_items) {
             if(typeid(*item) == typeid(Fence)) {
@@ -95,6 +131,10 @@ void Worker::returnBack() {
         moveTimer->start(250);
         return;
     }
+
+    // stop the animation timer (if it was already started)
+    healAnimationTimer->stop();
+    setPixmap(QPixmap(":/images/img/citizen_workers/worker.png").scaled(imgLen, imgLen));
 
     int tentX = group->getTent()->getX(),
         tentY = group->getTent()->getY();

@@ -22,6 +22,7 @@ public:
     // setters
     void setX(int x);
     void setY(int y);
+
 public slots:
     void decrementCurrHealth(int);
     void incrementCurrHealth(int,QTimer*&,QTimer*&);

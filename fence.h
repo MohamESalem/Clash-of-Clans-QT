@@ -19,10 +19,12 @@ public:
     int getHealth();
     int getMaxHealth();
     void setHealth(int);
-    void decrementHealth(int);
+    void decrementHealth(int,QTimer*&,QTimer*&);
     void incrementHealth(int,QTimer*&,QTimer*&);
     WorkersClan* getHealGroup();
     void setHealGroup(WorkersClan*);
+    // TEST
+    bool finished = false;
 };
 
 #endif // FENCE_H
