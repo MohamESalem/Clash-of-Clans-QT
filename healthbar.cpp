@@ -18,7 +18,7 @@ HealthBar::HealthBar(int x, int y, int width, double health, bool blue) {
     setRect(final_x, final_y, width, height);
     setZValue(8);
     setBrush(gray);
-    progressBar = new QGraphicsRectItem(final_x, final_y, width, height);
+    progressBar = new QGraphicsRectItem(final_x, final_y, width, height, this);
     progressBar->setZValue(9);
     if(!blue)
         progressBar->setBrush(green);
@@ -69,18 +69,16 @@ void HealthBar::incrementCurrHealth(int x)
 void HealthBar::show()
 {
     game->getScene()->addItem(this);
-    game->getScene()->addItem(progressBar);
 }
 
 void HealthBar::hide()
 {
     game->getScene()->removeItem(this);
-    game->getScene()->removeItem(progressBar);
 }
 
 void HealthBar::move(int dx, int dy)
 {
     setPos(x() + dx, y() + dy);
-    progressBar->setPos(x() + dx, y() + dy);
+    // progressBar->setPos(x() + dx, y() + dy);
 }
 

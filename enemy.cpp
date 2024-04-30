@@ -151,7 +151,7 @@ void Enemy::moveHealthBar()
     double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
     // healthBar->move(dx, dy);
     healthBar->setPos(healthBar->x() + dx, healthBar->y() + dy);
-    healthBar->getProgressBar()->setPos(healthBar->getProgressBar()->x() + dx, healthBar->getProgressBar()->y() + dy);
+    // healthBar->getProgressBar()->setPos(healthBar->getProgressBar()->x() + dx, healthBar->getProgressBar()->y() + dy);
     // setPos(x() + dx, y() + dy);
     // group->setPos(x()+dx, y()+dy);
 }
