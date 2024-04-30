@@ -7,7 +7,7 @@ extern Game* game;
 WorkersClan::WorkersClan(int n, Tent* tent) {
     // initialize the vectors
     isAlive.resize(n);
-    for(auto b : isAlive) b = 1;
+    for(size_t i = 0; i < isAlive.size(); i++) isAlive[i] = true;
     workers.resize(n);
     for(size_t i = 0; i < workers.size(); i++) workers[i] = NULL;
     // initialize data members
@@ -22,7 +22,8 @@ void WorkersClan::createWorkers(int x, int y) {
     setDetY(y);
     for(size_t i = 0; i < isAlive.size(); i++) {
         if(isAlive[i]) {
-            if(workers[i] == NULL) {
+            // qDebug() << "In createWorkers, isAlive[i] = " << isAlive[i] << '\n';
+            if(isAlive[i] && workers[i] == NULL) {
                 Worker* w = new Worker(this, i);
                 workers[i] = w;
                 game->getScene()->addItem(w);
@@ -43,6 +44,7 @@ void WorkersClan::changeAvailability(bool b) {
 
 void WorkersClan::changeIsAlive(int i) {
     isAlive[i] = false;
+    // qDebug() << "In changeIsAlive, isAlive[i] = " << isAlive[i] << '\n';
     numKilled++;
     changeWorkerPointerToNULL(i);
     if(numKilled == workers.size()) {changeAvailability(false); isAllClanDead = true;}

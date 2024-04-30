@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include <QObject>
+#include <QGraphicsItemGroup>
 #include "castle.h"
 #include "fence.h"
 
@@ -26,6 +27,10 @@ private:
     QTimer* attackTimer;
     Castle* castle;
     int damage;
+    HealthBar* healthBar;
+    bool isHealthBarShown;
+    // test
+    // QGraphicsItemGroup* group;
 
     //contact with the fence
     bool work = false;
@@ -33,7 +38,7 @@ private:
 
 public slots:
     void moveRandomly();
-
+    void moveHealthBar();
 
 public:
     Enemy(int x, int y);
@@ -43,7 +48,6 @@ public:
     void decrementHealth(int);
     void incrementHealth(int);
     void attackAnimate();
-    void mDelay(int);
     void attackFence(Fence*&);
     void attackCastle();
 };

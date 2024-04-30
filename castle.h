@@ -2,6 +2,7 @@
 #define CASTLE_H
 
 #include <QGraphicsPixmapItem>
+#include "healthbar.h"
 
 class Castle : public QGraphicsPixmapItem
 {
@@ -10,6 +11,8 @@ private:
     int maxHealth;
     int x;
     int y;
+    HealthBar* healthBar;
+    bool finished;
 public:
     Castle(int x, int y);
     // health functions

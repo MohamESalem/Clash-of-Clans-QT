@@ -3,6 +3,7 @@
 
 #include <QGraphicsPixmapItem>
 #include "workersclan.h"
+#include "healthbar.h"
 
 class Fence : public QGraphicsPixmapItem
 {
@@ -12,6 +13,9 @@ private:
     int x;
     int y;
     WorkersClan* healGroup;
+    HealthBar* healthBar;
+    bool isHealthBarShown;
+    bool finished;
 public:
     Fence(int x, int y);
     int getX();
@@ -23,8 +27,8 @@ public:
     void incrementHealth(int,QTimer*&,QTimer*&);
     WorkersClan* getHealGroup();
     void setHealGroup(WorkersClan*);
+    bool isFinished();
     // TEST
-    bool finished = false;
 };
 
 #endif // FENCE_H

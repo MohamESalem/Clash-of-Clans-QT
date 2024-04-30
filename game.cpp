@@ -56,12 +56,11 @@ void Game::start() {
     enemyTimer = new QTimer(this);
     connect(enemyTimer, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
 
-    // spawnEnemies();
-    // spawnEnemies();
     // start the timers
     gameTimer->start(1000);
-    // spawnEnemies();
     enemyTimer->start(4000);
+    // spawnEnemies();
+    // spawnEnemies();
 
     show();
 
@@ -87,10 +86,20 @@ void Game::start() {
     //     test3->decrementHealth(40);
     // }
 
-    // // testing gameOver() and showWinningWdn()
+    // test the health bar of the castle
     // delay(3);
-    // showWinningWdn();
+    // castle->decrementCurrHealth(10);
+    // delay(3);
+    // castle->decrementCurrHealth(30);
+    // delay(2);
+    // castle->decrementCurrHealth(50);
+    // delay(2);
+    // castle->decrementCurrHealth(10);
+
+    // // testing gameOver() and showWinningWdn()
+    // delay(10);
     // gameOver();
+    // showWinningWdn();
 
 }
 
@@ -262,8 +271,11 @@ WorkersClan *Game::getGroup2() {return group2;}
 
 // enemies functions
 
-void Game::spawnEnemies()
-{
+void Game::spawnEnemies() {
+    // test
+    // Enemy* e = new Enemy(800, 350);
+    // scene->addItem(e);
+
     // srand(time(0));
     int i = rand() % 4;
     int randX = rand() % 801, randY = rand() % 601;

@@ -33,6 +33,5 @@
         <file>img/enemy/2.png</file>
         <file>img/enemy/3.png</file>
         <file>img/enemy/4.png</file>
-        <file>img/enemy/testEnemy.png</file>
     </qresource>
 </RCC>

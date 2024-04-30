@@ -21,15 +21,18 @@ private:
     QStringList dieImgs;
     WorkersClan* group;
     int clanIndex;
+    bool finished;
 
 public:
     Worker(WorkersClan* g, int index);
     int getHealAbility();
     void setHealAbility(int);
     WorkersClan* getGroup();
+    QTimer* getHealAnimationTimer();
     int getClanIndex();
     void healFence(Fence*);
     void die();
+    bool isFinished();
 
 public slots:
     void move();

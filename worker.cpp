@@ -1,5 +1,6 @@
 #include "worker.h"
 #include "game.h"
+#include "enemy.h"
 
 extern Game* game;
 
@@ -13,6 +14,7 @@ Worker::Worker(WorkersClan* g, int index) {
     group = g;
     clanIndex = index;
     healAbility = 10;
+    finished = false;
 
     // set the position and ZValue
     int offset = 20;
@@ -50,6 +52,11 @@ int Worker::getHealAbility(){return healAbility;}
 void Worker::setHealAbility(int x) {healAbility = x;}
 
 WorkersClan* Worker::getGroup() {return group;}
+
+QTimer *Worker::getHealAnimationTimer()
+{
+    return healAnimationTimer;
+}
 int Worker::getClanIndex() {return clanIndex;}
 
 void Worker::healFence(Fence*f)
@@ -59,8 +66,17 @@ void Worker::healFence(Fence*f)
             f->incrementHealth(this->healAbility, this->returnTimer, this->healTimer);
         });
         connect(healAnimationTimer, &QTimer::timeout, [this]() {
+            QList<QGraphicsItem *> collided_items = collidingItems();
+            foreach(auto& item, collided_items) {
+                if(typeid(*item) == typeid(Enemy)) {
+                    getGroup()->changeIsAlive(getClanIndex());
+                    die();
+                    finished = true;
+                    return;
+                }
+            }
             static int i = 0;
-            setPixmap(QPixmap(healImgs[i]).scaled(imgLen,imgLen));
+            if(!finished) setPixmap(QPixmap(healImgs.at(i)).scaled(imgLen,imgLen));
             i = (i + 1) % healImgs.size();
         });
         healTimer->start(1000);
@@ -71,15 +87,21 @@ void Worker::healFence(Fence*f)
 }
 
 void Worker::die() {
+    finished = true;
     healAnimationTimer->stop();
     healTimer->stop();
     for(int i = 0; i < dieImgs.size(); i++) {
         if(!game->getScene()->items().isEmpty()) setPixmap(QPixmap(dieImgs[i]).scaled(imgLen, imgLen));
-        game->mDelay(80);
+        game->mDelay(85);
     }
     game->getScene()->removeItem(this);
-    // delete this;
+    delete this;
     return;
+}
+
+bool Worker::isFinished()
+{
+    return finished;
 }
 
 void Worker::move() {
