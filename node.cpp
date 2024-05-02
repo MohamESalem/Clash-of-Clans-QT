@@ -1,0 +1,49 @@
+#include "node.h"
+
+
+Node::Node(int x, int y, int strength)
+{
+    this->x =x;
+    this->y =y;
+    this->strength =strength;
+}
+
+void Node::setX(int x)
+{
+    this->x =x;
+}
+
+void Node::setY(int y)
+{
+    this->y =y;
+}
+
+void Node::setStrength(int strength)
+{
+    this->strength =strength;
+}
+
+int Node::getX() const
+{
+    return x;
+}
+
+int Node::getY() const
+{
+    return y;
+}
+
+int Node::getStrength() const
+{
+    return strength;
+}
+
+Node *Node::getNext() const
+{
+    return Next;
+}
+
+void Node::setNext(Node *nextNode)
+{
+    Next = nextNode;
+}
