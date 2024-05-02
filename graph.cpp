@@ -16,6 +16,12 @@ int Graph::getWeight(Node *first, Node *second) const
     return weight;
 }
 
+Node* Graph::makeNode(int x, int y, int strength)
+{
+    Node* newNode = new Node(x, y, strength);
+    return newNode;
+}
+
 void Graph::addNode(Node* node)
 {
     adjList[node] = std::vector<std::pair<Node*, int>>();
@@ -51,6 +57,16 @@ void Graph::removeEdge(Node *first, Node *second)
             adjList[first].erase(it);
         }
     }
+}
+
+Node *Graph::findNode(int x, int y)
+{
+    for (auto it = adjList.begin(); it!= adjList.end(); ++it) {
+        if (it->first!= nullptr && it->first->getX() == x && it->first->getY() == y) {
+            return it->first;
+        }
+    }
+    return nullptr;
 }
 
 std::vector<Node*> Graph::aStarAlgo(Node* start, Node* goal)

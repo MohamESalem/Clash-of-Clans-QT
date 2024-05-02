@@ -38,12 +38,4 @@ int Node::getStrength() const
     return strength;
 }
 
-Node *Node::getNext() const
-{
-    return Next;
-}
 
-void Node::setNext(Node *nextNode)
-{
-    Next = nextNode;
-}

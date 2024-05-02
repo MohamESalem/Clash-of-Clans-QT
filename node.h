@@ -6,7 +6,6 @@ class Node
     int x;
     int y;
     int strength;
-    Node* Next = nullptr; //might use this when finding the path at the end
 public:
     Node(int x, int y, int strength);
     void setX(int x);
@@ -15,12 +14,7 @@ public:
     int getX() const;
     int getY() const;
     int getStrength() const;
-    Node *getNext() const;
-    void setNext(Node* nextNode);
-    int heuristic;
-    int cost;
-    Node* parent;
-    Node* next;
+
 
 };
 

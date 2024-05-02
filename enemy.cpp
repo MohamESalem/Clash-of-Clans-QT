@@ -27,6 +27,7 @@ Enemy::Enemy(int x, int y)
     castle = game->getCastle();
     health = 60;
     damage = 20;
+    //**************************************************
     healthBar = new HealthBar(x, y, imgLen, health, true);
     // group = new QGraphicsItemGroup(this);
     // group->addToGroup(this);
@@ -58,12 +59,62 @@ Enemy::Enemy(int x, int y)
     // connect(moveTimer, SIGNAL(timeout()), this, SLOT(moveRandomly()));
     connect(moveTimer, &QTimer::timeout, [this]() {
         this->moveRandomly();
+
         this->moveHealthBar();
+
     });
     moveTimer->start(50);
+
 }
 
 Enemy::~Enemy() {attackImgs.clear();}
+
+void Enemy::makeGraph(QString path)
+{
+    QFile file(path);
+    file.open(QIODevice::ReadOnly);
+    QTextStream stream(&file);
+    for(int i = 0; i < 12; i++) {
+        for(int j = 0; j < 16; j++) {
+            QString tmp;
+            stream >> tmp;
+            tmp.toInt();
+            int weight=1;
+            if(tmp.toInt()==3) {
+                weight = 5;
+            }
+
+            else if(tmp.toInt() ==1 || tmp.toInt()==2 || tmp.toInt()==4) {
+                weight = 4;
+            }
+            Node* node = graph->makeNode(i,j,weight);
+            graph->addNode(node);
+
+        }
+    }
+
+    for(int i = 0; i < 12; i++) {
+        for(int j = 0; j < 16; j++) {
+            if(i!=11) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i+1,j));
+            }
+
+            if(i!=0) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i-1,j));
+            }
+
+            if(j!=0) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i,j-1));
+            }
+
+            if(j!=15) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i,j+1));
+            }
+
+        }
+    }
+
+}
 
 void Enemy::moveRandomly() {
 
@@ -71,6 +122,14 @@ void Enemy::moveRandomly() {
     // attackTimer->stop();
     // setPixmap(QPixmap(attackImgs[0]).scaled(imgLen,imgLen));
         // set the destination (either to the castle or the tent)
+
+
+    // position = graph->findNode(this->row/18,this->col/12);
+    //**************************setting path*********************************************************
+    // path = graph->aStarAlgo(this->position, graph->findNode(5,5)); //will need to change this to castle position
+
+
+
     setPixmap(QPixmap(attackImgs[0]).scaled(imgLen,imgLen));
     attackTimer->stop();
     int detOffset = 45;
@@ -99,9 +158,7 @@ void Enemy::moveRandomly() {
                 attackFence(f);
             return;
 
-            // f->decrementHealth(damage);
-            // contact = true;
-            // mDelay(700);
+
 
         } // if the enemy collides with a worker, the worker gets killed immediately
         else if(typeid(*item) == typeid(Worker)) {

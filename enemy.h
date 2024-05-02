@@ -10,6 +10,7 @@
 #include <QGraphicsItemGroup>
 #include "castle.h"
 #include "fence.h"
+#include "graph.h"
 
 using namespace std;
 class Enemy: public QObject, public QGraphicsPixmapItem
@@ -36,9 +37,13 @@ private:
     bool work = false;
     bool contact = false;
 
+    //graph pointer
+
+
 public slots:
     void moveRandomly();
     void moveHealthBar();
+    void makeGraph(QString path);
 
 public:
     Enemy(int x, int y);
@@ -50,6 +55,9 @@ public:
     void attackAnimate();
     void attackFence(Fence*&);
     void attackCastle();
+    Node* position;
+    vector<Node*> path;
+    Graph* graph;
 };
 
 #endif // ENEMY_H

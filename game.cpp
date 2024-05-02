@@ -38,7 +38,7 @@ void Game::start() {
 
     //draw board
     drawBoard(":/board/boardFiles/board1.txt");
-
+    SLOT(makeGraph(":/board/boardFiles/board1.txt"));
     //design the timer label
 
     timerLabel = new QGraphicsTextItem();
@@ -112,6 +112,7 @@ void Game::readBoardData(QString path) {
             QString tmp;
             stream >> tmp;
             boardData[i][j] = tmp.toInt();
+
         }
     }
 }
@@ -226,8 +227,8 @@ void Game::mousePressEvent(QMouseEvent *event)
 void Game::mouseMoveEvent(QMouseEvent *event)
 {
     QLineF ln(QPointF(cannon->getX(), cannon->getY()), event->pos());
-    double angle = -1 * ln.angle();
-    int offset = 30;
+    // double angle = -1 * ln.angle();
+    // int offset = 30;
     // cannon->setRotation(angle - offset);
 }
 
@@ -279,26 +280,30 @@ void Game::spawnEnemies() {
     // srand(time(0));
     int i = rand() % 4;
     int randX = rand() % 801, randY = rand() % 601;
+    Enemy* enemy;
     if(i == 0) {
         // spawn at the top
-        Enemy* enemy = new Enemy(randX, 0);
+        enemy = new Enemy(randX, 0);
         scene->addItem(enemy);
+
     }
     else if(i == 1) {
         // spawn at the bottom
-        Enemy* enemy = new Enemy(randX, 600);
+        enemy = new Enemy(randX, 600);
         scene->addItem(enemy);
     }
     else if(i == 2) {
         // spawn on the left
-        Enemy* enemy = new Enemy(800, randY);
+        enemy = new Enemy(800, randY);
         scene->addItem(enemy);
     }
     else {
         // spawn at the right
-        Enemy* enemy = new Enemy(800, randY);
+        enemy = new Enemy(800, randY);
         scene->addItem(enemy);
     }
+
+
 }
 
 
