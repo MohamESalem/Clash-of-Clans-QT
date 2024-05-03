@@ -19,6 +19,7 @@
 #include "tent.h"
 #include "workersclan.h"
 #include "fence.h"
+#include "graph.h"
 
 class Game : public QGraphicsView
 {
@@ -76,6 +77,9 @@ public:
     Fence* testFence;
     Fence* test2;
     Fence* test3;
+    Graph* graph;
+    void makeGraph(QString path);
+
 
 
 

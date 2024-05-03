@@ -3,6 +3,9 @@
 #include <queue>
 #include <set>
 #include <algorithm>
+#include <QDebug>
+
+Graph::Graph() {}
 
 int Graph::getWeight(Node *first, Node *second) const
 {
@@ -22,6 +25,7 @@ Node* Graph::makeNode(int x, int y, int strength)
     return newNode;
 }
 
+//When called, the program crashes
 void Graph::addNode(Node* node)
 {
     adjList[node] = std::vector<std::pair<Node*, int>>();
@@ -33,6 +37,7 @@ void Graph::addEdge(Node *first, Node *second)
 
     adjList[first].push_back(std::make_pair(second, weight));
 }
+
 
 void Graph::removeNode(Node *node)
 {
@@ -71,7 +76,10 @@ Node *Graph::findNode(int x, int y)
 
 std::vector<Node*> Graph::aStarAlgo(Node* start, Node* goal)
 {
-    std::priority_queue<std::pair<int, Node*>> openList; //priority queue to store discovered nodes but not processed yet
+    // qDebug() << start->getX() << " " << start->getY();
+    // qDebug() << goal->getX() << " " << goal->getY();
+
+    std::priority_queue<std::pair<int, Node*>,std::vector<std::pair<int, Node*>>, std::greater<std::pair<int, Node*>>> openList; //priority queue to store discovered nodes but not processed yet
     // in the pair the first element is the priority score
     std::set<Node*> closedList; //the closedlist is for the processed nodes
     std::map<Node*, Node*> cameFrom; //to reconstruct the path from the goal node to the start node

@@ -18,6 +18,7 @@ Castle::Castle(int x, int y) {
     healthBar = new HealthBar(this->x, this->y, 100, maxHealth);
     healthBar->show();
     finished = false;
+
 }
 
 // health functions

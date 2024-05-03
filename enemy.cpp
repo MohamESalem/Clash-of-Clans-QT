@@ -13,15 +13,18 @@ extern Game* game;
 Enemy::Enemy(int x, int y)
 {
     // set the picture
-    imgLen = 65;
-    QPixmap enemyImg(":/images/img/enemy/enemy.png");
+
+    imgLen = 50;
+    QPixmap enemyImg(":/images/img/enemy/enemy.jpg");
     enemyImg = enemyImg.scaled(imgLen, imgLen);
     setPixmap(enemyImg);
     // testing rotation
     setTransformOriginPoint(imgLen/2.0,imgLen/2.0);
     // setRotation(180);
     i = 0;
-    setPos(x,y);
+    setPos(x+offsetX,y+offsetY);
+    qDebug() << x << " " << y ;
+
     setZValue(3);
     // set the postion
     castle = game->getCastle();
@@ -38,6 +41,17 @@ Enemy::Enemy(int x, int y)
     // healthBar->setPos(healthBar->x() - 30, healthBar->y());
     // healthBar->getProgressBar()->setPos(healthBar->getProgressBar()->x() - 30, healthBar->getProgressBar()->y());
     // game->getScene()->addItem(group);
+
+    //current position
+    curr =1;
+
+
+
+    //for test
+    row =y/50;
+    col =x/50;
+    qDebug() << row << " " << col << "\n";
+    path = game->graph->aStarAlgo(game->graph->findNode(row, col), game->graph->findNode(castle->row,castle->col)); //will need to change this to castle position
 
 
 
@@ -69,52 +83,6 @@ Enemy::Enemy(int x, int y)
 
 Enemy::~Enemy() {attackImgs.clear();}
 
-void Enemy::makeGraph(QString path)
-{
-    QFile file(path);
-    file.open(QIODevice::ReadOnly);
-    QTextStream stream(&file);
-    for(int i = 0; i < 12; i++) {
-        for(int j = 0; j < 16; j++) {
-            QString tmp;
-            stream >> tmp;
-            tmp.toInt();
-            int weight=1;
-            if(tmp.toInt()==3) {
-                weight = 5;
-            }
-
-            else if(tmp.toInt() ==1 || tmp.toInt()==2 || tmp.toInt()==4) {
-                weight = 4;
-            }
-            Node* node = graph->makeNode(i,j,weight);
-            graph->addNode(node);
-
-        }
-    }
-
-    for(int i = 0; i < 12; i++) {
-        for(int j = 0; j < 16; j++) {
-            if(i!=11) {
-                graph->addEdge(graph->findNode(i,j), graph->findNode(i+1,j));
-            }
-
-            if(i!=0) {
-                graph->addEdge(graph->findNode(i,j), graph->findNode(i-1,j));
-            }
-
-            if(j!=0) {
-                graph->addEdge(graph->findNode(i,j), graph->findNode(i,j-1));
-            }
-
-            if(j!=15) {
-                graph->addEdge(graph->findNode(i,j), graph->findNode(i,j+1));
-            }
-
-        }
-    }
-
-}
 
 void Enemy::moveRandomly() {
 
@@ -126,18 +94,17 @@ void Enemy::moveRandomly() {
 
     // position = graph->findNode(this->row/18,this->col/12);
     //**************************setting path*********************************************************
-    // path = graph->aStarAlgo(this->position, graph->findNode(5,5)); //will need to change this to castle position
 
 
 
-    setPixmap(QPixmap(attackImgs[0]).scaled(imgLen,imgLen));
+    // setPixmap(QPixmap(attackImgs[0]).scaled(imgLen,imgLen));
     attackTimer->stop();
-    int detOffset = 45;
-    int detX = castle->getX() + detOffset,
-        detY =castle->getY() + detOffset;
+    // int detOffset = 45;
+    int detX = path[curr]->xPos,
+        detY =path[curr]->yPos;
 
     // move to the destination
-    const int STEP_SIZE = 3; // this represents the velocity of the worker
+    const int STEP_SIZE = 1; // this represents the velocity of the worker
     QLineF ln(QPointF(x(), y()), QPointF(detX, detY));
     double angle = -1 * ln.angle();
 
@@ -145,8 +112,19 @@ void Enemy::moveRandomly() {
 
     double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
     double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
+    double d1= pow(path[curr]->xPos - path[curr-1]->xPos,2) + pow(path[curr]->yPos - path[curr-1]->yPos,2);
+    double d2= pow(x() + dx + offsetX - path[curr-1]->xPos,2) + pow(y() + dy + offsetY - path[curr-1]->yPos,2);
     // healthBar->move(dx, dy);
-    setPos(x() + dx, y() + dy);
+    if(d2>=d1) {
+        setPos(path[curr]->xPos+ offsetX, path[curr]->yPos + offsetY);
+        curr++;
+    }
+
+    else {
+        setPos(x() + dx + offsetX, y() + dy + offsetY);
+        // qDebug() << x() + dx << " " << y() + dy;
+    }
+
     // group->setPos(x()+dx, y()+dy);
     // healthBar->setPos(x() + dx, y() + dy);
 
@@ -263,7 +241,7 @@ void Enemy::attackFence(Fence *&f) {
         });
         moveTimer->stop();
         damageTimer->start(800);
-        attackTimer->start(160);
+        // attackTimer->start(160);
     }
 }
 

@@ -14,6 +14,8 @@ public:
     int getX() const;
     int getY() const;
     int getStrength() const;
+    int xPos;
+    int yPos;
 
 
 };

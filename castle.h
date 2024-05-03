@@ -25,6 +25,8 @@ public:
     // setters
     void setX(int x);
     void setY(int y);
+    int row = 6;
+    int col = 7;
 
 public slots:
     void decrementCurrHealth(int);

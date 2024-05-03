@@ -12,6 +12,7 @@
 Game::Game() {
     // initialize the scene
     scene = new QGraphicsScene();
+    graph = new Graph();
     scene->setSceneRect(0, 0, 800, 600);
     // initialize the view's properties
     setFixedSize(800, 600);
@@ -20,7 +21,77 @@ Game::Game() {
     setWindowTitle("Clash Of Clans");
     setWindowIcon(QIcon(":/images/img/icon.png"));
     testFence = test2 = NULL;
+
 }
+
+void Game::makeGraph(QString path)
+{
+    QFile file(path);
+    file.open(QIODevice::ReadOnly);
+    QTextStream stream(&file);
+    for(int i = 0; i < 12; i++) {
+        for(int j = 0; j < 16; j++) {
+            QString tmp;
+            stream >> tmp;
+            tmp.toInt();
+            int weight=1;
+            if(tmp.toInt()==3) {
+                weight = 5;
+            }
+
+            else if(tmp.toInt() ==1 || tmp.toInt()==2 || tmp.toInt()==4) {
+                weight = 20;
+            }
+            Node* node = graph->makeNode(i,j,weight);
+            graph->addNode(node);
+
+        }
+    }
+
+    for(int i = 0; i < 12; i++) {
+        for(int j = 0; j < 16; j++) {
+            if(i!=11) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i+1,j));
+            }
+
+            if(i!=0) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i-1,j));
+            }
+
+            if(j!=0) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i,j-1));
+            }
+
+            if(j!=15) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i,j+1));
+            }
+
+            if(i!=0 && j!=0) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i-1,j-1));
+            }
+
+            if(i!=11 && j!=0) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i+1,j-1));
+            }
+
+            if(i!=11 && j!=0) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i+1,j-1));
+            }
+
+            if(i!=11 && j!=15) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i+1,j+1));
+            }
+
+            if(i!=0 && j!=15) {
+                graph->addEdge(graph->findNode(i,j), graph->findNode(i-1,j+1));
+            }
+
+
+        }
+    }
+
+}
+
 
 //.create a startMenu .add to scene
 
@@ -38,7 +109,16 @@ void Game::start() {
 
     //draw board
     drawBoard(":/board/boardFiles/board1.txt");
-    SLOT(makeGraph(":/board/boardFiles/board1.txt"));
+    // graph->addNode(graph->makeNode(1,2,5));
+    makeGraph(":/board/boardFiles/board1.txt");
+    // int x = castle->getX();
+    // int y = castle->getY();
+
+    // q
+    std::vector<Node*> path = graph->aStarAlgo(graph->findNode(0,0),graph->findNode(6,7));
+    for (size_t i = 0; i < path.size(); ++i) {
+        qDebug() << path[i]->getX() << " " << path[i]->getY() << " ";
+    }
     //design the timer label
 
     timerLabel = new QGraphicsTextItem();
@@ -64,9 +144,11 @@ void Game::start() {
 
     show();
 
-    // // stops group 2 for testing
-    // group2->isAllClanDead = true;
-    // group2->changeAvailability(false);
+    // stops group 2 for testing
+    group1->isAllClanDead = true;
+    group1->changeAvailability(false);
+    group2->isAllClanDead = true;
+    group2->changeAvailability(false);
 
     // // testing WorkersClan
     // delay(3);
@@ -273,35 +355,38 @@ WorkersClan *Game::getGroup2() {return group2;}
 // enemies functions
 
 void Game::spawnEnemies() {
-    // test
-    // Enemy* e = new Enemy(800, 350);
-    // scene->addItem(e);
+    // // test
+    Enemy* e = new Enemy(0, 0);
+    scene->addItem(e);
 
     // srand(time(0));
-    int i = rand() % 4;
-    int randX = rand() % 801, randY = rand() % 601;
-    Enemy* enemy;
-    if(i == 0) {
-        // spawn at the top
-        enemy = new Enemy(randX, 0);
-        scene->addItem(enemy);
+    // int i = rand() % 4;
+    // int randX = rand() % 10, randY = rand() % 10;
+    // int x= randX*50, y=randY*50;
+    // Enemy* enemy;
+    // if(i == 0) {
+    //     // spawn at the top
+    //     enemy = new Enemy(x, 0);
+    //     scene->addItem(enemy);
 
-    }
-    else if(i == 1) {
-        // spawn at the bottom
-        enemy = new Enemy(randX, 600);
-        scene->addItem(enemy);
-    }
-    else if(i == 2) {
-        // spawn on the left
-        enemy = new Enemy(800, randY);
-        scene->addItem(enemy);
-    }
-    else {
-        // spawn at the right
-        enemy = new Enemy(800, randY);
-        scene->addItem(enemy);
-    }
+    // }
+    // else if(i == 1) {
+    //     // spawn at the bottom
+    //     enemy = new Enemy(x, 550);
+    //     scene->addItem(enemy);
+    // }
+    // else if(i == 2) {
+    //     // spawn on the left
+    //     enemy = new Enemy(750, y);
+    //     scene->addItem(enemy);
+    // }
+    // else {
+    //     // spawn at the right
+    //     enemy = new Enemy(750, y);
+    //     scene->addItem(enemy);
+    // }
+
+
 
 
 }
@@ -340,3 +425,5 @@ void Game::mDelay(int mSec)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     }
 }
+
+

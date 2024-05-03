@@ -20,8 +20,8 @@ private:
     int imgLen;
     int i;
     QStringList attackImgs;
-    int row;
-    int col;
+    // int row;
+    // int col;
     int health;
     QTimer* moveTimer;
     QTimer* damageTimer;
@@ -36,14 +36,15 @@ private:
     //contact with the fence
     bool work = false;
     bool contact = false;
-
+    double offsetX = -1 * boundingRect().width()/2.0;
+    double offsetY =  -1 * boundingRect().height()/2.0;
     //graph pointer
+
 
 
 public slots:
     void moveRandomly();
     void moveHealthBar();
-    void makeGraph(QString path);
 
 public:
     Enemy(int x, int y);
@@ -57,7 +58,10 @@ public:
     void attackCastle();
     Node* position;
     vector<Node*> path;
-    Graph* graph;
+    int row;
+    int col;
+    int curr;
+
 };
 
 #endif // ENEMY_H
