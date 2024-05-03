@@ -14,44 +14,35 @@ Enemy::Enemy(int x, int y)
 {
     // set the picture
 
-    imgLen = 50;
-    QPixmap enemyImg(":/images/img/enemy/enemy.jpg");
+    imgLen = 52;
+    QPixmap enemyImg(":/images/img/enemy/enemy.png");
     enemyImg = enemyImg.scaled(imgLen, imgLen);
     setPixmap(enemyImg);
-    // testing rotation
     setTransformOriginPoint(imgLen/2.0,imgLen/2.0);
-    // setRotation(180);
-    i = 0;
-    setPos(x+offsetX,y+offsetY);
-    qDebug() << x << " " << y ;
+    offsetX = boundingRect().width()/2.0;
+    offsetY = boundingRect().height()/2.0;
+
+    setPos(x, y);
+    // qDebug() << x << " " << y ;
 
     setZValue(3);
     // set the postion
     castle = game->getCastle();
     health = 60;
     damage = 20;
-    //**************************************************
+    STEP_SIZE = 2.5;
     healthBar = new HealthBar(x, y, imgLen, health, true);
-    // group = new QGraphicsItemGroup(this);
-    // group->addToGroup(this);
-    // group->addToGroup(healthBar);
-    // group->addToGroup(healthBar->getProgressBar());
-    isHealthBarShown = false;
     // healthBar->show();
-    // healthBar->setPos(healthBar->x() - 30, healthBar->y());
-    // healthBar->getProgressBar()->setPos(healthBar->getProgressBar()->x() - 30, healthBar->getProgressBar()->y());
-    // game->getScene()->addItem(group);
+    isHealthBarShown = false;
+    //**************************************************
 
     //current position
     curr =1;
-
-
-
-    //for test
     row =y/50;
     col =x/50;
-    qDebug() << row << " " << col << "\n";
-    path = game->graph->aStarAlgo(game->graph->findNode(row, col), game->graph->findNode(castle->row,castle->col)); //will need to change this to castle position
+
+    path = game->graph->aStarAlgo(game->graph->findNode(row, col), game->graph->findNode(castle->row,castle->col));
+    //will need to change this to castle position
 
 
 
@@ -73,9 +64,7 @@ Enemy::Enemy(int x, int y)
     // connect(moveTimer, SIGNAL(timeout()), this, SLOT(moveRandomly()));
     connect(moveTimer, &QTimer::timeout, [this]() {
         this->moveRandomly();
-
         this->moveHealthBar();
-
     });
     moveTimer->start(50);
 
@@ -97,37 +86,32 @@ void Enemy::moveRandomly() {
 
 
 
-    // setPixmap(QPixmap(attackImgs[0]).scaled(imgLen,imgLen));
+    setPixmap(QPixmap(attackImgs[0]).scaled(imgLen,imgLen));
     attackTimer->stop();
     // int detOffset = 45;
     int detX = path[curr]->xPos,
         detY =path[curr]->yPos;
 
     // move to the destination
-    const int STEP_SIZE = 1; // this represents the velocity of the worker
-    QLineF ln(QPointF(x(), y()), QPointF(detX, detY));
+    // const int STEP_SIZE = 2; // this represents the velocity of the worker
+    QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(detX, detY));
     double angle = -1 * ln.angle();
-
     double theta = angle; // degrees
-
     double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
     double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
-    double d1= pow(path[curr]->xPos - path[curr-1]->xPos,2) + pow(path[curr]->yPos - path[curr-1]->yPos,2);
-    double d2= pow(x() + dx + offsetX - path[curr-1]->xPos,2) + pow(y() + dy + offsetY - path[curr-1]->yPos,2);
-    // healthBar->move(dx, dy);
-    if(d2>=d1) {
-        setPos(path[curr]->xPos+ offsetX, path[curr]->yPos + offsetY);
+
+    // handle A* algorithm things here
+    double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
+    double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
+
+    if(d2 >= d1) {
+        // setPos(path[curr]->xPos - offsetX, path[curr]->yPos - offsetY);
         curr++;
-    }
+    } // else {
+        setPos(x() + dx, y() + dy);
+    // }
 
-    else {
-        setPos(x() + dx + offsetX, y() + dy + offsetY);
-        // qDebug() << x() + dx << " " << y() + dy;
-    }
-
-    // group->setPos(x()+dx, y()+dy);
-    // healthBar->setPos(x() + dx, y() + dy);
-
+    // handle collisions
     QList<QGraphicsItem *> collided_items = collidingItems();
     foreach(auto& item, collided_items) {
         if(typeid(*item) == typeid(Fence)) {
@@ -171,13 +155,13 @@ void Enemy::moveRandomly() {
 
 void Enemy::moveHealthBar()
 {
-    int detOffset = 45;
-    int detX = castle->getX() + detOffset,
-        detY =castle->getY() + detOffset;
+    // int detOffset = 45;
+    int detX = path[curr]->xPos,
+        detY =path[curr]->yPos;
 
     // move to the destination
-    const int STEP_SIZE = 3; // this represents the velocity of the worker
-    QLineF ln(QPointF(x(), y()), QPointF(detX, detY));
+    // this represents the velocity of the worker
+    QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(detX, detY));
     double angle = -1 * ln.angle();
 
     double theta = angle; // degrees
@@ -241,7 +225,7 @@ void Enemy::attackFence(Fence *&f) {
         });
         moveTimer->stop();
         damageTimer->start(800);
-        // attackTimer->start(160);
+        attackTimer->start(160);
     }
 }
 

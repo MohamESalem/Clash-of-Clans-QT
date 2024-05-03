@@ -114,11 +114,10 @@ void Game::start() {
     // int x = castle->getX();
     // int y = castle->getY();
 
-    // q
-    std::vector<Node*> path = graph->aStarAlgo(graph->findNode(0,0),graph->findNode(6,7));
-    for (size_t i = 0; i < path.size(); ++i) {
-        qDebug() << path[i]->getX() << " " << path[i]->getY() << " ";
-    }
+    // std::vector<Node*> path = graph->aStarAlgo(graph->findNode(0,0),graph->findNode(6,7));
+    // for (size_t i = 0; i < path.size(); ++i) {
+    //     qDebug() << path[i]->getX() << " " << path[i]->getY() << " ";
+    // }
     //design the timer label
 
     timerLabel = new QGraphicsTextItem();
@@ -356,35 +355,35 @@ WorkersClan *Game::getGroup2() {return group2;}
 
 void Game::spawnEnemies() {
     // // test
-    Enemy* e = new Enemy(0, 0);
-    scene->addItem(e);
+    // Enemy* e = new Enemy(0, 0);
+    // scene->addItem(e);
 
     // srand(time(0));
-    // int i = rand() % 4;
-    // int randX = rand() % 10, randY = rand() % 10;
-    // int x= randX*50, y=randY*50;
-    // Enemy* enemy;
-    // if(i == 0) {
-    //     // spawn at the top
-    //     enemy = new Enemy(x, 0);
-    //     scene->addItem(enemy);
+    int i = rand() % 4;
+    int randX = rand() % 10, randY = rand() % 10;
+    int x= randX*50, y=randY*50;
+    Enemy* enemy;
+    if(i == 0) {
+        // spawn at the top
+        enemy = new Enemy(x, 0);
+        scene->addItem(enemy);
 
-    // }
-    // else if(i == 1) {
-    //     // spawn at the bottom
-    //     enemy = new Enemy(x, 550);
-    //     scene->addItem(enemy);
-    // }
-    // else if(i == 2) {
-    //     // spawn on the left
-    //     enemy = new Enemy(750, y);
-    //     scene->addItem(enemy);
-    // }
-    // else {
-    //     // spawn at the right
-    //     enemy = new Enemy(750, y);
-    //     scene->addItem(enemy);
-    // }
+    }
+    else if(i == 1) {
+        // spawn at the bottom
+        enemy = new Enemy(x, 550);
+        scene->addItem(enemy);
+    }
+    else if(i == 2) {
+        // spawn on the left
+        enemy = new Enemy(750, y);
+        scene->addItem(enemy);
+    }
+    else {
+        // spawn at the right
+        enemy = new Enemy(750, y);
+        scene->addItem(enemy);
+    }
 
 
 

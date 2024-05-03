@@ -8,8 +8,6 @@ Node::Node(int x, int y, int strength)
     this->strength =strength;
     yPos = (x*50) +25;
     xPos = (y*50) +25;
-
-
 }
 
 void Node::setX(int x)

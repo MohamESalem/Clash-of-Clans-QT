@@ -36,8 +36,9 @@ private:
     //contact with the fence
     bool work = false;
     bool contact = false;
-    double offsetX = -1 * boundingRect().width()/2.0;
-    double offsetY =  -1 * boundingRect().height()/2.0;
+    double offsetX = 0;
+    double offsetY = 0;
+    double STEP_SIZE;
     //graph pointer
 
 
