@@ -35,4 +35,10 @@
         <file>img/enemy/4.png</file>
         <file>img/enemy/enemy.jpg</file>
     </qresource>
+    <qresource prefix="/audio">
+        <file>audio/bullet.wav</file>
+        <file>audio/enemydamagecastle.mp3</file>
+        <file>audio/enemydamagefence.wav</file>
+        <file>audio/workerspwan.mp3</file>
+    </qresource>
 </RCC>

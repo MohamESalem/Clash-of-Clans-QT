@@ -34,18 +34,18 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence)
 // PASS THEM BE REFERENCE FOR ENEMY DAMAGING FENCE
 // LOOK AT DECREMENTHEALTH() IN CASTLE CLASS
 {
-    // audio
-    QMediaPlayer *sound = new QMediaPlayer;
-    QAudioOutput *audio = new QAudioOutput;
+    QMediaPlayer* sound = new QMediaPlayer();
+    QAudioOutput* audio = new QAudioOutput();
     sound->setAudioOutput(audio);
-    sound->setSource(QUrl::fromLocalFile("D:/code/university/CSII Lab/Clash-of-Clans-QT/audio/enemydamagefence.wav"));
+    sound->setSource(QUrl("qrc:/audio/audio/enemydamagefence.wav"));
     audio->setVolume(50);
-        sound->play();
+
     if(finished) {
         damageFence->stop();
         moveTimer->start(50);
     } else {
         health -= x;
+        sound->play();
         if(!isHealthBarShown) {
             healthBar->show();
             isHealthBarShown = true;
@@ -77,6 +77,7 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence)
         }
         else {
             // enemy destroys the fence when the fence's health goes below zero
+            sound->play();
             if(healGroup) healGroup->changeAvailability(true);
             if(isHealthBarShown) healthBar->hide();
             // qDebug() << "Removing this fence: " << getX() << ' ' << getY() << '\n';

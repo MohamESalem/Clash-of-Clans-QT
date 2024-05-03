@@ -21,7 +21,7 @@ Bullet::Bullet() {
     QMediaPlayer *sound = new QMediaPlayer;
     QAudioOutput *audio = new QAudioOutput;
     sound->setAudioOutput(audio);
-    sound->setSource(QUrl::fromLocalFile("D:/code/university/CSII Lab/Clash-of-Clans-QT/audio/bullet.wav"));
+    sound->setSource(QUrl("qrc:/audio/audio/bullet.wav"));
     audio->setVolume(50);
     sound->play();
 }
