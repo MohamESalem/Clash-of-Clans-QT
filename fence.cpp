@@ -1,6 +1,8 @@
 #include "fence.h"
 #include "game.h"
 #include "worker.h"
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 extern Game* game;
 
@@ -32,6 +34,13 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence)
 // PASS THEM BE REFERENCE FOR ENEMY DAMAGING FENCE
 // LOOK AT DECREMENTHEALTH() IN CASTLE CLASS
 {
+    // audio
+    QMediaPlayer *sound = new QMediaPlayer;
+    QAudioOutput *audio = new QAudioOutput;
+    sound->setAudioOutput(audio);
+    sound->setSource(QUrl::fromLocalFile("D:/code/university/CSII Lab/Clash-of-Clans-QT/audio/enemydamagefence.wav"));
+    audio->setVolume(50);
+        sound->play();
     if(finished) {
         damageFence->stop();
         moveTimer->start(50);
@@ -80,6 +89,7 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence)
             return;
         }
     }
+
 }
 
 

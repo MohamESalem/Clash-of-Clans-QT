@@ -5,6 +5,8 @@
 #include <qmath.h>
 #include <QDebug>
 #include <QGraphicsScene>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 Bullet::Bullet() {
     // initialize the bullet picture and dimensions
@@ -15,6 +17,13 @@ Bullet::Bullet() {
     timer->start(50);
     damage = 20;
     setZValue(5);
+    //play sound
+    QMediaPlayer *sound = new QMediaPlayer;
+    QAudioOutput *audio = new QAudioOutput;
+    sound->setAudioOutput(audio);
+    sound->setSource(QUrl::fromLocalFile("D:/code/university/CSII Lab/Clash-of-Clans-QT/audio/bullet.wav"));
+    audio->setVolume(50);
+    sound->play();
 }
 
 int Bullet::getDamage() {return damage;}
@@ -52,3 +61,4 @@ void Bullet::move() {
         delete this;
     }
 }
+

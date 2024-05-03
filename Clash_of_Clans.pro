@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -57,6 +57,10 @@ RESOURCES += \
     res.qrc
 
 DISTFILES += \
+    audio/bullet.wav \
+    audio/enemydamagecastle.mp3 \
+    audio/enemydamagefence.wav \
+    audio/workerspwan.mp3 \
     img/background.jpeg \
     img/background.png \
     img/cannon.png \
