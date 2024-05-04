@@ -20,6 +20,7 @@
 #include "workersclan.h"
 #include "fence.h"
 #include "graph.h"
+#include "enemy.h"
 
 class Game : public QGraphicsView
 {
@@ -79,6 +80,10 @@ public:
     Fence* test3;
     Graph* graph;
     void makeGraph(QString path);
+    //
+    void updateEnemyPath();
+    QList<Enemy*> enemies;
+
 
 
 

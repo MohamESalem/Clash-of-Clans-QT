@@ -24,6 +24,8 @@ public:
     int getMaxHealth();
     void setHealth(int);
     void decrementHealth(int,QTimer*&,QTimer*&);
+    void decrementHealth(int);
+
     void incrementHealth(int,QTimer*&,QTimer*&);
     WorkersClan* getHealGroup();
     void setHealGroup(WorkersClan*);

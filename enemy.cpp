@@ -14,7 +14,7 @@ Enemy::Enemy(int x, int y)
 {
     // set the picture
 
-    imgLen = 52;
+    imgLen = 50;
     QPixmap enemyImg(":/images/img/enemy/enemy.png");
     enemyImg = enemyImg.scaled(imgLen, imgLen);
     setPixmap(enemyImg);
@@ -237,4 +237,13 @@ void Enemy::attackCastle() {
     moveTimer->stop();
     damageTimer->start(800);
     attackTimer->start(160);
+}
+
+void Enemy::updatePath()
+{
+    moveTimer->stop();
+    path = game->graph->aStarAlgo(game->graph->findNode(y()/50,x()/50),game->graph->findNode(castle->row,castle->col));
+    // qDebug() << "calld";
+    curr=1;
+    moveTimer->start(50);
 }

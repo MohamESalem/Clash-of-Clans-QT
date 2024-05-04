@@ -19,6 +19,57 @@ int Graph::getWeight(Node *first, Node *second) const
     return weight;
 }
 
+void Graph::editStrength(int x, int y, int strength)
+{
+    findNode(x,y)->setStrength(strength);
+    //redrawing the graph
+    int i = x;
+    int j = y;
+    if(i!=11) {
+        // this->removeEdge(this->findNode(i,j), this->findNode(i+1,j));
+        this->editEdge(this->findNode(i,j), this->findNode(i+1,j));
+    }
+
+    if(i!=0) {
+        // this->removeEdge(this->findNode(i,j), this->findNode(i-1,j));
+        this->editEdge(this->findNode(i,j), this->findNode(i-1,j));
+    }
+
+    if(j!=0) {
+        // this->removeEdge(this->findNode(i,j), this->findNode(i,j-1));
+        this->editEdge(this->findNode(i,j), this->findNode(i,j-1));
+    }
+
+    if(j!=15) {
+        // this->removeEdge(this->findNode(i,j), this->findNode(i,j+1));
+        this->editEdge(this->findNode(i,j), this->findNode(i,j+1));
+    }
+
+    if(i!=0 && j!=0) {
+        // this->removeEdge(this->findNode(i,j), this->findNode(i-1,j-1));
+        this->editEdge(this->findNode(i,j), this->findNode(i-1,j-1));
+    }
+
+    if(i!=11 && j!=0) {
+        // this->removeEdge(this->findNode(i,j), this->findNode(i+1,j-1));
+        this->editEdge(this->findNode(i,j), this->findNode(i+1,j-1));
+    }
+
+    if(i!=11 && j!=0) {
+        // this->removeEdge(this->findNode(i,j), this->findNode(i+1,j-1));
+        this->editEdge(this->findNode(i,j), this->findNode(i+1,j-1));
+    }
+
+    if(i!=11 && j!=15) {
+        // this->removeEdge(this->findNode(i,j), this->findNode(i+1,j+1));
+        this->editEdge(this->findNode(i,j), this->findNode(i+1,j+1));
+    }
+
+    this->editEdge(this->findNode(i,j), this->findNode(i-1,j+1));
+
+
+}
+
 Node* Graph::makeNode(int x, int y, int strength)
 {
     Node* newNode = new Node(x, y, strength);
@@ -60,6 +111,16 @@ void Graph::removeEdge(Node *first, Node *second)
     for (auto it = adjList[first].begin(); it != adjList[first].end(); ++it) {
         if(it->first== second) {
             adjList[first].erase(it);
+        }
+    }
+}
+
+void Graph::editEdge(Node *first, Node *second)
+{
+    int weight = getWeight(first, second);
+    for(auto& it: adjList[first]) {
+        if(it.first==second) {
+            it.second = weight;
         }
     }
 }

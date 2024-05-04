@@ -57,6 +57,7 @@ public:
     void attackAnimate();
     void attackFence(Fence*&);
     void attackCastle();
+    void updatePath();
     Node* position;
     vector<Node*> path;
     int row;

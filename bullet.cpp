@@ -7,6 +7,9 @@
 #include <QGraphicsScene>
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include "game.h"
+
+extern Game* game;
 
 Bullet::Bullet() {
     // initialize the bullet picture and dimensions
@@ -35,7 +38,10 @@ void Bullet::move() {
     QList<QGraphicsItem *> collided_items = collidingItems();
     foreach(auto& item, collided_items) {
         if(typeid(*item) == typeid(Enemy)) {
-            dynamic_cast<Enemy*> (item)->decrementHealth(damage);
+            Enemy* e = dynamic_cast<Enemy*> (item);
+            e->decrementHealth(damage);
+
+            game->enemies.removeAll(e);
             // remove the bullet from the scene
             scene()->removeItem(this);
             // release the memory from the heap

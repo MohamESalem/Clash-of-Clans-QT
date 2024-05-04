@@ -36,11 +36,11 @@ void Game::makeGraph(QString path)
             tmp.toInt();
             int weight=1;
             if(tmp.toInt()==3) {
-                weight = 5;
+                weight = 6;
             }
 
             else if(tmp.toInt() ==1 || tmp.toInt()==2 || tmp.toInt()==4) {
-                weight = 20;
+                weight = 6;
             }
             Node* node = graph->makeNode(i,j,weight);
             graph->addNode(node);
@@ -92,6 +92,23 @@ void Game::makeGraph(QString path)
 
 }
 
+void Game::updateEnemyPath()
+{
+    // foreach (auto& item, scene->items()) { // use auto keyword
+    //     Enemy *e = dynamic_cast<Enemy*>(item); // use qobject_cast
+    //     if (e) { // check if cast is successful
+    //         // qDebug() << "called";
+    //         e->updatePath();
+    //     }
+    // }
+
+    foreach (auto& item, enemies) {
+        if (item!= nullptr) {
+            item->updatePath();
+        }
+    }
+}
+
 
 //.create a startMenu .add to scene
 
@@ -113,7 +130,7 @@ void Game::start() {
     makeGraph(":/board/boardFiles/board1.txt");
     // int x = castle->getX();
     // int y = castle->getY();
-
+    // graph->editStrength(3,5,1);
     // std::vector<Node*> path = graph->aStarAlgo(graph->findNode(0,0),graph->findNode(6,7));
     // for (size_t i = 0; i < path.size(); ++i) {
     //     qDebug() << path[i]->getX() << " " << path[i]->getY() << " ";
@@ -137,17 +154,22 @@ void Game::start() {
 
     // start the timers
     gameTimer->start(1000);
-    enemyTimer->start(4000);
-    // spawnEnemies();
+    enemyTimer->start(3000);
+
     // spawnEnemies();
 
     show();
 
+    // delay(2);
+    // testFence->decrementHealth(80);
+    // spawnEnemies();
+
+
     // stops group 2 for testing
-    group1->isAllClanDead = true;
-    group1->changeAvailability(false);
-    group2->isAllClanDead = true;
-    group2->changeAvailability(false);
+    // group1->isAllClanDead = true;
+    // group1->changeAvailability(false);
+    // group2->isAllClanDead = true;
+    // group2->changeAvailability(false);
 
     // // testing WorkersClan
     // delay(3);
@@ -219,7 +241,7 @@ void Game::drawBoard(QString path) {
                 Fence* f = new Fence(x, y);
                 scene->addItem(f);
                 f->setZValue(1);
-                if(i == 5 && j == 3) {
+                if(i == 3 && j == 5) {
                     testFence = f;
                 } else if(i == 7 && j == 12) {
                     test2 = f;
@@ -358,7 +380,7 @@ void Game::spawnEnemies() {
     // Enemy* e = new Enemy(0, 0);
     // scene->addItem(e);
 
-    // srand(time(0));
+    srand(time(0));
     int i = rand() % 4;
     int randX = rand() % 10, randY = rand() % 10;
     int x= randX*50, y=randY*50;
@@ -385,6 +407,7 @@ void Game::spawnEnemies() {
         scene->addItem(enemy);
     }
 
+    enemies.append(enemy);
 
 
 
