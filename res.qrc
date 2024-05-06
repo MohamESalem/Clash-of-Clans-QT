@@ -37,8 +37,9 @@
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>
-        <file>audio/enemydamagecastle.mp3</file>
-        <file>audio/enemydamagefence.wav</file>
-        <file>audio/workerspwan.mp3</file>
+        <file>audio/enemydamagefenceandcastle.wav</file>
+        <file>audio/bullethitsenemy2.wav</file>
+        <file>audio/enemydies.wav</file>
+        <file>audio/wokerspawn.mp3</file>
     </qresource>
 </RCC>

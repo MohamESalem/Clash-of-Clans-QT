@@ -1,10 +1,19 @@
 #include "worker.h"
 #include "game.h"
 #include "enemy.h"
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 extern Game* game;
 
 Worker::Worker(WorkersClan* g, int index) {
+    //spawn audio
+    QMediaPlayer* sound = new QMediaPlayer();
+    QAudioOutput* audio = new QAudioOutput();
+    sound->setAudioOutput(audio);
+    sound->setSource(QUrl("qrc:/audio/audio/workerspwan.mp3"));
+    audio->setVolume(50);
+    sound->play();
     // set the workers' appearance
     imgLen = 50;
     setPixmap(QPixmap(":/images/img/citizen_workers/worker.png").scaled(imgLen, imgLen));
@@ -87,6 +96,12 @@ void Worker::healFence(Fence*f)
 }
 
 void Worker::die() {
+    //audio
+    QMediaPlayer* sound = new QMediaPlayer();
+    QAudioOutput* audio = new QAudioOutput();
+    sound->setAudioOutput(audio);
+    sound->setSource(QUrl("qrc:/audio/audio/enemydies.wav"));
+    audio->setVolume(50);
     finished = true;
     healAnimationTimer->stop();
     healTimer->stop();

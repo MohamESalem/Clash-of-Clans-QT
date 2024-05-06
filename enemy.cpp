@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include "worker.h"
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 extern Game* game;
 
@@ -183,6 +185,16 @@ void Enemy::setHealth(int x)
 
 void Enemy::decrementHealth(int x)
 {
+    if(health > 20) // do not play in last hit
+    {
+        //audio
+        QMediaPlayer* s = new QMediaPlayer();
+        QAudioOutput* a = new QAudioOutput();
+        s->setAudioOutput(a);
+        s->setSource(QUrl("qrc:/audio/audio/bullethitsenemy2.wav"));
+        a->setVolume(50);
+        s->play();
+    }
     health -= x;
     if(!isHealthBarShown) {
         isHealthBarShown = true;
@@ -191,6 +203,13 @@ void Enemy::decrementHealth(int x)
     }
     healthBar->decrementCurrHealth(x);
     if(health <= 0) {
+        //death audio
+        QMediaPlayer* sound = new QMediaPlayer();
+        QAudioOutput* audio = new QAudioOutput();
+        sound->setAudioOutput(audio);
+        sound->setSource(QUrl("qrc:/audio/audio/enemydies.wav"));
+        audio->setVolume(100);
+        sound->play();
         // remove the enemy if its health goes below zero
         if(isHealthBarShown) healthBar->hide();
         game->getScene()->removeItem(this);

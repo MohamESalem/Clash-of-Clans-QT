@@ -58,9 +58,8 @@ RESOURCES += \
 
 DISTFILES += \
     audio/bullet.wav \
-    audio/enemydamagecastle.mp3 \
     audio/enemydamagefence.wav \
-    audio/workerspwan.mp3 \
+    audio/enemydamagefenceandcastle.wav \
     img/background.jpeg \
     img/background.png \
     img/cannon.png \
