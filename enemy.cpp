@@ -7,12 +7,9 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include "worker.h"
-<<<<<<< HEAD
 #include "graph.h"
-=======
 #include <QMediaPlayer>
 #include <QAudioOutput>
->>>>>>> af580c69d7aa0cd08e535a3b7d6c3250afdc24c3
 
 extern Game* game;
 
@@ -221,11 +218,9 @@ void Enemy::decrementHealth(int x)
         game->mDelay(80);
     }
     healthBar->decrementCurrHealth(x);
-<<<<<<< HEAD
     if(health <= 0 && !finished) {
         finished = true;
         // remove the enemy if its health goes below zero)
-=======
     if(health <= 0) {
         //death audio
         QMediaPlayer* sound = new QMediaPlayer();
@@ -235,15 +230,14 @@ void Enemy::decrementHealth(int x)
         audio->setVolume(100);
         sound->play();
         // remove the enemy if its health goes below zero
->>>>>>> af580c69d7aa0cd08e535a3b7d6c3250afdc24c3
         if(isHealthBarShown) healthBar->hide();
         game->getScene()->removeItem(this);
         if(game->enemies.contains(this))
             game->enemies.removeAll(this);
         delete this;
     }
+    }
 }
-
 
 void Enemy::incrementHealth(int x)
 {
