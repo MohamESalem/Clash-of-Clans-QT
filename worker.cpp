@@ -87,7 +87,7 @@ void Worker::healFence(Fence*f)
             foreach(auto& item, collided_items) {
                 if(typeid(*item) == typeid(Enemy)) {
                     getGroup()->changeIsAlive(getClanIndex());
-                    die();
+                    // die();
                     finished = true;
                     return;
                 }

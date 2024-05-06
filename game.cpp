@@ -22,6 +22,7 @@ Game::Game() {
     setWindowIcon(QIcon(":/images/img/icon.png"));
     testFence = test2 = NULL;
     startEnemy = {8000, 6000, 4000, 2000, 1000};
+    castleHealth = 100;
 }
 
 // graph-related functions
@@ -139,7 +140,7 @@ void Game::start(int level) {
     gameTimer = new QTimer(this);
     connect(gameTimer, SIGNAL(timeout()), this, SLOT(updateTimer()));
     enemyTimer = new QTimer(this);
-    connect(enemyTimer, &QTimer::timeout, [this, level]() {
+    connect(enemyTimer, &QTimer::timeout, [this]() {
         this->spawnEnemies();
     });
 

@@ -196,6 +196,7 @@ void Fence::incrementHealth(int x, QTimer*& returnTimer, QTimer*& healTimer)
             healthBar->incrementCurrHealth(x);
             game->mDelay(125);
             healthBar->hide();
+            isHealthBarShown = false;
 
             // code to check if there are other damaged fences before returning back
             // if(!game->damagedFence.isEmpty()) {
