@@ -87,7 +87,7 @@ void Worker::healFence(Fence*f)
             foreach(auto& item, collided_items) {
                 if(typeid(*item) == typeid(Enemy)) {
                     getGroup()->changeIsAlive(getClanIndex());
-                    // die();
+                    die();
                     finished = true;
                     return;
                 }
@@ -115,7 +115,7 @@ void Worker::die() {
     healTimer->stop();
     for(int i = 0; i < dieImgs.size(); i++) {
         if(!game->getScene()->items().isEmpty()) setPixmap(QPixmap(dieImgs[i]).scaled(imgLen, imgLen));
-        game->mDelay(60);
+        game->mDelay(55);
     }
     game->getScene()->removeItem(this);
     delete this;
