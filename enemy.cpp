@@ -16,7 +16,7 @@ Enemy::Enemy(int x, int y)
 {
     // set the picture
 
-    imgLen = 52;
+    imgLen = 48;
     QPixmap enemyImg(":/images/img/enemy/enemy.png");
     enemyImg = enemyImg.scaled(imgLen, imgLen);
     setPixmap(enemyImg);
@@ -44,22 +44,35 @@ Enemy::Enemy(int x, int y)
     col =x/50;
 
     path = game->graph->aStarAlgo(game->graph->findNode(row, col), game->graph->findNode(castle->row,castle->col));
-    //will need to change this to castle position
 
-
+    // fill walkImgs QStringList
+    walkImgs.append(":/images/img/enemy/walk/1.png");
+    walkImgs.append(":/images/img/enemy/walk/2.png");
+    // walkImgs.append(":/images/img/enemy/walk/3.png");
+    // walkImgs.append(":/images/img/enemy/walk/4.png");
+    // walkImgs.append(":/images/img/enemy/walk/5.png");
+    walkImgs.append(":/images/img/enemy/walk/6.png");
+    walkImgs.append(":/images/img/enemy/walk/7.png");
 
     // fill the attackImgs QStringList
     attackImgs.append(":/images/img/enemy/enemy.png");
-    attackImgs.append(":/images/img/enemy/1.png");
-    attackImgs.append(":/images/img/enemy/2.png");
-    attackImgs.append(":/images/img/enemy/3.png");
-    attackImgs.append(":/images/img/enemy/4.png");
+    attackImgs.append(":/images/img/enemy/attack/1.png");
+    attackImgs.append(":/images/img/enemy/attack/2.png");
+    attackImgs.append(":/images/img/enemy/attack/3.png");
+    attackImgs.append(":/images/img/enemy/attack/4.png");
+
     // timers
     attackTimer = new QTimer(this);
     connect(attackTimer, &QTimer::timeout, [this]() {
         static int i = 0;
         if(!attackImgs.isEmpty()) setPixmap(QPixmap(attackImgs[i]).scaled(imgLen,imgLen));
         i = (i + 1) % attackImgs.size();
+    });
+    walkTimer = new QTimer(this);
+    connect(walkTimer, &QTimer::timeout, [this]() {
+        static int i = 0;
+        if(!walkImgs.isEmpty()) setPixmap(QPixmap(walkImgs[i]).scaled(imgLen, imgLen));
+        i = (i + 1) % walkImgs.size();
     });
     damageTimer = new QTimer(this);
     moveTimer = new QTimer(this);
@@ -68,8 +81,9 @@ Enemy::Enemy(int x, int y)
         this->moveRandomly();
         this->moveHealthBar();
     });
-    moveTimer->start(50);
 
+    moveTimer->start(50);
+    walkTimer->start(160);
 }
 
 Enemy::~Enemy() {attackImgs.clear();}
@@ -88,11 +102,12 @@ void Enemy::moveRandomly() {
 
 
 
-    setPixmap(QPixmap(attackImgs[0]).scaled(imgLen,imgLen));
+    // setPixmap(QPixmap(attackImgs[0]).scaled(imgLen,imgLen));
     attackTimer->stop();
+    // walkTimer->start(200);
     // int detOffset = 45;
     int detX = path[curr]->xPos,
-        detY =path[curr]->yPos;
+        detY = path[curr]->yPos;
 
     // move to the destination
     // const int STEP_SIZE = 2; // this represents the velocity of the worker
@@ -110,7 +125,7 @@ void Enemy::moveRandomly() {
         // setPos(path[curr]->xPos - offsetX, path[curr]->yPos - offsetY);
         curr++;
     } // else {
-        setPos(x() + dx, y() + dy);
+    setPos(x() + dx, y() + dy);
     // }
 
     // handle collisions
@@ -118,8 +133,10 @@ void Enemy::moveRandomly() {
     foreach(auto& item, collided_items) {
         if(typeid(*item) == typeid(Fence)) {
             Fence *f = dynamic_cast<Fence*>(item);
-            if(f != NULL && f->getHealth() > 0)
+            if(f != NULL && f->getHealth() > 0) {
+                setPos(x(), y());
                 attackFence(f);
+            }
             return;
 
 
@@ -130,7 +147,7 @@ void Enemy::moveRandomly() {
           Worker *w = dynamic_cast<Worker *>(item);
           if (w && !w->isFinished()) {
             // attackAnimate();
-            qDebug() << "called\n";
+            // qDebug() << "called\n";
             w->getGroup()->changeIsAlive(w->getClanIndex());
             attackTimer->start(60);
             // w->getHealAnimationTimer()->stop();
@@ -213,6 +230,7 @@ void Enemy::decrementHealth(int x)
         // remove the enemy if its health goes below zero
         if(isHealthBarShown) healthBar->hide();
         game->getScene()->removeItem(this);
+        game->enemies.removeAll(this);
         delete this;
     }
 }
@@ -240,9 +258,10 @@ void Enemy::attackFence(Fence *&f) {
     if(f != NULL && f->getHealth() > 0) {
         disconnect(damageTimer, &QTimer::timeout, nullptr, nullptr);
         connect(damageTimer, &QTimer::timeout, [this,f]() {
-            f->decrementHealth(this->damage, this->moveTimer, this->damageTimer);
+            f->decrementHealth(this->damage);
         });
         moveTimer->stop();
+        walkTimer->stop();
         damageTimer->start(800);
         attackTimer->start(160);
     }
@@ -254,6 +273,19 @@ void Enemy::attackCastle() {
         game->getCastle()->decrementCurrHealth(this->damage);
     });
     moveTimer->stop();
+    walkTimer->stop();
     damageTimer->start(800);
     attackTimer->start(160);
+}
+
+void Enemy::updatePath()
+{
+    damageTimer->stop();
+    moveTimer->stop();
+    walkTimer->stop();
+    path = game->graph->aStarAlgo(game->graph->findNode(y()/50,x()/50),game->graph->findNode(castle->row,castle->col));
+    // qDebug() << "calld";
+    curr = 1;
+    moveTimer->start(50);
+    walkTimer->start(160);
 }

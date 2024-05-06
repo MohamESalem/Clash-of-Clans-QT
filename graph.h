@@ -13,11 +13,13 @@ public:
     void addEdge(Node* first, Node* second);
     void removeNode(Node* node);
     void removeEdge(Node* first, Node* second);
+    void editEdge(Node* first, Node* second);
     Node* findNode(int x, int y);
     bool isEdgeExist(Node* first, Node* second);
     std::vector<Node*> aStarAlgo(Node* first, Node* second);
     int getWeight(Node* first, Node* second) const;
     std::vector<Node*> getNeighbors(Node* node);
+    void editStrength(int x,int y, int strength);
 
 };
 

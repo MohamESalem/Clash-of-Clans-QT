@@ -24,27 +24,22 @@ Game::Game() {
 
 }
 
-void Game::makeGraph(QString path)
+// graph-related functions
+void Game::makeGraph()
 {
-    QFile file(path);
-    file.open(QIODevice::ReadOnly);
-    QTextStream stream(&file);
+
     for(int i = 0; i < 12; i++) {
         for(int j = 0; j < 16; j++) {
-            QString tmp;
-            stream >> tmp;
-            tmp.toInt();
-            int weight=1;
-            if(tmp.toInt()==3) {
-                weight = 5;
-            }
 
-            else if(tmp.toInt() ==1 || tmp.toInt()==2 || tmp.toInt()==4) {
+            int weight = 1;
+            if(boardData[i][j] == 3) {
+                weight = 3;
+            }
+            else if(boardData[i][j] == 2 || boardData[i][j] == 4) {
                 weight = 20;
             }
             Node* node = graph->makeNode(i,j,weight);
             graph->addNode(node);
-
         }
     }
 
@@ -92,8 +87,15 @@ void Game::makeGraph(QString path)
 
 }
 
-
-//.create a startMenu .add to scene
+void Game::updateEnemyPath()
+{
+    // qDebug() << "Called\n";
+    foreach (auto& item, enemies) {
+        if (item != NULL) {
+            item->updatePath();
+        }
+    }
+}
 
 void Game::start() {
 
@@ -106,14 +108,16 @@ void Game::start() {
     duration = 1 * 60;
     underExec = false;
     tent1 = tent2 = NULL;
+    enemies.clear();
+    damagedFence.clear();
 
     //draw board
     drawBoard(":/board/boardFiles/board1.txt");
     // graph->addNode(graph->makeNode(1,2,5));
-    makeGraph(":/board/boardFiles/board1.txt");
+    makeGraph();
     // int x = castle->getX();
     // int y = castle->getY();
-
+    // graph->editStrength(3,5,1);
     // std::vector<Node*> path = graph->aStarAlgo(graph->findNode(0,0),graph->findNode(6,7));
     // for (size_t i = 0; i < path.size(); ++i) {
     //     qDebug() << path[i]->getX() << " " << path[i]->getY() << " ";
@@ -138,32 +142,39 @@ void Game::start() {
     // start the timers
     gameTimer->start(1000);
     enemyTimer->start(4000);
-    // spawnEnemies();
+
     // spawnEnemies();
 
     show();
 
-    // stops group 2 for testing
-    group1->isAllClanDead = true;
-    group1->changeAvailability(false);
-    group2->isAllClanDead = true;
-    group2->changeAvailability(false);
+    // delay(2);
+    // testFence->decrementHealth(80);
+    // spawnEnemies();
+
+
+    // stops groups 1 and 2 for testing
+    // group1->isAllClanDead = true;
+    // group1->changeAvailability(false);
+    // group2->isAllClanDead = true;
+    // group2->changeAvailability(false);
 
     // // testing WorkersClan
-    // delay(3);
+    // delay(1);
     // if(test2) {
     //     // qDebug() << "Begin!\n";
     //     test2->decrementHealth(40);
-    // }
-    // delay(3);
-    // if(testFence) {
-    //     qDebug() << "New Test!\n";
-    //     testFence->decrementHealth(10);
-    //     qDebug() << "Test2 health = " << testFence->getHealth() << '\n';
+    //     // delay(1);
+    //     // test2->decrementHealth(30);
     // }
     // delay(1);
+    // if(testFence) {
+    //     // qDebug() << "New Test!\n";
+    //     testFence->decrementHealth(30);
+    //     // qDebug() << "Test2 health = " << testFence->getHealth() << '\n';
+    // }
+    // // // delay(1);
     // if(test3) {
-    //     qDebug() << "Hopefully, last test!\n";
+    //     // qDebug() << "Hopefully, last test!\n";
     //     test3->decrementHealth(40);
     // }
 
@@ -219,7 +230,7 @@ void Game::drawBoard(QString path) {
                 Fence* f = new Fence(x, y);
                 scene->addItem(f);
                 f->setZValue(1);
-                if(i == 5 && j == 3) {
+                if(i == 3 && j == 5) {
                     testFence = f;
                 } else if(i == 7 && j == 12) {
                     test2 = f;
@@ -355,8 +366,8 @@ WorkersClan *Game::getGroup2() {return group2;}
 
 void Game::spawnEnemies() {
     // // test
-    // Enemy* e = new Enemy(0, 0);
-    // scene->addItem(e);
+    // Enemy* enemy = new Enemy(300, 500);
+    // scene->addItem(enemy);
 
     // srand(time(0));
     int i = rand() % 4;
@@ -385,6 +396,7 @@ void Game::spawnEnemies() {
         scene->addItem(enemy);
     }
 
+    enemies.append(enemy);
 
 
 

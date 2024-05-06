@@ -18,6 +18,8 @@ Worker::Worker(WorkersClan* g, int index) {
     imgLen = 50;
     setPixmap(QPixmap(":/images/img/citizen_workers/worker.png").scaled(imgLen, imgLen));
     setTransformOriginPoint(imgLen/2.0, imgLen/2.0);
+    offsetX = boundingRect().width()/2.0;
+    offsetY = boundingRect().height()/2.0;
 
     // set the parameters & privat attributes
     group = g;
@@ -54,7 +56,13 @@ Worker::Worker(WorkersClan* g, int index) {
     dieImgs.append(":/images/img/citizen_workers/die/6.png");
 
     // start the moveTimer
-    moveTimer->start(250);
+    STEP_SIZE = 15; // this represents the velocity of the worker
+    // qDebug() << "in constructor";
+    changePath(group->getDetX(), group->getDetY());
+    // for(size_t i = 0; i < path.size(); i++) {
+    //     qDebug() << path[i]->getX() << " " << path[i]->getY();
+    // }
+    moveTimer->start(190);
 }
 
 int Worker::getHealAbility(){return healAbility;}
@@ -91,7 +99,7 @@ void Worker::healFence(Fence*f)
         healTimer->start(1000);
         healAnimationTimer->start(1000.0/healImgs.size());
     } else {
-        returnTimer->start(250);
+        returnTimer->start(190);
     }
 }
 
@@ -107,7 +115,7 @@ void Worker::die() {
     healTimer->stop();
     for(int i = 0; i < dieImgs.size(); i++) {
         if(!game->getScene()->items().isEmpty()) setPixmap(QPixmap(dieImgs[i]).scaled(imgLen, imgLen));
-        game->mDelay(85);
+        game->mDelay(60);
     }
     game->getScene()->removeItem(this);
     delete this;
@@ -119,42 +127,69 @@ bool Worker::isFinished()
     return finished;
 }
 
+void Worker::changePath(int x, int y)
+{
+    // qDebug() << "calling changePath()";
+    // qDebug() << "x = " << x << ", y = " << y;
+    curr = 1;
+    path = game->graph->aStarAlgo(game->graph->findNode(this->y()/50, this->x()/50), game->graph->findNode(y/50,x/50));
+    // for(size_t i = 0; i < path.size(); i++) {
+    //     qDebug() << path[i]->getX() << ' ' << path[i]->getY();
+    // }
+    // qDebug() << '\n';
+}
+
 void Worker::move() {
 
     if(group->getAvailability()) {
         // the fence was destroyed
+        // qDebug() << "move() first if statement";
+        changePath(group->getTent()->getCol() * 50, group->getTent()->getRow() * 50);
         moveTimer->stop();
-        returnTimer->start(250);
+        returnTimer->start(190);
         return;
-    } else {
-        // the workers are under mission
-        // stop the animation timer (if it was already started)
-        healAnimationTimer->stop();
-        setPixmap(QPixmap(":/images/img/citizen_workers/worker.png").scaled(imgLen, imgLen));
-        QList<QGraphicsItem *> collided_items = collidingItems();
-        foreach(auto& item, collided_items) {
-            if(typeid(*item) == typeid(Fence)) {
+    }
 
-                Fence* f = dynamic_cast<Fence*>(item);
-                if(f != NULL && f->getHealth() != f->getMaxHealth()) {
-                        moveTimer->stop();
-                        healFence(f);
-                        return;
-                }
-
+    // the workers are under mission
+    // stop the animation timer (if it was already started)
+    healAnimationTimer->stop();
+    setPixmap(QPixmap(":/images/img/citizen_workers/worker.png").scaled(imgLen, imgLen));
+    QList<QGraphicsItem *> collided_items = collidingItems();
+    foreach(auto& item, collided_items) {
+        if(typeid(*item) == typeid(Fence)) {
+            Fence* f = dynamic_cast<Fence*>(item);
+            if(f != NULL && f->getHealth() != f->getMaxHealth()) {
+                    // qDebug() << "Healing!\n";
+                    setPos(x() - 10, y() - 10);
+                    moveTimer->stop();
+                    healFence(f);
+                    return;
             }
+
         }
     }
 
+    // qDebug() << "moving";
     // // move to the destination
-    const int STEP_SIZE = 20; // this represents the velocity of the worker
-    QLineF ln(QPointF(x(), y()), QPointF(group->getDetX(), group->getDetY()));
+    QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->xPos, path[curr]->yPos));
     double angle = -1 * ln.angle();
+    // qDebug() << "curr = " << curr;
+    // qDebug() << path[curr]->getX() << ' ' << path[curr]->getY() << '\n';
 
     double theta = angle; // degrees
 
     double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
     double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
+
+    // Handling A* algorithm
+    if(curr < int(path.size())) {
+        double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
+        double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
+
+        if(d2 >= d1) {
+            curr++;
+        }
+    }
 
     setPos(x()+dx, y()+dy);
 
@@ -163,18 +198,26 @@ void Worker::move() {
 
 void Worker::returnBack() {
 
+    if(!game->damagedFence.isEmpty()) {
+        // qDebug() << "Heading to a new fence\n";
+        Fence* f = game->damagedFence.first();
+        f->setHealGroup(group);
+        f->getHealGroup()->createWorkers(f->getX(), f->getY());
+        game->damagedFence.removeFirst();
+        group->changeAvailability(false);
+    }
+
     if(!group->getAvailability()) {
+        // qDebug() << "in returnBack() second if";
+        changePath(group->getDetX(), group->getDetY());
         returnTimer->stop();
-        moveTimer->start(250);
+        moveTimer->start(190);
         return;
     }
 
     // stop the animation timer (if it was already started)
     healAnimationTimer->stop();
     setPixmap(QPixmap(":/images/img/citizen_workers/worker.png").scaled(imgLen, imgLen));
-
-    int tentX = group->getTent()->getX(),
-        tentY = group->getTent()->getY();
 
     QList<QGraphicsItem *> collided_items = collidingItems();
     foreach(auto& item, collided_items) {
@@ -187,8 +230,7 @@ void Worker::returnBack() {
         }
     }
 
-    const int STEP_SIZE = 20; // this rep resents the velocity of the worker
-    QLineF ln(QPointF(x(), y()), QPointF(tentX, tentY));
+    QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->xPos, path[curr]->yPos));
 
     double angle = -1 * ln.angle();
 
@@ -196,6 +238,14 @@ void Worker::returnBack() {
 
     double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
     double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
+
+    // Handling A* algorithm
+    double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
+    double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
+
+    if(d2 >= d1) {
+        curr++;
+    }
 
     setPos(x()+dx, y()+dy);
 }
