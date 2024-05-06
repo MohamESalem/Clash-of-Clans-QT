@@ -30,7 +30,7 @@ void Fence::setHealth(int x)
     health = x;
 }
 
-void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence)
+void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence, QTimer*& walkTimer)
 // PASS THEM BE REFERENCE FOR ENEMY DAMAGING FENCE
 // LOOK AT DECREMENTHEALTH() IN CASTLE CLASS
 {
@@ -41,8 +41,10 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence)
     audio->setVolume(50);
 
     if(finished) {
-        damageFence->stop();
-        moveTimer->start(50);
+        game->updateEnemyPath();
+        // damageFence->stop();
+        // moveTimer->start(50);
+        // walkTimer->start(100);
     } else {
         health -= x;
         // sound->play();
@@ -77,14 +79,17 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence)
         }
         else {
             // enemy destroys the fence when the fence's health goes below zero
-            sound->play();
+            // sound->play();
             if(healGroup) healGroup->changeAvailability(true);
             if(isHealthBarShown) healthBar->hide();
             // qDebug() << "Removing this fence: " << getX() << ' ' << getY() << '\n';
             if(!finished) scene()->removeItem(this);
             if(game->damagedFence.contains(this)) game->damagedFence.removeAll(this);
-            damageFence->stop();
-            moveTimer->start(50);
+
+            // damageFence->stop();
+            // moveTimer->start(50);
+            // walkTimer->start(200);
+
             finished = true;
             game->graph->editStrength(this->getY()/50,this->getX()/50,1);
             game->updateEnemyPath();
@@ -106,6 +111,7 @@ void Fence::decrementHealth(int x)
     audio->setVolume(50);
 
     if(finished) {
+        game->updateEnemyPath();
         // damageFence->stop();
         // moveTimer->start(50);
     } else {
@@ -142,12 +148,13 @@ void Fence::decrementHealth(int x)
         }
         else {
             // enemy destroys the fence when the fence's health goes below zero
-            sound->play();
+            // sound->play();
             if(healGroup) healGroup->changeAvailability(true);
             if(isHealthBarShown) healthBar->hide();
-            qDebug() << "Removing this fence: " << getX() << ' ' << getY() << '\n';
+            // qDebug() << "Removing this fence: " << getX() << ' ' << getY() << '\n';
             if(!finished) scene()->removeItem(this);
             if(game->damagedFence.contains(this)) game->damagedFence.removeAll(this);
+
             // damageFence->stop();
             // moveTimer->start(50);
             finished = true;

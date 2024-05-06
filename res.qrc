@@ -28,12 +28,18 @@
         <file>img/citizen_workers/die/4.png</file>
         <file>img/citizen_workers/die/5.png</file>
         <file>img/citizen_workers/die/6.png</file>
+        <file>img/enemy/attack/1.png</file>
+        <file>img/enemy/attack/2.png</file>
+        <file>img/enemy/attack/3.png</file>
+        <file>img/enemy/attack/4.png</file>
         <file>img/enemy/enemy.png</file>
-        <file>img/enemy/1.png</file>
-        <file>img/enemy/2.png</file>
-        <file>img/enemy/3.png</file>
-        <file>img/enemy/4.png</file>
-        <file>img/enemy/enemy.jpg</file>
+        <file>img/enemy/walk/1.png</file>
+        <file>img/enemy/walk/2.png</file>
+        <file>img/enemy/walk/3.png</file>
+        <file>img/enemy/walk/4.png</file>
+        <file>img/enemy/walk/5.png</file>
+        <file>img/enemy/walk/6.png</file>
+        <file>img/enemy/walk/7.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>

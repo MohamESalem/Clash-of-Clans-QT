@@ -23,7 +23,7 @@ public:
     int getHealth();
     int getMaxHealth();
     void setHealth(int);
-    void decrementHealth(int,QTimer*&,QTimer*&);
+    void decrementHealth(int,QTimer*&,QTimer*&,QTimer*&);
     void decrementHealth(int);
 
     void incrementHealth(int,QTimer*&,QTimer*&);

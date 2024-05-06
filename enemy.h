@@ -20,12 +20,14 @@ private:
     int imgLen;
     int i;
     QStringList attackImgs;
+    QStringList walkImgs;
     // int row;
     // int col;
     int health;
     QTimer* moveTimer;
     QTimer* damageTimer;
     QTimer* attackTimer;
+    QTimer* walkTimer;
     Castle* castle;
     int damage;
     HealthBar* healthBar;
