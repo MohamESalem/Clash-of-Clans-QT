@@ -66,6 +66,18 @@ void HealthBar::incrementCurrHealth(int x)
         progressBar->setBrush(green);
 }
 
+void HealthBar::setCurrHealth(int x)
+{
+    currHealth = x;
+    double per = currHealth/maxHealth;
+    int newWidth = per * width;
+    QRectF rect = progressBar->rect();
+    rect.setWidth(newWidth);
+    progressBar->setRect(rect);
+    if(per < 0.5)
+        progressBar->setBrush(Qt::red);
+}
+
 void HealthBar::show()
 {
     game->getScene()->addItem(this);

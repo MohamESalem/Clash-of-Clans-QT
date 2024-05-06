@@ -26,7 +26,7 @@ Bullet::Bullet() {
     sound->setAudioOutput(audio);
     sound->setSource(QUrl("qrc:/audio/audio/bullet.wav"));
     audio->setVolume(50);
-    // sound->play();
+    sound->play();
 }
 
 int Bullet::getDamage() {return damage;}

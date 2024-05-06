@@ -79,7 +79,7 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence, QTim
         }
         else {
             // enemy destroys the fence when the fence's health goes below zero
-            // sound->play();
+            sound->play();
             if(healGroup) healGroup->changeAvailability(true);
             if(isHealthBarShown) healthBar->hide();
             // qDebug() << "Removing this fence: " << getX() << ' ' << getY() << '\n';

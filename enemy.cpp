@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QGraphicsScene>
 #include "worker.h"
+#include "graph.h"
 
 extern Game* game;
 
@@ -28,13 +29,11 @@ Enemy::Enemy(int x, int y)
     setZValue(3);
     // set the postion
     castle = game->getCastle();
-    health = 60;
-    damage = 20;
-    STEP_SIZE = 2.5;
+    health = healthVal[game->getLevel()];
+    damage = damageVal[game->getLevel()];
+    STEP_SIZE = velocity[game->getLevel()]; // this represents the velocity of enemy
     healthBar = new HealthBar(x, y, imgLen, health, true);
-    // healthBar->show();
     isHealthBarShown = false;
-    //**************************************************
 
     //current position
     curr =1;
@@ -207,11 +206,13 @@ void Enemy::decrementHealth(int x)
         game->mDelay(80);
     }
     healthBar->decrementCurrHealth(x);
-    if(health <= 0) {
-        // remove the enemy if its health goes below zero
+    if(health <= 0 && !finished) {
+        finished = true;
+        // remove the enemy if its health goes below zero)
         if(isHealthBarShown) healthBar->hide();
         game->getScene()->removeItem(this);
-        game->enemies.removeAll(this);
+        if(game->enemies.contains(this))
+            game->enemies.removeAll(this);
         delete this;
     }
 }

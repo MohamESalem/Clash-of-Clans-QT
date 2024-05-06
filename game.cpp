@@ -21,7 +21,7 @@ Game::Game() {
     setWindowTitle("Clash Of Clans");
     setWindowIcon(QIcon(":/images/img/icon.png"));
     testFence = test2 = NULL;
-
+    startEnemy = {8000, 6000, 4000, 2000, 1000};
 }
 
 // graph-related functions
@@ -97,8 +97,10 @@ void Game::updateEnemyPath()
     }
 }
 
-void Game::start() {
+void Game::start(int level) {
 
+    this->level = level;
+    if(this->level == 0) castleHealth = 100;
     // add the scene to the view
     setScene(scene);
     // initialize variables
@@ -137,16 +139,20 @@ void Game::start() {
     gameTimer = new QTimer(this);
     connect(gameTimer, SIGNAL(timeout()), this, SLOT(updateTimer()));
     enemyTimer = new QTimer(this);
-    connect(enemyTimer, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
+    connect(enemyTimer, &QTimer::timeout, [this, level]() {
+        this->spawnEnemies();
+    });
 
     // start the timers
     gameTimer->start(1000);
-    enemyTimer->start(4000);
 
     // spawnEnemies();
 
     show();
 
+    delay(1);
+    spawnEnemies();
+    enemyTimer->start(startEnemy[level]);
     // delay(2);
     // testFence->decrementHealth(80);
     // spawnEnemies();
@@ -195,6 +201,22 @@ void Game::start() {
 
 }
 
+void Game::startNewLevel()
+{
+    // stop timers
+    gameTimer->stop();
+    enemyTimer->stop();
+    // close and show the correct windows
+    castleHealth = castle->getCurrHealth();
+    close();
+    foreach(QGraphicsItem *item, scene->items()) { // not working
+        scene->removeItem(item);
+        delete item;
+    }
+    scene->clear();
+    start(level + 1);
+}
+
 void Game::readBoardData(QString path) {
     QFile file(path);
     file.open(QIODevice::ReadOnly);
@@ -241,6 +263,7 @@ void Game::drawBoard(QString path) {
                 castle = new Castle(x, y);
                 scene->addItem(castle);
                 castle->setZValue(2);
+                castle->setCurrHealth(castleHealth);
             } else if(boardData[i][j] == 2) {
                 cannon = new Cannon(x, y);
                 scene->addItem(cannon);
@@ -291,7 +314,7 @@ void Game::showWinningWdn()
     close();
     w->show();
     // clear the scene
-    foreach(QGraphicsItem *item, scene->items()) { // not working
+    foreach(QGraphicsItem *item, scene->items()) {
         scene->removeItem(item);
         delete item;
     }
@@ -330,6 +353,7 @@ int Game::getBlockUnit() {return blockUnit;}
 Castle* Game::getCastle() {return castle;}
 Cannon* Game::getCannon() {return cannon;}
 QGraphicsScene *Game::getScene() {return scene;}
+int Game::getLevel() {return level;}
 
 
 // WorkersClan functions
@@ -366,7 +390,7 @@ WorkersClan *Game::getGroup2() {return group2;}
 
 void Game::spawnEnemies() {
     // // test
-    // Enemy* enemy = new Enemy(300, 500);
+    // Enemy* enemy = new Enemy(300, 500, level);
     // scene->addItem(enemy);
 
     // srand(time(0));
@@ -407,7 +431,11 @@ void Game::updateTimer() {
     duration--;
 
     if (duration <= 0) {
-        showWinningWdn();
+        if(level == 4) {
+            showWinningWdn();
+        } else {
+            startNewLevel();
+        }
         return;
     }
 

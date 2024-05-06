@@ -18,6 +18,7 @@ public:
     int getCurrHealth();
     void decrementCurrHealth(int);
     void incrementCurrHealth(int);
+    void setCurrHealth(int);
     void show();
     void hide();
     void move(int,int);

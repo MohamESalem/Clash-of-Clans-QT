@@ -25,6 +25,7 @@ Castle::Castle(int x, int y) {
 void Castle::setCurrHealth(int x)
 {
     currHealth = x;
+    healthBar->setCurrHealth(x);
 }
 
 void Castle::decrementCurrHealth(int x)

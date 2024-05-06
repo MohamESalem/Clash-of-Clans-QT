@@ -10,7 +10,7 @@
 #include <QGraphicsItemGroup>
 #include "castle.h"
 #include "fence.h"
-#include "graph.h"
+#include "node.h"
 
 using namespace std;
 class Enemy: public QObject, public QGraphicsPixmapItem
@@ -18,12 +18,14 @@ class Enemy: public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 private:
     int imgLen;
-    int i;
+    double velocity[5] = {2, 2.5, 3, 3.5, 4.5};
+    int healthVal[5] = {45, 55, 60, 80, 90};
+    int damageVal[5] = {5, 10, 20, 30, 40};
+    int health;
+    // images of the enemy in different positions
     QStringList attackImgs;
     QStringList walkImgs;
-    // int row;
-    // int col;
-    int health;
+    // timers
     QTimer* moveTimer;
     QTimer* damageTimer;
     QTimer* attackTimer;
@@ -32,6 +34,7 @@ private:
     int damage;
     HealthBar* healthBar;
     bool isHealthBarShown;
+    bool finished = false;
     // test
     // QGraphicsItemGroup* group;
 
@@ -50,7 +53,7 @@ public slots:
     void moveHealthBar();
 
 public:
-    Enemy(int x, int y);
+    Enemy(int,int);
     ~Enemy();
     int getHealth();
     void setHealth(int);

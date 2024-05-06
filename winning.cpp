@@ -46,6 +46,6 @@ winning::~winning()
 void winning::on_replayButton_clicked()
 {
     close();
-    game->start();
+    game->start(0);
 }
 

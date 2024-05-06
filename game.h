@@ -27,12 +27,14 @@ class Game : public QGraphicsView
     Q_OBJECT
 private:
     // private data members
+    int level;
     QGraphicsScene* scene;
     int boardData[12][16];
     int blockUnit;
     QGraphicsPixmapItem* boardImages[12][16];
     Castle* castle;
     Cannon* cannon;
+    int castleHealth;
     // workers clan
     Tent* tent1;
     Tent* tent2;
@@ -48,6 +50,7 @@ private:
     QTimer* gameTimer;
     QTimer* enemyTimer;
     QGraphicsTextItem* timerLabel;
+    QList<int> startEnemy;
     // private methods
     void readBoardData(QString path);
     void drawBoard(QString path);
@@ -55,7 +58,8 @@ private:
 public:
     Game();
     QList<Fence*> damagedFence;
-    void start();
+    void start(int);
+    void startNewLevel();
     void deleteItems();
     void gameOver();
     void showWinningWdn();
@@ -66,21 +70,22 @@ public:
     Castle* getCastle();
     Cannon* getCannon();
     QGraphicsScene *getScene();
+    int getLevel();
     // WorkersClan functions
-    int getAvailableGroup(int x, int y);
+    int getAvailableGroup(int,int);
     WorkersClan* getGroup1();
     WorkersClan* getGroup2();
     // delay
-    void delay(int sec); // delay in seconds
-    void mDelay(int mSec); // delay in milliseconds
+    void delay(int); // delay in seconds
+    void mDelay(int); // delay in milliseconds
 
     // testing data members
     Fence* testFence;
     Fence* test2;
     Fence* test3;
+    // graph functions
     Graph* graph;
     void makeGraph();
-    //
     void updateEnemyPath();
     QList<Enemy*> enemies;
 
