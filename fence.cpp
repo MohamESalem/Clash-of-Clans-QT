@@ -37,7 +37,7 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence, QTim
     QMediaPlayer* sound = new QMediaPlayer();
     QAudioOutput* audio = new QAudioOutput();
     sound->setAudioOutput(audio);
-    sound->setSource(QUrl("qrc:/audio/audio/enemydamagefence.wav"));
+    sound->setSource(QUrl("qrc:/audio/audio/enemydamagefenceandcastle.wav"));
     audio->setVolume(50);
 
     if(finished) {
