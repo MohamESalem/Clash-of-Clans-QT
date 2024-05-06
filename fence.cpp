@@ -45,7 +45,7 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence)
         moveTimer->start(50);
     } else {
         health -= x;
-        sound->play();
+        // sound->play();
         if(!isHealthBarShown) {
             healthBar->show();
             isHealthBarShown = true;
@@ -110,7 +110,7 @@ void Fence::decrementHealth(int x)
         // moveTimer->start(50);
     } else {
         health -= x;
-        sound->play();
+        // sound->play();
         if(!isHealthBarShown) {
             healthBar->show();
             isHealthBarShown = true;
@@ -163,15 +163,19 @@ void Fence::decrementHealth(int x)
 
 void Fence::incrementHealth(int x, QTimer*& returnTimer, QTimer*& healTimer)
 {
+    Worker* w = dynamic_cast<Worker*>(returnTimer->parent());
     if(finished) {
+        // qDebug() << "at the start of increment health!";
+        w->changePath(w->getGroup()->getTent()->getCol() * 50, w->getGroup()->getTent()->getRow() * 50);
         healTimer->stop();
-        returnTimer->start();
+        returnTimer->start(190);
     } else {
-        Worker* w = dynamic_cast<Worker*>(returnTimer->parent());
 
         if(health == maxHealth) {
+            // qDebug() << "second else first if";
+            w->changePath(w->getGroup()->getTent()->getCol() * 50, w->getGroup()->getTent()->getRow() * 50);
             healTimer->stop();
-            returnTimer->start(250);
+            returnTimer->start(190);
         } else if(!finished && health + x < maxHealth) {
             health += x;
             healthBar->incrementCurrHealth(x);
@@ -187,18 +191,20 @@ void Fence::incrementHealth(int x, QTimer*& returnTimer, QTimer*& healTimer)
             healthBar->hide();
 
             // code to check if there are other damaged fences before returning back
-            if(!game->damagedFence.isEmpty()) {
+            // if(!game->damagedFence.isEmpty()) {
                 // qDebug() << "Heading to a new fence\n";
-                Fence* f = game->damagedFence.first();
-                f->setHealGroup(w->getGroup());
-                f->getHealGroup()->createWorkers(f->getX(), f->getY());
-                game->damagedFence.removeFirst();
-            } else {
-                w->getGroup()->changeAvailability(true);
-            }
+                // Fence* f = game->damagedFence.first();
+                // f->setHealGroup(w->getGroup());
+                // f->getHealGroup()->createWorkers(f->getX(), f->getY());
+                // game->damagedFence.removeFirst();
+            // } else {
+            w->getGroup()->changeAvailability(true);
+            // }
 
+            // qDebug() << "at the end of increment fence's health";
+            w->changePath(w->getGroup()->getTent()->getCol() * 50, w->getGroup()->getTent()->getRow() * 50);
             healTimer->stop();
-            returnTimer->start(250);
+            returnTimer->start(190);
         }
     }
 }

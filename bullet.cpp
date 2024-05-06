@@ -40,8 +40,6 @@ void Bullet::move() {
         if(typeid(*item) == typeid(Enemy)) {
             Enemy* e = dynamic_cast<Enemy*> (item);
             e->decrementHealth(damage);
-
-            game->enemies.removeAll(e);
             // remove the bullet from the scene
             scene()->removeItem(this);
             // release the memory from the heap

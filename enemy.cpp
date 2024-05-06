@@ -90,7 +90,7 @@ void Enemy::moveRandomly() {
     attackTimer->stop();
     // int detOffset = 45;
     int detX = path[curr]->xPos,
-        detY =path[curr]->yPos;
+        detY = path[curr]->yPos;
 
     // move to the destination
     // const int STEP_SIZE = 2; // this represents the velocity of the worker
@@ -108,7 +108,7 @@ void Enemy::moveRandomly() {
         // setPos(path[curr]->xPos - offsetX, path[curr]->yPos - offsetY);
         curr++;
     } // else {
-        setPos(x() + dx, y() + dy);
+    setPos(x() + dx, y() + dy);
     // }
 
     // handle collisions
@@ -116,8 +116,10 @@ void Enemy::moveRandomly() {
     foreach(auto& item, collided_items) {
         if(typeid(*item) == typeid(Fence)) {
             Fence *f = dynamic_cast<Fence*>(item);
-            if(f != NULL && f->getHealth() > 0)
+            if(f != NULL && f->getHealth() > 0) {
+                setPos(x(), y());
                 attackFence(f);
+            }
             return;
 
 
@@ -128,7 +130,7 @@ void Enemy::moveRandomly() {
           Worker *w = dynamic_cast<Worker *>(item);
           if (w && !w->isFinished()) {
             // attackAnimate();
-            qDebug() << "called\n";
+            // qDebug() << "called\n";
             w->getGroup()->changeIsAlive(w->getClanIndex());
             attackTimer->start(60);
             // w->getHealAnimationTimer()->stop();
@@ -194,6 +196,7 @@ void Enemy::decrementHealth(int x)
         // remove the enemy if its health goes below zero
         if(isHealthBarShown) healthBar->hide();
         game->getScene()->removeItem(this);
+        game->enemies.removeAll(this);
         delete this;
     }
 }

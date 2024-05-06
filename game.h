@@ -79,7 +79,7 @@ public:
     Fence* test2;
     Fence* test3;
     Graph* graph;
-    void makeGraph(QString path);
+    void makeGraph();
     //
     void updateEnemyPath();
     QList<Enemy*> enemies;

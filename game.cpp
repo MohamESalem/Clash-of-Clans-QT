@@ -24,27 +24,22 @@ Game::Game() {
 
 }
 
-void Game::makeGraph(QString path)
+// graph-related functions
+void Game::makeGraph()
 {
-    QFile file(path);
-    file.open(QIODevice::ReadOnly);
-    QTextStream stream(&file);
+
     for(int i = 0; i < 12; i++) {
         for(int j = 0; j < 16; j++) {
-            QString tmp;
-            stream >> tmp;
-            tmp.toInt();
-            int weight=1;
-            if(tmp.toInt()==3) {
-                weight = 6;
-            }
 
-            else if(tmp.toInt() ==1 || tmp.toInt()==2 || tmp.toInt()==4) {
-                weight = 6;
+            int weight = 1;
+            if(boardData[i][j] == 3) {
+                weight = 3;
+            }
+            else if(boardData[i][j] == 2 || boardData[i][j] == 4) {
+                weight = 20;
             }
             Node* node = graph->makeNode(i,j,weight);
             graph->addNode(node);
-
         }
     }
 
@@ -94,23 +89,13 @@ void Game::makeGraph(QString path)
 
 void Game::updateEnemyPath()
 {
-    // foreach (auto& item, scene->items()) { // use auto keyword
-    //     Enemy *e = dynamic_cast<Enemy*>(item); // use qobject_cast
-    //     if (e) { // check if cast is successful
-    //         // qDebug() << "called";
-    //         e->updatePath();
-    //     }
-    // }
-
+    // qDebug() << "Called\n";
     foreach (auto& item, enemies) {
-        if (item!= nullptr) {
+        if (item != NULL) {
             item->updatePath();
         }
     }
 }
-
-
-//.create a startMenu .add to scene
 
 void Game::start() {
 
@@ -123,11 +108,13 @@ void Game::start() {
     duration = 1 * 60;
     underExec = false;
     tent1 = tent2 = NULL;
+    enemies.clear();
+    damagedFence.clear();
 
     //draw board
     drawBoard(":/board/boardFiles/board1.txt");
     // graph->addNode(graph->makeNode(1,2,5));
-    makeGraph(":/board/boardFiles/board1.txt");
+    makeGraph();
     // int x = castle->getX();
     // int y = castle->getY();
     // graph->editStrength(3,5,1);
@@ -154,7 +141,7 @@ void Game::start() {
 
     // start the timers
     gameTimer->start(1000);
-    enemyTimer->start(3000);
+    enemyTimer->start(4000);
 
     // spawnEnemies();
 
@@ -165,27 +152,29 @@ void Game::start() {
     // spawnEnemies();
 
 
-    // stops group 2 for testing
+    // stops groups 1 and 2 for testing
     // group1->isAllClanDead = true;
     // group1->changeAvailability(false);
     // group2->isAllClanDead = true;
     // group2->changeAvailability(false);
 
     // // testing WorkersClan
-    // delay(3);
+    // delay(1);
     // if(test2) {
     //     // qDebug() << "Begin!\n";
     //     test2->decrementHealth(40);
-    // }
-    // delay(3);
-    // if(testFence) {
-    //     qDebug() << "New Test!\n";
-    //     testFence->decrementHealth(10);
-    //     qDebug() << "Test2 health = " << testFence->getHealth() << '\n';
+    //     // delay(1);
+    //     // test2->decrementHealth(30);
     // }
     // delay(1);
+    // if(testFence) {
+    //     // qDebug() << "New Test!\n";
+    //     testFence->decrementHealth(30);
+    //     // qDebug() << "Test2 health = " << testFence->getHealth() << '\n';
+    // }
+    // // // delay(1);
     // if(test3) {
-    //     qDebug() << "Hopefully, last test!\n";
+    //     // qDebug() << "Hopefully, last test!\n";
     //     test3->decrementHealth(40);
     // }
 
@@ -377,10 +366,10 @@ WorkersClan *Game::getGroup2() {return group2;}
 
 void Game::spawnEnemies() {
     // // test
-    // Enemy* e = new Enemy(0, 0);
-    // scene->addItem(e);
+    // Enemy* enemy = new Enemy(300, 500);
+    // scene->addItem(enemy);
 
-    srand(time(0));
+    // srand(time(0));
     int i = rand() % 4;
     int randX = rand() % 10, randY = rand() % 10;
     int x= randX*50, y=randY*50;

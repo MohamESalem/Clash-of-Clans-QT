@@ -7,6 +7,8 @@ class Tent : public QGraphicsPixmapItem
 {
 private:
     int len;
+    int row;
+    int col;
     int x;
     int y;
 public:
@@ -17,6 +19,8 @@ public:
     // setters
     void setX(int);
     void setY(int);
+    int getRow();
+    int getCol();
 };
 
 #endif // TENT_H

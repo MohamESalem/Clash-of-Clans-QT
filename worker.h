@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QGraphicsPixmapItem>
+#include "graph.h"
 
 class WorkersClan;
 class Fence;
@@ -22,6 +23,11 @@ private:
     WorkersClan* group;
     int clanIndex;
     bool finished;
+    std::vector<Node*> path;
+    int curr;
+    int offsetX;
+    int offsetY;
+    double STEP_SIZE;
 
 public:
     Worker(WorkersClan* g, int index);
@@ -33,6 +39,7 @@ public:
     void healFence(Fence*);
     void die();
     bool isFinished();
+    void changePath(int x, int y);
 
 public slots:
     void move();
