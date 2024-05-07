@@ -16,6 +16,7 @@ SOURCES += \
     fence.cpp \
     game.cpp \
     gameover.cpp \
+    gift.cpp \
     graph.cpp \
     healthbar.cpp \
     main.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     fence.h \
     game.h \
     gameover.h \
+    gift.h \
     graph.h \
     healthbar.h \
     menu.h \

@@ -105,27 +105,30 @@ void Enemy::moveRandomly() {
     attackTimer->stop();
     // walkTimer->start(200);
     // int detOffset = 45;
-    int detX = path[curr]->xPos,
-        detY = path[curr]->yPos;
 
-    // move to the destination
-    // const int STEP_SIZE = 2; // this represents the velocity of the worker
-    QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(detX, detY));
-    double angle = -1 * ln.angle();
-    double theta = angle; // degrees
-    double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
-    double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
+    if(curr < int(path.size())) {
+        int detX = path[curr]->xPos,
+            detY = path[curr]->yPos;
 
-    // handle A* algorithm things here
-    double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
-    double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
+        // move to the destination
+        // const int STEP_SIZE = 2; // this represents the velocity of the worker
+        QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(detX, detY));
+        double angle = -1 * ln.angle();
+        double theta = angle; // degrees
+        double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
+        double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
 
-    if(d2 >= d1) {
-        // setPos(path[curr]->xPos - offsetX, path[curr]->yPos - offsetY);
-        curr++;
-    } // else {
-    setPos(x() + dx, y() + dy);
-    // }
+        // handle A* algorithm things here
+        double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
+        double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
+
+        if(d2 >= d1) {
+            // setPos(path[curr]->xPos - offsetX, path[curr]->yPos - offsetY);
+            curr++;
+        } // else {
+        setPos(x() + dx, y() + dy);
+        // }
+    }
 
     // handle collisions
     QList<QGraphicsItem *> collided_items = collidingItems();
@@ -209,7 +212,7 @@ void Enemy::decrementHealth(int x)
         s->setAudioOutput(a);
         s->setSource(QUrl("qrc:/audio/audio/bullethitsenemy2.wav"));
         a->setVolume(50);
-        s->play();
+        // s->play();
     }
     health -= x;
     if(!isHealthBarShown) {
@@ -228,7 +231,7 @@ void Enemy::decrementHealth(int x)
         sound->setAudioOutput(audio);
         sound->setSource(QUrl("qrc:/audio/audio/enemydies.wav"));
         audio->setVolume(100);
-        sound->play();
+        // sound->play();
         // remove the enemy if its health goes below zero
         if(isHealthBarShown) healthBar->hide();
         game->getScene()->removeItem(this);

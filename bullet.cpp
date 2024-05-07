@@ -1,5 +1,6 @@
 #include "bullet.h"
 #include "enemy.h"
+#include "gift.h"
 #include <QPixmap>
 #include <QTimer>
 #include <qmath.h>
@@ -26,7 +27,7 @@ Bullet::Bullet() {
     sound->setAudioOutput(audio);
     sound->setSource(QUrl("qrc:/audio/audio/bullet.wav"));
     audio->setVolume(50);
-    sound->play();
+    // sound->play();
 }
 
 int Bullet::getDamage() {return damage;}
@@ -45,6 +46,16 @@ void Bullet::move() {
             // release the memory from the heap
             delete this;
             return;
+        } else if(typeid(*item) == typeid(Gift)) {
+            Gift* g = dynamic_cast<Gift*> (item);
+            if(g != NULL) {
+                g->utilize();
+                game->getScene()->removeItem(g);
+                delete g;
+                game->getScene()->removeItem(this);
+                delete this;
+                return;
+            }
         }
     }
 

@@ -6,6 +6,7 @@
 #include <QTime>
 #include "enemy.h"
 #include "winning.h"
+#include "gift.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -22,7 +23,9 @@ Game::Game() {
     setWindowIcon(QIcon(":/images/img/icon.png"));
     testFence = test2 = NULL;
     startEnemy = {8000, 6000, 4000, 2000, 1000};
+    startGift = {10 * 1000, 10 * 1000, 20 * 1000, 20 * 1000, 20 * 1000};
     castleHealth = 100;
+    bonusDefaultDuration = 10 + 1;
 }
 
 // graph-related functions
@@ -98,6 +101,42 @@ void Game::updateEnemyPath()
     }
 }
 
+void Game::shieldCastle()
+{
+    castle->shield();
+    scene->addItem(bonusTimerLabel);
+    bonusTimer->start(1000);
+}
+
+void Game::doubleBullets()
+{
+    isBulletBonus = true;
+    scene->addItem(bonusTimerLabel);
+    bonusTimer->start(1000);
+}
+
+void Game::updateBonusTimer()
+{
+    bonusDuration--;
+
+    if (bonusDuration <= 0) {
+        bonusDuration = bonusDefaultDuration;
+        if(isBulletBonus) isBulletBonus = false;
+        if(castle->getIsShielded()) castle->removeShield();
+        bonusTimer->stop();
+        scene->removeItem(bonusTimerLabel);
+        return;
+    }
+
+    int minutes = (bonusDuration % 3600) / 60;
+    int seconds = bonusDuration % 60;
+
+    // Format the time string
+    QString timeString = QString("%1:%2").arg(minutes, 2, 10, QChar('0'))
+                             .arg(seconds, 2, 10, QChar('0'));
+    bonusTimerLabel->setPlainText(timeString);
+}
+
 void Game::start(int level) {
 
     this->level = level;
@@ -109,7 +148,8 @@ void Game::start(int level) {
     workersMaxCount = 5;
     workersAvaCount = 0;
     duration = 1 * 60;
-    underExec = false;
+    bonusDuration = bonusDefaultDuration;
+    isBulletBonus = false;
     tent1 = tent2 = NULL;
     enemies.clear();
     damagedFence.clear();
@@ -125,8 +165,9 @@ void Game::start(int level) {
     // for (size_t i = 0; i < path.size(); ++i) {
     //     qDebug() << path[i]->getX() << " " << path[i]->getY() << " ";
     // }
-    //design the timer label
 
+
+    //design the timer label
     timerLabel = new QGraphicsTextItem();
     timerLabel->setPos(10, 10);
     timerLabel->setZValue(10);
@@ -134,15 +175,27 @@ void Game::start(int level) {
     // Set the font size
     QFont font = timerLabel->font();
     font.setPointSize(18);
-    timerLabel->setFont(font);
+    timerLabel->setFont(font);   
     scene->addItem(timerLabel);
+
+    // design the bonus timer label
+    bonusTimerLabel = new QGraphicsTextItem();
+    bonusTimerLabel->setPos(10, 10 + 25);
+    bonusTimerLabel->setZValue(10);
+    bonusTimerLabel->setDefaultTextColor(Qt::yellow);
+    QFont bonusFont = bonusTimerLabel->font();
+    bonusFont.setPointSize(18);
+    bonusTimerLabel->setFont(bonusFont);
+
     //update the timer
     gameTimer = new QTimer(this);
     connect(gameTimer, SIGNAL(timeout()), this, SLOT(updateTimer()));
     enemyTimer = new QTimer(this);
-    connect(enemyTimer, &QTimer::timeout, [this]() {
-        this->spawnEnemies();
-    });
+    connect(enemyTimer, SIGNAL(timeout()), this, SLOT(spawnEnemies()));
+    giftTimer = new QTimer(this);
+    connect(giftTimer, SIGNAL(timeout()), this, SLOT(randGifts()));
+    bonusTimer = new QTimer(this);
+    connect(bonusTimer, SIGNAL(timeout()), this, SLOT(updateBonusTimer()));
 
     // start the timers
     gameTimer->start(1000);
@@ -150,10 +203,14 @@ void Game::start(int level) {
     // spawnEnemies();
 
     show();
+    // castle->decrementCurrHealth(40);
 
     delay(1);
     spawnEnemies();
     enemyTimer->start(startEnemy[level]);
+    giftTimer->start(startGift[level]);
+    // randGifts();
+
     // delay(2);
     // testFence->decrementHealth(80);
     // spawnEnemies();
@@ -175,9 +232,9 @@ void Game::start(int level) {
     // }
     // delay(1);
     // if(testFence) {
-    //     // qDebug() << "New Test!\n";
-    //     testFence->decrementHealth(30);
-    //     // qDebug() << "Test2 health = " << testFence->getHealth() << '\n';
+        // qDebug() << "New Test!\n";
+        // testFence->decrementHealth(15);
+        // qDebug() << "Test2 health = " << testFence->getHealth() << '\n';
     // }
     // // // delay(1);
     // if(test3) {
@@ -207,6 +264,7 @@ void Game::startNewLevel()
     // stop timers
     gameTimer->stop();
     enemyTimer->stop();
+    giftTimer->stop();
     // close and show the correct windows
     castleHealth = castle->getCurrHealth();
     close();
@@ -253,7 +311,7 @@ void Game::drawBoard(QString path) {
                 Fence* f = new Fence(x, y);
                 scene->addItem(f);
                 f->setZValue(1);
-                if(i == 3 && j == 5) {
+                if(i == 8 && j == 6) {
                     testFence = f;
                 } else if(i == 7 && j == 12) {
                     test2 = f;
@@ -294,6 +352,7 @@ void Game::gameOver()
     // stop timers
     gameTimer->stop();
     enemyTimer->stop();
+    giftTimer->stop();
     // close and show the correct windows
     close();
     o->show();
@@ -311,6 +370,7 @@ void Game::showWinningWdn()
     // stop the timers
     gameTimer->stop();
     enemyTimer->stop();
+    giftTimer->stop();
     // close and show the winning window
     close();
     w->show();
@@ -326,18 +386,21 @@ void Game::showWinningWdn()
 void Game::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::LeftButton) {
-        Bullet* b = new Bullet();
-        int offset = 40;
-        int newX = cannon->getX() + offset, newY = cannon->getY() + offset;
-        b->setPos(newX, newY); // set the position of the bullet to the center of the cannon
+        int last = 1 + isBulletBonus;
+        for(int i = 0; i < last; i++) {
+            Bullet* b = new Bullet();
+            int offset = 40;
+            int newX = cannon->getX() + offset, newY = cannon->getY() + offset;
+            b->setPos(newX, newY); // set the position of the bullet to the center of the cannon
 
-        QLineF ln(QPointF(newX, newY), event->pos());
-        double angle = -1 * ln.angle();
+            QLineF ln(QPointF(newX, newY), event->pos());
+            double angle = -1 * ln.angle();
 
-        b->setRotation(angle);
-        scene->addItem(b);
+            b->setRotation(angle);
+            scene->addItem(b);
+            if(i != last - 1) mDelay(40);
+        }
     }
-
 }
 
 void Game::mouseMoveEvent(QMouseEvent *event)
@@ -425,6 +488,20 @@ void Game::spawnEnemies() {
 
 
 
+}
+
+void Game::randGifts()
+{
+    int type = rand() % 3;
+    // qDebug() << "Gift's type = " << type;
+    int x, y;
+    do {
+        x = rand() % (800 - 43);
+        y = rand() % (600 - 43);
+    } while(boardData[y/blockUnit][x/blockUnit] != 0);
+    // test
+    Gift* g = new Gift(x, y, type);
+    scene->addItem(g);
 }
 
 

@@ -12,25 +12,30 @@ private:
     int x;
     int y;
     HealthBar* healthBar;
+    bool isShielded;
     bool finished;
 public:
-    Castle(int x, int y);
+    Castle(int,int);
     // health functions
     int getCurrHealth();
     void setCurrHealth(int);
     bool isCurrHealthMax();
+    void shield();
+    void removeShield();
     // getters
     int getX();
     int getY();
+    bool getIsShielded();
     // setters
-    void setX(int x);
-    void setY(int y);
+    void setX(int);
+    void setY(int);
+    void setIsShielded(bool);
     int row = 6;
     int col = 7;
 
 public slots:
     void decrementCurrHealth(int);
-    void incrementCurrHealth(int,QTimer*&,QTimer*&);
+    void incrementCurrHealth(int);
     void move();
 };
 

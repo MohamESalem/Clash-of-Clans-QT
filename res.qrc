@@ -40,6 +40,9 @@
         <file>img/enemy/walk/5.png</file>
         <file>img/enemy/walk/6.png</file>
         <file>img/enemy/walk/7.png</file>
+        <file>img/gifts/blue.png</file>
+        <file>img/gifts/green.png</file>
+        <file>img/gifts/purple.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>

@@ -31,10 +31,12 @@ private:
     QGraphicsScene* scene;
     int boardData[12][16];
     int blockUnit;
+    int bonusDefaultDuration;
     QGraphicsPixmapItem* boardImages[12][16];
     Castle* castle;
     Cannon* cannon;
     int castleHealth;
+    bool isBulletBonus;
     // workers clan
     Tent* tent1;
     Tent* tent2;
@@ -47,10 +49,15 @@ private:
     bool underExec;
     //timer
     int duration;
+    int bonusDuration;
     QTimer* gameTimer;
     QTimer* enemyTimer;
+    QTimer* giftTimer;
+    QTimer* bonusTimer;
     QGraphicsTextItem* timerLabel;
+    QGraphicsTextItem* bonusTimerLabel;
     QList<int> startEnemy;
+    QList<int> startGift;
     // private methods
     void readBoardData(QString path);
     void drawBoard(QString path);
@@ -88,16 +95,17 @@ public:
     void makeGraph();
     void updateEnemyPath();
     QList<Enemy*> enemies;
-
-
-
-
+    // gifts functions
+    void shieldCastle();
+    void doubleBullets();
 
 
 
 public slots:
     void updateTimer();
     void spawnEnemies();
+    void updateBonusTimer();
+    void randGifts();
 };
 
 #endif // GAME_H

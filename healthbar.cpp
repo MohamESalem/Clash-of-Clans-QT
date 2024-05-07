@@ -66,6 +66,23 @@ void HealthBar::incrementCurrHealth(int x)
         progressBar->setBrush(green);
 }
 
+void HealthBar::provideShield()
+{
+    QBrush goldBrush(Qt::yellow);
+    progressBar->setBrush(goldBrush);
+}
+
+void HealthBar::removeShield()
+{
+    QBrush green(Qt::green);
+    QBrush red(Qt::red);
+    double per = currHealth/maxHealth;
+    if(per >= 0.5)
+        progressBar->setBrush(green);
+    else
+        progressBar->setBrush(red);
+}
+
 void HealthBar::setCurrHealth(int x)
 {
     currHealth = x;

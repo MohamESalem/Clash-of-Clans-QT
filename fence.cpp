@@ -79,7 +79,7 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence, QTim
         }
         else {
             // enemy destroys the fence when the fence's health goes below zero
-            sound->play();
+            // sound->play();
             if(healGroup) healGroup->changeAvailability(true);
             if(isHealthBarShown) healthBar->hide();
             // qDebug() << "Removing this fence: " << getX() << ' ' << getY() << '\n';
@@ -149,19 +149,21 @@ void Fence::decrementHealth(int x)
         else {
             // enemy destroys the fence when the fence's health goes below zero
             // sound->play();
-            if(healGroup) healGroup->changeAvailability(true);
-            if(isHealthBarShown) healthBar->hide();
-            // qDebug() << "Removing this fence: " << getX() << ' ' << getY() << '\n';
-            if(!finished) scene()->removeItem(this);
-            if(game->damagedFence.contains(this)) game->damagedFence.removeAll(this);
+            if(!finished) {
+                finished = true;
+                scene()->removeItem(this);
+                if(healGroup) healGroup->changeAvailability(true);
+                if(isHealthBarShown) healthBar->hide();
+                // qDebug() << "Removing this fence: " << getX() << ' ' << getY() << '\n';
+                if(game->damagedFence.contains(this)) game->damagedFence.removeAll(this);
 
-            // damageFence->stop();
-            // moveTimer->start(50);
-            finished = true;
-            game->graph->editStrength(this->getY()/50,this->getX()/50,1);
-            game->updateEnemyPath();
-            if(!finished) delete this;
-            return;
+                // damageFence->stop();
+                // moveTimer->start(50);
+                game->graph->editStrength(this->getY()/50,this->getX()/50,1);
+                game->updateEnemyPath();
+                /*if(!finished) */delete this;
+                return;
+            }
         }
     }
 
@@ -171,25 +173,29 @@ void Fence::decrementHealth(int x)
 void Fence::incrementHealth(int x, QTimer*& returnTimer, QTimer*& healTimer)
 {
     Worker* w = dynamic_cast<Worker*>(returnTimer->parent());
+    // qDebug() << "entered the function";
     if(finished) {
         // qDebug() << "at the start of increment health!";
         w->changePath(w->getGroup()->getTent()->getCol() * 50, w->getGroup()->getTent()->getRow() * 50);
         healTimer->stop();
         returnTimer->start(190);
+        // qDebug() << "Do not continue healing, the fence was finished!\n";
     } else {
 
         if(health == maxHealth) {
             // qDebug() << "second else first if";
+            // qDebug() << "Calling change path from first if in else\n";
             w->changePath(w->getGroup()->getTent()->getCol() * 50, w->getGroup()->getTent()->getRow() * 50);
             healTimer->stop();
             returnTimer->start(190);
         } else if(!finished && health + x < maxHealth) {
+            // qDebug() << "increasing the ";
             health += x;
             healthBar->incrementCurrHealth(x);
             // qDebug() << "Improving Health\n";
         }
         else {
-
+            // qDebug() << "Calling change path from the last else\n";
             health = maxHealth;
             // qDebug() << "health is maximum";
             healGroup = NULL;

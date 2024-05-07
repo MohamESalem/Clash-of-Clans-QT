@@ -9,12 +9,15 @@ class Cannon : public QGraphicsPixmapItem
 private:
     int x;
     int y;
+    int numBullets;
 public:
-    Cannon(int x, int y);
+    Cannon(int,int);
     int getX();
     int getY();
-    void setX(int x);
-    void setY(int y);
+    int getNumBullets();
+    void setX(int);
+    void setY(int);
+    void setNumBullets(int);
 };
 
 #endif // CANNON_H

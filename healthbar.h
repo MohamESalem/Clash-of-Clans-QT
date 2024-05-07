@@ -18,6 +18,8 @@ public:
     int getCurrHealth();
     void decrementCurrHealth(int);
     void incrementCurrHealth(int);
+    void provideShield();
+    void removeShield();
     void setCurrHealth(int);
     void show();
     void hide();

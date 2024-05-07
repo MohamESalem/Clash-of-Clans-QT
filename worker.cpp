@@ -13,7 +13,7 @@ Worker::Worker(WorkersClan* g, int index) {
     sound->setAudioOutput(audio);
     sound->setSource(QUrl("qrc:/audio/audio/workerspwan.mp3"));
     audio->setVolume(50);
-    sound->play();
+    // sound->;
     // set the workers' appearance
     imgLen = 50;
     setPixmap(QPixmap(":/images/img/citizen_workers/worker.png").scaled(imgLen, imgLen));
@@ -113,6 +113,7 @@ void Worker::die() {
     finished = true;
     healAnimationTimer->stop();
     healTimer->stop();
+    // sound->play();
     for(int i = 0; i < dieImgs.size(); i++) {
         if(!game->getScene()->items().isEmpty()) setPixmap(QPixmap(dieImgs[i]).scaled(imgLen, imgLen));
         game->mDelay(55);
@@ -129,9 +130,11 @@ bool Worker::isFinished()
 
 void Worker::changePath(int x, int y)
 {
+    curr = 1;
+    // qDebug() << "before, curr = " << curr;
+    // qDebug() << "after, curr = " << curr;
     // qDebug() << "calling changePath()";
     // qDebug() << "x = " << x << ", y = " << y;
-    curr = 1;
     path = game->graph->aStarAlgo(game->graph->findNode(this->y()/50, this->x()/50), game->graph->findNode(y/50,x/50));
     // for(size_t i = 0; i < path.size(); i++) {
     //     qDebug() << path[i]->getX() << ' ' << path[i]->getY();
@@ -139,8 +142,9 @@ void Worker::changePath(int x, int y)
     // qDebug() << '\n';
 }
 
-void Worker::move() {
-
+void Worker::move()
+{
+    // qDebug() << "started moving!\n";
     if(group->getAvailability()) {
         // the fence was destroyed
         // qDebug() << "move() first if statement";
@@ -158,9 +162,10 @@ void Worker::move() {
     foreach(auto& item, collided_items) {
         if(typeid(*item) == typeid(Fence)) {
             Fence* f = dynamic_cast<Fence*>(item);
+            // qDebug() << "\nCollided with fence!\n";
             if(f != NULL && f->getHealth() != f->getMaxHealth()) {
                     // qDebug() << "Healing!\n";
-                    setPos(x() - 10, y() - 10);
+                    setPos(x() - 10, y() - 8);
                     moveTimer->stop();
                     healFence(f);
                     return;
@@ -171,32 +176,37 @@ void Worker::move() {
 
     // qDebug() << "moving";
     // // move to the destination
-    QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->xPos, path[curr]->yPos));
-    double angle = -1 * ln.angle();
-    // qDebug() << "curr = " << curr;
-    // qDebug() << path[curr]->getX() << ' ' << path[curr]->getY() << '\n';
-
-    double theta = angle; // degrees
-
-    double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
-    double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
-
-    // Handling A* algorithm
     if(curr < int(path.size())) {
+        QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->xPos, path[curr]->yPos));
+        double angle = -1 * ln.angle();
+        // qDebug() << "curr = " << curr;
+        // qDebug() << path[curr]->getX() << ' ' << path[curr]->getY() << '\n';
+
+        double theta = angle; // degrees
+
+        double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
+        double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
+
+        // Handling A* algorithm
+
         double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
         double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
 
         if(d2 >= d1) {
             curr++;
         }
+        setPos(x()+dx, y()+dy);
+    } else {
+        curr = 1;
     }
 
-    setPos(x()+dx, y()+dy);
 
 }
 
 
 void Worker::returnBack() {
+
+    // qDebug() << "started going back!\n";
 
     if(!game->damagedFence.isEmpty()) {
         // qDebug() << "Heading to a new fence\n";
@@ -229,23 +239,27 @@ void Worker::returnBack() {
             return;
         }
     }
+    if(curr < int(path.size())) {
+        QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->xPos, path[curr]->yPos));
+        // QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(group->getTent()->getX(), group->getTent()->getY()));
+        double angle = -1 * ln.angle();
 
-    QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->xPos, path[curr]->yPos));
+        double theta = angle; // degrees
 
-    double angle = -1 * ln.angle();
+        double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
+        double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
 
-    double theta = angle; // degrees
+        // Handling A* algorithm
+        double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
+        double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
 
-    double dy = STEP_SIZE * qSin(qDegreesToRadians(theta));
-    double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
-
-    // Handling A* algorithm
-    double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
-    double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
-
-    if(d2 >= d1) {
-        curr++;
+        if(d2 >= d1) {
+            curr++;
+        }
+        setPos(x()+dx, y()+dy);
+    } else {
+        curr = 1;
+        // qDebug() << "curr = " << curr;
     }
 
-    setPos(x()+dx, y()+dy);
 }
