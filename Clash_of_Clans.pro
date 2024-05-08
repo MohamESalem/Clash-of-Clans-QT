@@ -22,6 +22,7 @@ SOURCES += \
     main.cpp \
     menu.cpp \
     node.cpp \
+    options.cpp \
     tent.cpp \
     winning.cpp \
     worker.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     healthbar.h \
     menu.h \
     node.h \
+    options.h \
     tent.h \
     winning.h \
     worker.h \
@@ -48,6 +50,7 @@ HEADERS += \
 FORMS += \
     gameover.ui \
     menu.ui \
+    options.ui \
     winning.ui
 
 # Default rules for deployment.

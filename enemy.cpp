@@ -226,12 +226,7 @@ void Enemy::decrementHealth(int x)
         // remove the enemy if its health goes below zero)
     if(health <= 0) {
         //death audio
-        QMediaPlayer* sound = new QMediaPlayer();
-        QAudioOutput* audio = new QAudioOutput();
-        sound->setAudioOutput(audio);
-        sound->setSource(QUrl("qrc:/audio/audio/enemydies.wav"));
-        audio->setVolume(100);
-        // sound->play();
+    game->playSound(QUrl("qrc:/audio/audio/enemyDies.wav"));
         // remove the enemy if its health goes below zero
         if(isHealthBarShown) healthBar->hide();
         game->getScene()->removeItem(this);

@@ -22,12 +22,7 @@ Bullet::Bullet() {
     damage = 20;
     setZValue(5);
     //play sound
-    QMediaPlayer *sound = new QMediaPlayer;
-    QAudioOutput *audio = new QAudioOutput;
-    sound->setAudioOutput(audio);
-    sound->setSource(QUrl("qrc:/audio/audio/bullet.wav"));
-    audio->setVolume(50);
-    // sound->play();
+    game->playSound(QUrl("qrc:/audio/audio/bullet.wav"));
 }
 
 int Bullet::getDamage() {return damage;}

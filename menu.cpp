@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "game.h"
 #include "ui_menu.h"
+#include "options.h"
 
 extern Game *game;
 
@@ -40,7 +41,22 @@ menu::menu(QWidget *parent)
                     "QPushButton#exitButton:pressed {"
                     "    background-color: #CC0000;" // Darker shade of red for pressed
                     "}";
-
+    QString optionsStyle = "QPushButton#optionsButton {"
+                           "    background-color: #808080; /* Grey color */"
+                           "    border: 2px solid #808080; /* Grey color */"
+                           "    border-radius: 10px;"
+                           "    color: white;"
+                           "    font-size: 18px;"
+                           "    padding: 10px 20px;"
+                           "}"
+                           "QPushButton#optionsButton:hover {"
+                           "    background-color: #A9A9A9; /* Lighter shade of grey for hover */"
+                           "    border-color: #A9A9A9; /* Lighter shade of grey for hover */"
+                           "}"
+                           "QPushButton#optionsButton:pressed {"
+                           "    background-color: #696969; /* Darker shade of grey for pressed */"
+                           "}";
+    ui->optionsButton->setStyleSheet(optionsStyle);
     ui->startButton->setStyleSheet(startStyle);
     ui->exitButton->setStyleSheet(exitStyle);
     // ui->startButton->setGeometry()
@@ -68,5 +84,13 @@ void menu::on_startButton_clicked()
 void menu::on_exitButton_clicked()
 {
     close();
+}
+
+
+void menu::on_optionsButton_clicked()
+{
+    hide();
+    options *o = new options;
+    o->show();
 }
 

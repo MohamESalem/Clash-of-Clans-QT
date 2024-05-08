@@ -43,6 +43,8 @@
         <file>img/gifts/blue.png</file>
         <file>img/gifts/green.png</file>
         <file>img/gifts/purple.png</file>
+        <file>img/settings.png</file>
+        <file>img/settingsWallpaper.jpg</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>

@@ -20,6 +20,8 @@ private slots:
 
     void on_exitButton_clicked();
 
+    void on_optionsButton_clicked();
+
 private:
     Ui::menu *ui;
 };

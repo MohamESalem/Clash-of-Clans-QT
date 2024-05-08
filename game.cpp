@@ -9,6 +9,8 @@
 #include "gift.h"
 #include <cstdlib>
 #include <ctime>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 Game::Game() {
     // initialize the scene
@@ -543,4 +545,13 @@ void Game::mDelay(int mSec)
     }
 }
 
+void Game::playSound(QUrl url)
+{
+    QMediaPlayer* sound = new QMediaPlayer();
+    QAudioOutput* audio = new QAudioOutput();
+    sound->setAudioOutput(audio);
+    sound->setSource(url);
+    audio->setVolume(volume);
+    sound->play();
+}
 

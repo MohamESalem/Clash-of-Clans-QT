@@ -30,6 +30,7 @@ public:
     WorkersClan* getHealGroup();
     void setHealGroup(WorkersClan*);
     bool isFinished();
+
     // TEST
 };
 

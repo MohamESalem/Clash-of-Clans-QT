@@ -98,6 +98,9 @@ public:
     // gifts functions
     void shieldCastle();
     void doubleBullets();
+    //audio
+    int volume;
+    void playSound(QUrl url);
 
 
 

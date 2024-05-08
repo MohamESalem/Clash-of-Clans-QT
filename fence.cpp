@@ -34,12 +34,7 @@ void Fence::decrementHealth(int x, QTimer*& moveTimer, QTimer*&damageFence, QTim
 // PASS THEM BE REFERENCE FOR ENEMY DAMAGING FENCE
 // LOOK AT DECREMENTHEALTH() IN CASTLE CLASS
 {
-    QMediaPlayer* sound = new QMediaPlayer();
-    QAudioOutput* audio = new QAudioOutput();
-    sound->setAudioOutput(audio);
-    sound->setSource(QUrl("qrc:/audio/audio/enemydamagefenceandcastle.wav"));
-    audio->setVolume(50);
-
+    game->playSound(QUrl("qrc:/audio/audio/enemydamagefenceandcastle.wav"));
     if(finished) {
         game->updateEnemyPath();
         // damageFence->stop();
