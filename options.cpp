@@ -41,8 +41,8 @@ void options::on_discardButton_clicked()
 
 void options::on_saveButton_clicked()
 {
-    int volumeValue = ui->volumeSlider->value();
-    game->volume = volumeValue;
+    double volumeValue = ui->volumeSlider->value();
+    game->setVolume(volumeValue);
     hide();
     menu *m = new menu;
     m->show();

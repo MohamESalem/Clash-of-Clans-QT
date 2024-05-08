@@ -28,6 +28,7 @@ Game::Game() {
     startGift = {10 * 1000, 10 * 1000, 20 * 1000, 20 * 1000, 20 * 1000};
     castleHealth = 100;
     bonusDefaultDuration = 10 + 1;
+    volume = 1;
 }
 
 // graph-related functions
@@ -553,5 +554,10 @@ void Game::playSound(QUrl url)
     sound->setSource(url);
     audio->setVolume(volume);
     sound->play();
+}
+
+void Game::setVolume(double v)
+{
+    volume = v/100.0;
 }
 

@@ -99,11 +99,7 @@ void Fence::decrementHealth(int x)
 // PASS THEM BE REFERENCE FOR ENEMY DAMAGING FENCE
 // LOOK AT DECREMENTHEALTH() IN CASTLE CLASS
 {
-    QMediaPlayer* sound = new QMediaPlayer();
-    QAudioOutput* audio = new QAudioOutput();
-    sound->setAudioOutput(audio);
-    sound->setSource(QUrl("qrc:/audio/audio/enemydamagefence.wav"));
-    audio->setVolume(50);
+
 
     if(finished) {
         game->updateEnemyPath();
@@ -143,8 +139,8 @@ void Fence::decrementHealth(int x)
         }
         else {
             // enemy destroys the fence when the fence's health goes below zero
-            // sound->play();
             if(!finished) {
+                game->playSound(QUrl("qrc:/audio/audio/enemydamagefenceandcastle.wav"));
                 finished = true;
                 scene()->removeItem(this);
                 if(healGroup) healGroup->changeAvailability(true);

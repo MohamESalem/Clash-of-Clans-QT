@@ -61,6 +61,7 @@ private:
     // private methods
     void readBoardData(QString path);
     void drawBoard(QString path);
+    double volume;
 
 public:
     Game();
@@ -99,9 +100,8 @@ public:
     void shieldCastle();
     void doubleBullets();
     //audio
-    int volume;
     void playSound(QUrl url);
-
+    void setVolume(double);
 
 
 public slots:
