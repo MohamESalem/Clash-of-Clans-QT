@@ -24,7 +24,10 @@ options::options(QWidget *parent)
                          "border-radius: 10px;"; // White color with 50% opacity
     ui->backgroundLabel->setStyleSheet(bkgndStyle);
     ui->volumeSlider->setSliderPosition(50);
-
+    //style volume label
+    QString labelStyle = "color: black;"
+                         "font-weight: bold;";
+    ui->volumeLabel->setStyleSheet(labelStyle);
 }
 
 
@@ -36,6 +39,8 @@ options::~options()
 void options::on_discardButton_clicked()
 {
     hide();
+    menu *m = new menu;
+    m->show();
 }
 
 

@@ -26,10 +26,10 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="volumeLabel">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>60</x>
      <y>90</y>
      <width>101</width>
      <height>51</height>
@@ -47,10 +47,10 @@
   <widget class="QSlider" name="volumeSlider">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>160</x>
      <y>110</y>
-     <width>160</width>
-     <height>18</height>
+     <width>561</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="maximum">
