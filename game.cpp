@@ -28,7 +28,8 @@ Game::Game() {
     startGift = {10 * 1000, 10 * 1000, 20 * 1000, 20 * 1000, 20 * 1000};
     castleHealth = 100;
     bonusDefaultDuration = 10 + 1;
-    volume = 1;
+    volume = 0.5;
+    isVolSet = false;
 }
 
 // graph-related functions
@@ -556,8 +557,19 @@ void Game::playSound(QUrl url)
     sound->play();
 }
 
+bool Game::getIsVolSet()
+{
+    return isVolSet;
+}
+
+int Game::getVolume()
+{
+    return volume;
+}
+
 void Game::setVolume(double v)
 {
     volume = v/100.0;
+    if(!isVolSet) isVolSet = true;
 }
 

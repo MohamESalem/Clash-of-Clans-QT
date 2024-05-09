@@ -23,7 +23,7 @@ options::options(QWidget *parent)
     QString bkgndStyle = "background-color: rgba(255, 255, 255, 128);"
                          "border-radius: 10px;"; // White color with 50% opacity
     ui->backgroundLabel->setStyleSheet(bkgndStyle);
-    ui->volumeSlider->setSliderPosition(50);
+    ui->volumeSlider->setSliderPosition(game->getIsVolSet() ? game->getVolume()  * 100 : 50);
     //style volume label
     QString labelStyle = "color: black;"
                          "font-weight: bold;";

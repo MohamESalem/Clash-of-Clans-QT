@@ -62,6 +62,7 @@ private:
     void readBoardData(QString path);
     void drawBoard(QString path);
     double volume;
+    bool isVolSet;
 
 public:
     Game();
@@ -101,8 +102,9 @@ public:
     void doubleBullets();
     //audio
     void playSound(QUrl url);
+    bool getIsVolSet();
+    int getVolume();
     void setVolume(double);
-
 
 public slots:
     void updateTimer();
