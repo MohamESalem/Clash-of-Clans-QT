@@ -4,7 +4,7 @@
 #include <QVBoxLayout>
 #include "game.h"
 #include "menu.h"
-
+#include <cstdlib>
 
 
 extern Game *game;
@@ -25,55 +25,84 @@ options::options(QWidget *parent)
     QString bkgndStyle = "background-color: rgba(255, 255, 255, 128);"
                          "border-radius: 10px;"; // White color with 50% opacity
     ui->backgroundLabel->setStyleSheet(bkgndStyle);
-    ui->volumeSlider->setSliderPosition(game->getIsVolSet() ? game->getVolume()  * 100 : 50);
+    ui->volumeSlider->setSliderPosition(game->getIsVolSet() ? game->getVolume()  * 115 : 50);
     //style volume label
     QString labelStyle = "color: black;"
                          "font-weight: bold;";
     ui->volumeLabel->setStyleSheet(labelStyle);
+    ui->volumeSlider->setStyleSheet(".QSlider {"
+                                    "    min-height: 34px;"
+                                    "    max-height: 34px;"
+                                    "}"
+                                    "QSlider::groove:horizontal {"
+                                    "    border: 1px solid #262626;"
+                                    "    height: 8px;"
+                                    "    background: #393939;"
+                                    "    margin: 0px 1px;"
+                                    "    border-radius: 5px;"
+                                    "}"
+                                    "QSlider::handle:horizontal {"
+                                    "    background: #009893;"
+                                    "    border: 1px solid white;"
+                                    "    width: 15px;"
+                                    "    height: 100px;"
+                                    "    margin: -12px -6px;"
+                                    "    border-radius: 5px;"
+                                    "}"
+                                    "QSlider::add-page:qlineargradient {"
+                                    "    background: #f6fcff;"
+                                    "    border-top-right-radius: 5px;"
+                                    "    border-bottom-right-radius: 5px;"
+                                    "    border-top-left-radius: 0px;"
+                                    "    border-bottom-left-radius: 0px;"
+                                    "}"
+                                    "QSlider::sub-page:qlineargradient {"
+                                    "    background: #0c2038;"
+                                    "    border-top-right-radius: 0px;"
+                                    "    border-bottom-right-radius: 0px;"
+                                    "    border-top-left-radius: 5px;"
+                                    "    border-bottom-left-radius: 5px;"
+                                    "}");
     ui->mapsLabel->setStyleSheet(labelStyle);
     ui->saveButton->setStyleSheet("background-color: #FFB901; color: white; font-weight: bold;");
     ui->discardButton->setStyleSheet("background-color: #FF0000; color: white; font-weight: bold;");
 
     QString radio1 = "QRadioButton::indicator {"
-                     "    width: 150px;"
-                     "    height: 100px;"
-                     "    background-image: url(:/images/img/settingsWallpaper.jpg);"
+                     "    width: 240px;"
+                     "    height: 115px;"
+                     "    background-image: url(:/images/img/optionsMaps/green.png);"
                      "    background-repeat: no-repeat;"
                      "    border-radius: 15px;"
-                     "    background-position: center;"
                      "}"
                      "QRadioButton::indicator::checked {"
                      "border: 2.5px solid purple;"
                      "}";
     QString radio2 = "QRadioButton::indicator {"
-                     "    width: 150px;"
-                     "    height: 100px;"
-                     "    background-image: url(:/images/img/settingsWallpaper.jpg);"
+                     "    width: 240px;"
+                     "    height: 115px;"
+                     "    background-image: url(:/images/img/optionsMaps/ice.png);"
                      "    background-repeat: no-repeat;"
                      "    border-radius: 15px;"
-                     "    background-position: center;"
                      "}"
                      "QRadioButton::indicator::checked {"
                      "border: 2.5px solid purple;"
                      "}";
     QString radio3 = "QRadioButton::indicator {"
-                     "    width: 150px;"
-                     "    height: 100px;"
-                     "    background-image: url(:/images/img/settingsWallpaper.jpg);"
+                     "    width: 240px;"
+                     "    height: 115px;"
+                     "    background-image: url(:/images/img/optionsMaps/stone.png);"
                      "    background-repeat: no-repeat;"
                      "    border-radius: 15px;"
-                     "    background-position: center;"
                      "}"
                      "QRadioButton::indicator::checked {"
                      "border: 2.5px solid purple;"
                      "}";
     QString radio4 = "QRadioButton::indicator {"
-                     "    width: 150px;"
-                     "    height: 100px;"
-                     "    background-image: url(:/images/img/settingsWallpaper.jpg);"
+                     "    width: 240px;"
+                     "    height: 115px;"
+                     "    background-image: url(:/images/img/settingsWallpaper.jpg);" //! ?
                      "    background-repeat: no-repeat;"
                      "    border-radius: 15px;"
-                     "    background-position: center;"
                      "}"
                      "QRadioButton::indicator::checked {"
                      "border: 2.5px solid purple;"
@@ -117,6 +146,18 @@ void options::on_saveButton_clicked()
     game->setVolume(volumeValue);
     // buttons IDs are -2, -3, -4, -5 clockwise
     // qDebug() << buttonGroup->checkedId();
+    int map = buttonGroup->checkedId();;
+    if(map == -2)
+        game->setMap(1);
+    else if(map == -3)
+        game->setMap(3);
+    else if(map == -4)
+        game->setMap(2);
+    else if(map == -5)
+    {
+        int randomMap = rand() % 3 + 1;
+        game->setMap(randomMap);
+    }
     hide();
     menu *m = new menu;
     m->show();

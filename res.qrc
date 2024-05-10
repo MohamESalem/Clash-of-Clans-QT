@@ -57,6 +57,9 @@
         <file>img/tent2.png</file>
         <file>img/tent3.png</file>
         <file>img/stone.png</file>
+        <file>img/optionsMaps/green.png</file>
+        <file>img/optionsMaps/stone.png</file>
+        <file>img/optionsMaps/ice.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>
