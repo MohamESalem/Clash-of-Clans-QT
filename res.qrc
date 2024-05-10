@@ -50,6 +50,12 @@
         <file>img/castle2.png</file>
         <file>img/fence2.png</file>
         <file>img/tent2.webp</file>
+        <file>img/fence3.png</file>
+        <file>img/castle3.webp</file>
+        <file>img/ice.webp</file>
+        <file>img/ice2.webp</file>
+        <file>img/tent3.png</file>
+        <file>img/cannon3.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>

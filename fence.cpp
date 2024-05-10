@@ -15,6 +15,10 @@ Fence::Fence(int x, int y) {
     else if(game->getMap()==2) {
         fenceImg = QPixmap(":/images/img/fence2.png");
     }
+
+    else if(game->getMap()==3) {
+        fenceImg = QPixmap(":/images/img/fence3.png");
+    }
     fenceImg = fenceImg.scaled(game->getBlockUnit(), game->getBlockUnit());
     setPixmap(fenceImg);
     this->x = x;

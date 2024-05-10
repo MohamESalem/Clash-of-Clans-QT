@@ -83,4 +83,5 @@ DISTFILES += \
     img/stone2.webp \
     img/stonebackground.png \
     img/tent2.webp \
+    img/tent3.png \
     img/winning.jpg

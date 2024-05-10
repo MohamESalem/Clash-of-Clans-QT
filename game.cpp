@@ -297,7 +297,7 @@ void Game::readBoardData(QString path) {
 //
 void Game::drawBoard(QString path) {
     readBoardData(path);
-    setMap(2);
+    setMap(3);
     QPixmap ground;
     QPixmap ground2;
     if(getMap()==1) {
@@ -310,6 +310,11 @@ void Game::drawBoard(QString path) {
     else if(getMap()==2) {
         ground = QPixmap(":/images/img/stone.jpg");
         ground2 = QPixmap(":/images/img/stone2.webp");
+    }
+
+    else if(getMap()==3) {
+        ground = QPixmap(":/images/img/ice.webp");
+        ground2 = QPixmap(":/images/img/ice2.webp");
     }
 
     ground = ground.scaled(blockUnit, blockUnit);

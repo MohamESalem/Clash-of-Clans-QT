@@ -10,13 +10,22 @@ Castle::Castle(int x, int y) {
     QPixmap castleImg;
     if(game->getMap()==1) {
         castleImg = QPixmap(":/images/img/castle.png");
+        castleImg = castleImg.scaled(100, 100);
+
     }
 
     else if (game->getMap()==2) {
         castleImg = QPixmap(":/images/img/castle2.png");
+        castleImg = castleImg.scaled(100, 100);
+
     }
 
-    castleImg = castleImg.scaled(100, 100);
+    else if (game->getMap()==3) {
+        castleImg = QPixmap(":/images/img/castle3.webp");
+        castleImg = castleImg.scaled(100, 120);
+
+    }
+
     setPixmap(castleImg);
     // initialize data mambers
     this->x = x;

@@ -18,6 +18,10 @@ Tent::Tent(int x, int y)
         setPixmap(QPixmap(":/images/img/tent2.webp").scaled(75, 95));
     }
 
+    else if (game->getMap()==3) {
+        setPixmap(QPixmap(":/images/img/tent3.png").scaled(75, 95));
+    }
+
     setPos(x, y);
     setZValue(3);
 }
