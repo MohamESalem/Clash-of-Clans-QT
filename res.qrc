@@ -67,7 +67,8 @@
         <file>audio/bullethitsenemy2.wav</file>
         <file>audio/enemydies.wav</file>
         <file>audio/wokerspawn.mp3</file>
-        <file>audio/losing.mp3</file>
-        <file>audio/winning.mp3</file>
+        <file>audio/start.mp3</file>
+        <file>audio/smash.mp3</file>
+        <file>audio/spawn.mp3</file>
     </qresource>
 </RCC>
