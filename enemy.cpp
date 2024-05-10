@@ -127,9 +127,9 @@ void Enemy::moveRandomly() {
 
         if(d2 >= d1) {
             // setPos(path[curr]->xPos - offsetX, path[curr]->yPos - offsetY);
-            // curr++;
-            int c = getCurr();
-            setCurr(c++);
+            curr++;
+            // int c = getCurr();
+            // setCurr(c++);
         } // else {
         setPos(x() + dx, y() + dy);
         // }
