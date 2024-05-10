@@ -297,7 +297,7 @@ void Game::readBoardData(QString path) {
 //
 void Game::drawBoard(QString path) {
     readBoardData(path);
-    setMap(2);
+    setMap(3);
     QPixmap ground;
     QPixmap ground2;
     if(getMap()==1) {
@@ -309,15 +309,17 @@ void Game::drawBoard(QString path) {
 
     else if(getMap()==2) {
         ground = QPixmap(":/images/img/stone.jpg");
-        ground2 = QPixmap(":/images/img/stone2.png");
+        ground2 = QPixmap(":/images/img/stone2.jpg");
     }
 
     else if(getMap()==3) {
-        ground = QPixmap(":/images/img/ice.png");
-        ground2 = QPixmap(":/images/img/ice2.png");
+        ground = QPixmap(":/images/img/ice.jpg");
+        ground2 = QPixmap(":/images/img/ice2.jpg");
     }
 
     ground = ground.scaled(blockUnit, blockUnit);
+    ground2 = ground2.scaled(blockUnit, blockUnit);
+
     for(int i = 0; i < 12; i++) {
         for(int j = 0; j < 16; j++) {
             // the x and y positions for the current iteration

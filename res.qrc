@@ -8,7 +8,6 @@
         <file>img/fence.png</file>
         <file>img/grass.png</file>
         <file>img/icon.png</file>
-        <file>img/background.png</file>
         <file>img/bullet.png</file>
         <file>img/enemy.png</file>
         <file>img/tent.png</file>
@@ -45,18 +44,18 @@
         <file>img/gifts/purple.png</file>
         <file>img/settings.png</file>
         <file>img/settingsWallpaper.jpg</file>
-        <file>img/stone.jpg</file>
-        <file>img/castle2.png</file>
         <file>img/fence2.png</file>
         <file>img/fence3.png</file>
-        <file>img/tent3.png</file>
         <file>img/cannon3.png</file>
-        <file>img/castle3.png</file>
-        <file>img/ice2.png</file>
-        <file>img/tent2.png</file>
         <file>img/test.jpg</file>
-        <file>img/ice.png</file>
-        <file>img/stone2.png</file>
+        <file>img/ice.jpg</file>
+        <file>img/ice2.jpg</file>
+        <file>img/stone2.jpg</file>
+        <file>img/background.png</file>
+        <file>img/castle2.png</file>
+        <file>img/castle3.png</file>
+        <file>img/tent2.png</file>
+        <file>img/tent3.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>

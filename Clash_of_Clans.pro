@@ -72,7 +72,9 @@ DISTFILES += \
     img/cannon2.png \
     img/cannon3.png \
     img/castle.png \
+    img/castle2.jpg \
     img/castle2.png \
+    img/castle3.jpg \
     img/castle3.png \
     img/enemy.png \
     img/fence.png \
@@ -80,7 +82,9 @@ DISTFILES += \
     img/fence3.png \
     img/gameover.jpg \
     img/grass.png \
+    img/ice.jpg \
     img/ice.png \
+    img/ice2.jpg \
     img/ice2.png \
     img/icon.png \
     img/settings.png \
@@ -88,11 +92,14 @@ DISTFILES += \
     img/stone.jpg \
     img/stone.png \
     img/stone.webp \
+    img/stone2.jpg \
     img/stone2.png \
     img/stonebackground.png \
     img/tent.png \
+    img/tent2.jpg \
     img/tent2.png \
     img/tent2.webp \
+    img/tent3.jpg \
     img/tent3.png \
     img/test.jpg \
     img/winning.jpg
