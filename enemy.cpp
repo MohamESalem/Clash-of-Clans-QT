@@ -28,6 +28,9 @@ Enemy::Enemy(int x, int y)
     setPos(x, y);
     // qDebug() << x << " " << y ;
 
+    //spawn sound
+    game->playSound(QUrl("qrc:/audio/audio/spawn.mp3"));
+
     setZValue(3);
     // set the postion
     castle = game->getCastle();
@@ -267,7 +270,9 @@ void Enemy::attackFence(Fence *&f) {
     if(f != NULL && f->getHealth() > 0) {
         disconnect(damageTimer, &QTimer::timeout, nullptr, nullptr);
         connect(damageTimer, &QTimer::timeout, [this,f]() {
+            game->playSound(QUrl("qrc:/audio/audio/smash.mp3"));
             f->decrementHealth(this->damage);
+
         });
         moveTimer->stop();
         walkTimer->stop();

@@ -63,8 +63,14 @@ RESOURCES += \
 
 DISTFILES += \
     audio/bullet.wav \
+    audio/bullethitsenemy2.wav \
     audio/enemydamagefence.wav \
     audio/enemydamagefenceandcastle.wav \
+    audio/enemydies.wav \
+    audio/smash.mp3 \
+    audio/spawn.mp3 \
+    audio/start.mp3 \
+    audio/wokerspawn.mp3 \
     img/background.jpeg \
     img/background.png \
     img/bullet.png \

@@ -68,6 +68,7 @@
         <file>audio/bullethitsenemy2.wav</file>
         <file>audio/enemydies.wav</file>
         <file>audio/wokerspawn.mp3</file>
+<<<<<<< HEAD
         <file>audio/losing.mp3</file>
         <file>audio/winning.mp3</file>
         <file>audio/castle shield-s provided 6.wav</file>
@@ -75,5 +76,10 @@
         <file>audio/doubling_bullets.mp3</file>
         <file>audio/enemy_hitting.wav</file>
         <file>audio/timer_sound.wav</file>
+=======
+        <file>audio/start.mp3</file>
+        <file>audio/smash.mp3</file>
+        <file>audio/spawn.mp3</file>
+>>>>>>> 8c580ffb0c249cd4f07e43f0710637d06ecae1b0
     </qresource>
 </RCC>

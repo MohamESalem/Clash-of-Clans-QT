@@ -19,7 +19,6 @@ gameover::gameover(QWidget *parent)
     sound->play();
     ui->setupUi(this);
     QPixmap bkgnd(":/images/img/gameover.jpg");
-    game->playSound(QUrl("qrc:/audio/audio/losing.mp3"));
     bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatioByExpanding);
     QPalette palette;
     palette.setBrush(QPalette::Window, bkgnd);
