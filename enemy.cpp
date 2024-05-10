@@ -38,11 +38,14 @@ Enemy::Enemy(int x, int y)
     isHealthBarShown = false;
 
     //current position
-    curr =1;
-    row =y/50;
-    col =x/50;
+    // curr =1;
+    // row =y/50;
+    // col =x/50;
+    setCurr(1);
+    setRow(y/50);
+    setCol(x/50);
 
-    path = game->graph->aStarAlgo(game->graph->findNode(row, col), game->graph->findNode(castle->row,castle->col));
+    path = game->graph->aStarAlgo(game->graph->findNode(row, col), game->graph->findNode(castle->getRow(),castle->getCol()));
 
     // fill walkImgs QStringList
     walkImgs.append(":/images/img/enemy/walk/1.png");
@@ -107,8 +110,8 @@ void Enemy::moveRandomly() {
     // int detOffset = 45;
 
     if(curr < int(path.size())) {
-        int detX = path[curr]->xPos,
-            detY = path[curr]->yPos;
+        int detX = path[getCurr()]->getXPos(),
+            detY = path[getCurr()]->getYPos();
 
         // move to the destination
         // const int STEP_SIZE = 2; // this represents the velocity of the worker
@@ -119,12 +122,14 @@ void Enemy::moveRandomly() {
         double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
 
         // handle A* algorithm things here
-        double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
-        double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
+        double d1 = pow(path[getCurr()]->getXPos() - path[getCurr()-1]->getXPos(), 2) + pow(path[getCurr()]->getYPos() - path[getCurr()-1]->getYPos(), 2);
+        double d2 = pow(x() + offsetX + dx - path[getCurr()-1]->getXPos(), 2) + pow(y() + offsetY + dy - path[getCurr()-1]->getYPos(), 2);
 
         if(d2 >= d1) {
             // setPos(path[curr]->xPos - offsetX, path[curr]->yPos - offsetY);
-            curr++;
+            // curr++;
+            int c = getCurr();
+            setCurr(c++);
         } // else {
         setPos(x() + dx, y() + dy);
         // }
@@ -177,8 +182,9 @@ void Enemy::moveRandomly() {
 void Enemy::moveHealthBar()
 {
     // int detOffset = 45;
-    int detX = path[curr]->xPos,
-        detY =path[curr]->yPos;
+
+    int detX = path[getCurr()]->getXPos(),
+        detY =path[getCurr()]->getYPos();
 
     // move to the destination
     // this represents the velocity of the worker
@@ -284,9 +290,40 @@ void Enemy::updatePath()
     damageTimer->stop();
     moveTimer->stop();
     walkTimer->stop();
-    path = game->graph->aStarAlgo(game->graph->findNode(y()/50,x()/50),game->graph->findNode(castle->row,castle->col));
+    path = game->graph->aStarAlgo(game->graph->findNode(y()/50,x()/50),game->graph->findNode(castle->getRow(),castle->getCol()));
     // qDebug() << "calld";
-    curr = 1;
+    // curr = 1;
+    setCurr(1);
     moveTimer->start(50);
     walkTimer->start(160);
+}
+
+void Enemy::setRow(int r)
+{
+    row = r;
+}
+
+void Enemy::setCol(int c)
+{
+    col = c;
+}
+
+void Enemy::setCurr(int c)
+{
+    curr = c;
+}
+
+int Enemy::getRow() const
+{
+    return row;
+}
+
+int Enemy::getCol() const
+{
+    return col;
+}
+
+int Enemy::getCurr() const
+{
+    return curr;
 }

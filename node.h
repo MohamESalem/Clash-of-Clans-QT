@@ -6,6 +6,8 @@ class Node
     int x;
     int y;
     int strength;
+    int xPos;
+    int yPos;
 public:
     Node(int x, int y, int strength);
     void setX(int x);
@@ -14,8 +16,11 @@ public:
     int getX() const;
     int getY() const;
     int getStrength() const;
-    int xPos;
-    int yPos;
+
+    void setXPos(int x);
+    void setYPos(int y);
+    int getXPos() const;
+    int getYPos() const;
 
 
 };

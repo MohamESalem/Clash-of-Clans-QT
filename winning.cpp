@@ -13,6 +13,7 @@ winning::winning(QWidget *parent)
     setWindowIcon(QIcon(":/images/img/icon.png"));
     //bkgnd stlying
     QPixmap bkgnd(":/images/img/winning.jpg");
+
     bkgnd = bkgnd.scaled(this->size(), Qt::KeepAspectRatioByExpanding);
     QPalette palette;
     palette.setBrush(QPalette::Window, bkgnd);

@@ -21,7 +21,7 @@ Castle::Castle(int x, int y) {
     }
 
     else if (game->getMap()==3) {
-        castleImg = QPixmap(":/images/img/castle3.webp");
+        castleImg = QPixmap(":/images/img/castle3.png");
         castleImg = castleImg.scaled(100, 120);
 
     }
@@ -104,4 +104,24 @@ bool Castle::getIsShielded() {return isShielded;}
 void Castle::setX(int x) {this->x = x;}
 void Castle::setY(int y) {this->y = y;}
 void Castle::setIsShielded(bool b) {isShielded = b;}
+
+int Castle::getRow() const
+{
+    return row;
+}
+
+int Castle::getCol() const
+{
+    return col;
+}
+
+void Castle::setRow(int r)
+{
+    row = r;
+}
+
+void Castle::setCol(int c)
+{
+    col = c;
+}
 

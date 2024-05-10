@@ -177,7 +177,7 @@ void Worker::move()
     // qDebug() << "moving";
     // // move to the destination
     if(curr < int(path.size())) {
-        QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->xPos, path[curr]->yPos));
+        QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->getXPos(), path[curr]->getYPos()));
         double angle = -1 * ln.angle();
         // qDebug() << "curr = " << curr;
         // qDebug() << path[curr]->getX() << ' ' << path[curr]->getY() << '\n';
@@ -189,8 +189,8 @@ void Worker::move()
 
         // Handling A* algorithm
 
-        double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
-        double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
+        double d1 = pow(path[curr]->getXPos() - path[curr-1]->getXPos(), 2) + pow(path[curr]->getYPos() - path[curr-1]->getYPos(), 2);
+        double d2 = pow(x() + offsetX + dx - path[curr-1]->getXPos(), 2) + pow(y() + offsetY + dy - path[curr-1]->getYPos(), 2);
 
         if(d2 >= d1) {
             curr++;
@@ -240,7 +240,7 @@ void Worker::returnBack() {
         }
     }
     if(curr < int(path.size())) {
-        QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->xPos, path[curr]->yPos));
+        QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(path[curr]->getXPos(), path[curr]->getYPos()));
         // QLineF ln(QPointF(x() + offsetX, y() + offsetY), QPointF(group->getTent()->getX(), group->getTent()->getY()));
         double angle = -1 * ln.angle();
 
@@ -250,8 +250,8 @@ void Worker::returnBack() {
         double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
 
         // Handling A* algorithm
-        double d1 = pow(path[curr]->xPos - path[curr-1]->xPos, 2) + pow(path[curr]->yPos - path[curr-1]->yPos, 2);
-        double d2 = pow(x() + offsetX + dx - path[curr-1]->xPos, 2) + pow(y() + offsetY + dy - path[curr-1]->yPos, 2);
+        double d1 = pow(path[curr]->getXPos() - path[curr-1]->getXPos(), 2) + pow(path[curr]->getYPos() - path[curr-1]->getYPos(), 2);
+        double d2 = pow(x() + offsetX + dx - path[curr-1]->getXPos(), 2) + pow(y() + offsetY + dy - path[curr-1]->getYPos(), 2);
 
         if(d2 >= d1) {
             curr++;

@@ -40,4 +40,24 @@ int Node::getStrength() const
     return strength;
 }
 
+void Node::setXPos(int x)
+{
+    xPos = x;
+}
+
+void Node::setYPos(int y)
+{
+    yPos = y;
+}
+
+int Node::getYPos() const
+{
+    return yPos;
+}
+
+int Node::getXPos() const
+{
+    return xPos;
+}
+
 

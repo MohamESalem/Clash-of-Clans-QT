@@ -44,8 +44,10 @@ private:
     double offsetX = 0;
     double offsetY = 0;
     double STEP_SIZE;
-    //graph pointer
 
+    int row;
+    int col;
+    int curr;
 
 
 public slots:
@@ -65,9 +67,14 @@ public:
     void updatePath();
     Node* position;
     vector<Node*> path;
-    int row;
-    int col;
-    int curr;
+
+    void setRow(int r);
+    void setCol(int c);
+    void setCurr(int c);
+    int getRow() const;
+    int getCol() const;
+    int getCurr() const;
+
 
 };
 

@@ -15,7 +15,7 @@ Tent::Tent(int x, int y)
     }
 
     else if (game->getMap()==2) {
-        setPixmap(QPixmap(":/images/img/tent2.webp").scaled(75, 95));
+        setPixmap(QPixmap(":/images/img/tent2.png").scaled(75, 95));
     }
 
     else if (game->getMap()==3) {

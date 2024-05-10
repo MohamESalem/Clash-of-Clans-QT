@@ -309,12 +309,12 @@ void Game::drawBoard(QString path) {
 
     else if(getMap()==2) {
         ground = QPixmap(":/images/img/stone.jpg");
-        ground2 = QPixmap(":/images/img/stone2.webp");
+        ground2 = QPixmap(":/images/img/stone2.png");
     }
 
     else if(getMap()==3) {
-        ground = QPixmap(":/images/img/ice.webp");
-        ground2 = QPixmap(":/images/img/ice2.webp");
+        ground = QPixmap(":/images/img/ice.png");
+        ground2 = QPixmap(":/images/img/ice2.png");
     }
 
     ground = ground.scaled(blockUnit, blockUnit);
@@ -330,9 +330,16 @@ void Game::drawBoard(QString path) {
             }
 
             else {
-                boardImages[i][j] = new QGraphicsPixmapItem(ground2);
+                if(getMap()!=1) {
+                    boardImages[i][j] = new QGraphicsPixmapItem(ground2);
+                }
+
+                else {
+                    boardImages[i][j] = new QGraphicsPixmapItem(ground);
+                }
 
             }
+
             boardImages[i][j]->setPos(x, y);
             scene->addItem(boardImages[i][j]);
 

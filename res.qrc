@@ -46,16 +46,17 @@
         <file>img/settings.png</file>
         <file>img/settingsWallpaper.jpg</file>
         <file>img/stone.jpg</file>
-        <file>img/stone2.webp</file>
         <file>img/castle2.png</file>
         <file>img/fence2.png</file>
-        <file>img/tent2.webp</file>
         <file>img/fence3.png</file>
-        <file>img/castle3.webp</file>
-        <file>img/ice.webp</file>
-        <file>img/ice2.webp</file>
         <file>img/tent3.png</file>
         <file>img/cannon3.png</file>
+        <file>img/castle3.png</file>
+        <file>img/ice2.png</file>
+        <file>img/stone2.png</file>
+        <file>img/tent2.png</file>
+        <file>img/test.jpg</file>
+        <file>img/ice.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>
