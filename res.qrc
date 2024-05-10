@@ -70,5 +70,10 @@
         <file>audio/wokerspawn.mp3</file>
         <file>audio/losing.mp3</file>
         <file>audio/winning.mp3</file>
+        <file>audio/castle shield-s provided 6.wav</file>
+        <file>audio/castle-s health improved 3.wav</file>
+        <file>audio/doubling_bullets.mp3</file>
+        <file>audio/enemy_hitting.wav</file>
+        <file>audio/timer_sound.wav</file>
     </qresource>
 </RCC>

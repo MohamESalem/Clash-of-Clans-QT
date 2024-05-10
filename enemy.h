@@ -18,9 +18,9 @@ class Enemy: public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 private:
     int imgLen;
-    double velocity[5] = {2, 2.5, 3, 3.5, 4.5};
-    int healthVal[5] = {45, 55, 60, 80, 90};
-    int damageVal[5] = {5, 10, 20, 30, 40};
+    double velocity[5] = {2.5, 2.75, 3, 3.25, 3.4};
+    int healthVal[5] = {50, 55, 60, 70, 80};
+    int damageVal[5] = {5, 10, 20, 25, 30};
     int health;
     // images of the enemy in different positions
     QStringList attackImgs;

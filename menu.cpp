@@ -77,7 +77,7 @@ menu::~menu()
 void menu::on_startButton_clicked()
 {
     hide();
-    game->start(2);
+    game->start(4);
 }
 
 

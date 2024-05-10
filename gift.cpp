@@ -24,10 +24,13 @@ Gift::Gift(int x, int y, int t) {
 
 void Gift::utilize() {
     if(type == 0) {
+        game->playSound(QUrl("qrc:/audio/audio/castle-s health improved 3.wav"));
         game->getCastle()->incrementCurrHealth(20);
     } else if(type == 1) {
+        game->playSound(QUrl("qrc:/audio/audio/castle shield-s provided 6.wav"));
         game->shieldCastle();
     } else {
+        game->playSound(QUrl("qrc:/audio/audio/doubling_bullets.mp3"));
         game->doubleBullets();
     }
 }

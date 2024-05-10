@@ -24,7 +24,7 @@ Game::Game() {
     setWindowTitle("Clash Of Clans");
     setWindowIcon(QIcon(":/images/img/icon.png"));
     testFence = test2 = NULL;
-    startEnemy = {8000, 6000, 4000, 2000, 1000};
+    startEnemy = {8000, 6000, 4000, 3000, 2500};
     startGift = {10 * 1000, 10 * 1000, 20 * 1000, 20 * 1000, 20 * 1000};
     castleHealth = 100;
     bonusDefaultDuration = 10 + 1;
@@ -547,7 +547,8 @@ void Game::randGifts()
 void Game::updateTimer() {
     duration--;
 
-    if(duration <= 10) {
+    if(duration == 10) {
+        playSound(QUrl("qrc:/audio/audio/timer_sound.wav"));
         timerLabel->setDefaultTextColor(Qt::red);
     }
 

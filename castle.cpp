@@ -51,7 +51,7 @@ void Castle::setCurrHealth(int x)
 void Castle::decrementCurrHealth(int x)
 {
     if(!isShielded) {
-    game->playSound(QUrl("qrc:/audio/audio/enemydamagefenceandcastle.wav"));
+    game->playSound(QUrl("qrc:/audio/audio/enemy_hitting.wav"));
 
         currHealth -= x;
         // qDebug() << "Health = " << currHealth << '\n';
