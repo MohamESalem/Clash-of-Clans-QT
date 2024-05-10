@@ -29,7 +29,7 @@ Game::Game() {
     castleHealth = 100;
     bonusDefaultDuration = 10 + 1;
     volume = 0.5;
-    isVolSet = false;
+    isVolSet = isMapSet = randMap = false;
     map = 1;
 }
 
@@ -98,7 +98,6 @@ void Game::makeGraph()
 
 void Game::updateEnemyPath()
 {
-    // qDebug() << "Called\n";
     foreach (auto& item, enemies) {
         if (item != NULL) {
             item->updatePath();
@@ -158,6 +157,7 @@ void Game::start(int level) {
     tent1 = tent2 = NULL;
     enemies.clear();
     damagedFence.clear();
+    enemies.clear();
 
     //draw board
     drawBoard(":/board/boardFiles/board1.txt");
@@ -547,6 +547,10 @@ void Game::randGifts()
 void Game::updateTimer() {
     duration--;
 
+    if(duration <= 10) {
+        timerLabel->setDefaultTextColor(Qt::red);
+    }
+
     if (duration <= 0) {
         if(level == 4) {
             showWinningWdn();
@@ -597,7 +601,7 @@ bool Game::getIsVolSet()
     return isVolSet;
 }
 
-int Game::getVolume()
+double Game::getVolume()
 {
     return volume;
 }
@@ -611,10 +615,26 @@ void Game::setVolume(double v)
 void Game::setMap(int mapNumber)
 {
     map = mapNumber;
+    if(!isMapSet) isMapSet = true;
 }
 
 int Game::getMap() const
 {
     return map;
+}
+
+bool Game::getIsMapSet()
+{
+    return isMapSet;
+}
+
+bool Game::getRandMap()
+{
+    return randMap;
+}
+
+void Game::setRandMap(bool b)
+{
+    randMap = b;
 }
 

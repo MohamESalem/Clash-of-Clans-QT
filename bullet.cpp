@@ -15,7 +15,11 @@ extern Game* game;
 Bullet::Bullet() {
     // initialize the bullet picture and dimensions
     int len = 30;
-    setPixmap(QPixmap(":/images/img/bullet.png").scaled(len, len));
+    if(game->getMap() != 3) {
+        setPixmap(QPixmap(":/images/img/bullet.png").scaled(len, len));
+    } else {
+        setPixmap(QPixmap(":/images/img/bullet2.png").scaled(len, len));
+    }
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
     timer->start(50);

@@ -1,8 +1,9 @@
 #include "winning.h"
 #include "ui_winning.h"
 #include "game.h"
-extern Game* game;
+#include "menu.h"
 
+extern Game* game;
 
 winning::winning(QWidget *parent)
     : QDialog(parent)
@@ -47,6 +48,8 @@ winning::~winning()
 void winning::on_replayButton_clicked()
 {
     close();
-    game->start(0);
+    // game->start(0);
+    menu* m = new menu();
+    m->show();
 }
 

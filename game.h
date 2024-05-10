@@ -64,6 +64,8 @@ private:
     double volume;
     bool isVolSet;
     int map;
+    bool isMapSet;
+    bool randMap;
 
 public:
     Game();
@@ -104,10 +106,13 @@ public:
     //audio
     void playSound(QUrl url);
     bool getIsVolSet();
-    int getVolume();
+    double getVolume();
     void setVolume(double);
     void setMap(int mapNumber);
     int getMap() const;
+    bool getIsMapSet();
+    bool getRandMap();
+    void setRandMap(bool);
 
 public slots:
     void updateTimer();

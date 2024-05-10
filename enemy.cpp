@@ -122,8 +122,10 @@ void Enemy::moveRandomly() {
         double dx = STEP_SIZE * qCos(qDegreesToRadians(theta));
 
         // handle A* algorithm things here
-        double d1 = pow(path[getCurr()]->getXPos() - path[getCurr()-1]->getXPos(), 2) + pow(path[getCurr()]->getYPos() - path[getCurr()-1]->getYPos(), 2);
-        double d2 = pow(x() + offsetX + dx - path[getCurr()-1]->getXPos(), 2) + pow(y() + offsetY + dy - path[getCurr()-1]->getYPos(), 2);
+        double d1 = pow(path[getCurr()]->getXPos() - path[getCurr()-1]->getXPos(), 2)
+                    + pow(path[getCurr()]->getYPos() - path[getCurr()-1]->getYPos(), 2);
+        double d2 = pow(x() + offsetX + dx - path[getCurr()-1]->getXPos(), 2)
+                    + pow(y() + offsetY + dy - path[getCurr()-1]->getYPos(), 2);
 
         if(d2 >= d1) {
             // setPos(path[curr]->xPos - offsetX, path[curr]->yPos - offsetY);
@@ -232,7 +234,7 @@ void Enemy::decrementHealth(int x)
         // remove the enemy if its health goes below zero)
     if(health <= 0) {
         //death audio
-    game->playSound(QUrl("qrc:/audio/audio/enemyDies.wav"));
+        // game->playSound(QUrl("qrc:/audio/audio/enemyDies.wav"));
         // remove the enemy if its health goes below zero
         if(isHealthBarShown) healthBar->hide();
         game->getScene()->removeItem(this);
