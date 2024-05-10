@@ -45,6 +45,11 @@
         <file>img/gifts/purple.png</file>
         <file>img/settings.png</file>
         <file>img/settingsWallpaper.jpg</file>
+        <file>img/stone.jpg</file>
+        <file>img/stone2.webp</file>
+        <file>img/castle2.png</file>
+        <file>img/fence2.png</file>
+        <file>img/tent2.webp</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>

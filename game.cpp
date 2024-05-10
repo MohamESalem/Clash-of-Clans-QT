@@ -297,15 +297,37 @@ void Game::readBoardData(QString path) {
 //
 void Game::drawBoard(QString path) {
     readBoardData(path);
-    QPixmap grass(":/images/img/grass.png");
-    grass = grass.scaled(blockUnit, blockUnit);
+    setMap(2);
+    QPixmap ground;
+    QPixmap ground2;
+    if(getMap()==1) {
+       ground = QPixmap(":/images/img/grass.png");
+       ground2 = QPixmap(":/images/img/grass.png");
+
+
+    }
+
+    else if(getMap()==2) {
+        ground = QPixmap(":/images/img/stone.jpg");
+        ground2 = QPixmap(":/images/img/stone2.webp");
+    }
+
+    ground = ground.scaled(blockUnit, blockUnit);
     for(int i = 0; i < 12; i++) {
         for(int j = 0; j < 16; j++) {
             // the x and y positions for the current iteration
             int x = j * blockUnit, y = i * blockUnit;
 
-            // add the grass to the scene
-            boardImages[i][j] = new QGraphicsPixmapItem(grass);
+            // add the ground to the scene
+            int k = rand() % 2;
+            if(k==1) {
+                boardImages[i][j] = new QGraphicsPixmapItem(ground);
+            }
+
+            else {
+                boardImages[i][j] = new QGraphicsPixmapItem(ground2);
+
+            }
             boardImages[i][j]->setPos(x, y);
             scene->addItem(boardImages[i][j]);
 
@@ -571,5 +593,15 @@ void Game::setVolume(double v)
 {
     volume = v/100.0;
     if(!isVolSet) isVolSet = true;
+}
+
+void Game::setMap(int mapNumber)
+{
+    map = mapNumber;
+}
+
+int Game::getMap() const
+{
+    return map;
 }
 

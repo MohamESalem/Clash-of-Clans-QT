@@ -7,7 +7,14 @@
 extern Game* game;
 
 Fence::Fence(int x, int y) {
-    QPixmap fenceImg(":/images/img/fence.png");
+    QPixmap fenceImg;
+    if(game->getMap()==1) {
+        fenceImg = QPixmap(":/images/img/fence.png");
+    }
+
+    else if(game->getMap()==2) {
+        fenceImg = QPixmap(":/images/img/fence2.png");
+    }
     fenceImg = fenceImg.scaled(game->getBlockUnit(), game->getBlockUnit());
     setPixmap(fenceImg);
     this->x = x;

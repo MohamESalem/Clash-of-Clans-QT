@@ -1,4 +1,7 @@
 #include "tent.h"
+#include "game.h"
+
+extern Game* game;
 
 Tent::Tent(int x, int y)
 {
@@ -7,7 +10,14 @@ Tent::Tent(int x, int y)
     this->y = y;
     row = (y + 20)/50;
     col = (x - 20)/50;
-    setPixmap(QPixmap(":/images/img/tent.png").scaled(len, len));
+    if(game->getMap()==1) {
+        setPixmap(QPixmap(":/images/img/tent.png").scaled(len, len));
+    }
+
+    else if (game->getMap()==2) {
+        setPixmap(QPixmap(":/images/img/tent2.webp").scaled(75, 95));
+    }
+
     setPos(x, y);
     setZValue(3);
 }

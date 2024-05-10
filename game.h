@@ -63,6 +63,7 @@ private:
     void drawBoard(QString path);
     double volume;
     bool isVolSet;
+    int map;
 
 public:
     Game();
@@ -105,6 +106,8 @@ public:
     bool getIsVolSet();
     int getVolume();
     void setVolume(double);
+    void setMap(int mapNumber);
+    int getMap() const;
 
 public slots:
     void updateTimer();

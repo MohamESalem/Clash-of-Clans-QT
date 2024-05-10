@@ -70,9 +70,17 @@ DISTFILES += \
     img/cannon.png \
     img/cannon2.png \
     img/castle.png \
+    img/castle2.png \
     img/enemy.png \
     img/fence.png \
+    img/fence2.png \
     img/gameover.jpg \
     img/grass.png \
     img/icon.png \
+    img/stone.jpg \
+    img/stone.png \
+    img/stone.webp \
+    img/stone2.webp \
+    img/stonebackground.png \
+    img/tent2.webp \
     img/winning.jpg

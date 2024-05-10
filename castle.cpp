@@ -7,7 +7,15 @@ extern Game* game;
 
 // constructor
 Castle::Castle(int x, int y) {
-    QPixmap castleImg(":/images/img/castle.png");
+    QPixmap castleImg;
+    if(game->getMap()==1) {
+        castleImg = QPixmap(":/images/img/castle.png");
+    }
+
+    else if (game->getMap()==2) {
+        castleImg = QPixmap(":/images/img/castle2.png");
+    }
+
     castleImg = castleImg.scaled(100, 100);
     setPixmap(castleImg);
     // initialize data mambers
