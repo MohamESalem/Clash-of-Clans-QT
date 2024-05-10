@@ -30,6 +30,7 @@ Game::Game() {
     bonusDefaultDuration = 10 + 1;
     volume = 0.5;
     isVolSet = false;
+    map = 1;
 }
 
 // graph-related functions
@@ -297,7 +298,7 @@ void Game::readBoardData(QString path) {
 //
 void Game::drawBoard(QString path) {
     readBoardData(path);
-    setMap(1);
+    // setMap(1);
     QPixmap ground;
     QPixmap ground2;
     if(getMap()==1) {
