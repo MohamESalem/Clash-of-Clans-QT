@@ -88,6 +88,7 @@ DISTFILES += \
     img/stone.jpg \
     img/stone.png \
     img/stone.webp \
+    img/stone2.png \
     img/stonebackground.png \
     img/tent.png \
     img/tent2.png \

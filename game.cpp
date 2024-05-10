@@ -297,7 +297,7 @@ void Game::readBoardData(QString path) {
 //
 void Game::drawBoard(QString path) {
     readBoardData(path);
-    setMap(3);
+    setMap(2);
     QPixmap ground;
     QPixmap ground2;
     if(getMap()==1) {

@@ -56,6 +56,7 @@
         <file>img/tent2.png</file>
         <file>img/test.jpg</file>
         <file>img/ice.png</file>
+        <file>img/stone2.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>
