@@ -2,6 +2,7 @@
 #define OPTIONS_H
 
 #include <QDialog>
+#include <QButtonGroup>
 
 namespace Ui {
 class options;
@@ -21,6 +22,7 @@ private slots:
     void on_saveButton_clicked();
 
 private:
+    QButtonGroup *buttonGroup;
     Ui::options *ui;
 };
 

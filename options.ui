@@ -13,24 +13,50 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QLabel" name="backgroundLabel">
+  <widget class="QPushButton" name="discardButton">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>20</y>
-     <width>761</width>
-     <height>411</height>
+     <x>580</x>
+     <y>390</y>
+     <width>83</width>
+     <height>29</height>
     </rect>
    </property>
    <property name="text">
-    <string/>
+    <string>Discard</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_3">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>270</y>
+     <width>160</width>
+     <height>110</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RadioButton</string>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radioButton_2">
+   <property name="geometry">
+    <rect>
+     <x>510</x>
+     <y>140</y>
+     <width>160</width>
+     <height>110</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RadioButton</string>
    </property>
   </widget>
   <widget class="QLabel" name="volumeLabel">
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>90</y>
+     <y>70</y>
      <width>101</width>
      <height>51</height>
     </rect>
@@ -44,23 +70,35 @@
     <string>Volume</string>
    </property>
   </widget>
-  <widget class="QSlider" name="volumeSlider">
+  <widget class="QLabel" name="backgroundLabel">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>110</y>
-     <width>561</width>
-     <height>20</height>
+     <x>20</x>
+     <y>20</y>
+     <width>761</width>
+     <height>411</height>
     </rect>
    </property>
-   <property name="maximum">
-    <number>100</number>
+   <property name="text">
+    <string/>
    </property>
-   <property name="singleStep">
-    <number>10</number>
+  </widget>
+  <widget class="QLabel" name="mapsLabel">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>150</y>
+     <width>101</width>
+     <height>51</height>
+    </rect>
    </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Maps</string>
    </property>
   </widget>
   <widget class="QPushButton" name="saveButton">
@@ -76,19 +114,61 @@
     <string>Save</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="discardButton">
+  <widget class="QRadioButton" name="radioButton_4">
    <property name="geometry">
     <rect>
-     <x>580</x>
-     <y>390</y>
-     <width>83</width>
-     <height>29</height>
+     <x>170</x>
+     <y>270</y>
+     <width>160</width>
+     <height>110</height>
     </rect>
    </property>
    <property name="text">
-    <string>Discard</string>
+    <string>RadioButton</string>
    </property>
   </widget>
+  <widget class="QRadioButton" name="radioButton">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>140</y>
+     <width>160</width>
+     <height>110</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RadioButton</string>
+   </property>
+  </widget>
+  <widget class="QSlider" name="volumeSlider">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>90</y>
+     <width>561</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+   <property name="singleStep">
+    <number>10</number>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <zorder>backgroundLabel</zorder>
+  <zorder>discardButton</zorder>
+  <zorder>radioButton_3</zorder>
+  <zorder>radioButton_2</zorder>
+  <zorder>volumeLabel</zorder>
+  <zorder>mapsLabel</zorder>
+  <zorder>saveButton</zorder>
+  <zorder>radioButton_4</zorder>
+  <zorder>radioButton</zorder>
+  <zorder>volumeSlider</zorder>
  </widget>
  <resources/>
  <connections/>
