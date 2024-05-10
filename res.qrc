@@ -60,6 +60,7 @@
         <file>img/optionsMaps/green.png</file>
         <file>img/optionsMaps/stone.png</file>
         <file>img/optionsMaps/ice.png</file>
+        <file>img/bullet2.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>

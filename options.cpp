@@ -122,7 +122,14 @@ options::options(QWidget *parent)
     buttonGroup->addButton(ui->radioButton_2);
     buttonGroup->addButton(ui->radioButton_3);
     buttonGroup->addButton(ui->radioButton_4);
-    buttonGroup->buttons().first()->setChecked(true);
+    if(!game->getIsMapSet()) {
+        buttonGroup->buttons().first()->setChecked(true);
+    } else {
+        if(game->getRandMap()) ui->radioButton_4->setChecked(true);
+        else if(game->getMap() == 1) ui->radioButton->setChecked(true);
+        else if(game->getMap() == 2) ui->radioButton_3->setChecked(true);
+        else if(game->getMap() == 3) ui->radioButton_2->setChecked(true);
+    }
 
 }
 
@@ -148,14 +155,15 @@ void options::on_saveButton_clicked()
     // qDebug() << buttonGroup->checkedId();
     int map = buttonGroup->checkedId();;
     if(map == -2)
-        game->setMap(1);
+        game->setMap(1), game->setRandMap(false);
     else if(map == -3)
-        game->setMap(3);
+        game->setMap(3), game->setRandMap(false);
     else if(map == -4)
-        game->setMap(2);
+        game->setMap(2), game->setRandMap(false);
     else if(map == -5)
     {
         int randomMap = rand() % 3 + 1;
+        game->setRandMap(true);
         game->setMap(randomMap);
     }
     hide();

@@ -3,6 +3,7 @@
 #include "ui_gameover.h"
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include "menu.h"
 
 extern Game* game;
 
@@ -45,6 +46,8 @@ gameover::~gameover()
 void gameover::on_replayButton_clicked()
 {
     close();
-    game->start(0);
+    menu* m = new menu();
+    m->show();
+    // game->start(0);
 }
 
