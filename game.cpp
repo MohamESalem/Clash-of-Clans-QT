@@ -297,18 +297,16 @@ void Game::readBoardData(QString path) {
 //
 void Game::drawBoard(QString path) {
     readBoardData(path);
-    setMap(3);
+    setMap(1);
     QPixmap ground;
     QPixmap ground2;
     if(getMap()==1) {
        ground = QPixmap(":/images/img/grass.png");
        ground2 = QPixmap(":/images/img/grass.png");
-
-
     }
 
     else if(getMap()==2) {
-        ground = QPixmap(":/images/img/stone.jpg");
+        ground = QPixmap(":/images/img/stone.png");
         ground2 = QPixmap(":/images/img/stone2.jpg");
     }
 
@@ -332,13 +330,13 @@ void Game::drawBoard(QString path) {
             }
 
             else {
-                if(getMap()!=1) {
+                // if(getMap()!=1) {
                     boardImages[i][j] = new QGraphicsPixmapItem(ground2);
-                }
+                // }
 
-                else {
-                    boardImages[i][j] = new QGraphicsPixmapItem(ground);
-                }
+                // else {
+                    // boardImages[i][j] = new QGraphicsPixmapItem(ground);
+                // }
 
             }
 

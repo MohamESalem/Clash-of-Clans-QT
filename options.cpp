@@ -31,8 +31,8 @@ options::options(QWidget *parent)
                          "font-weight: bold;";
     ui->volumeLabel->setStyleSheet(labelStyle);
     ui->mapsLabel->setStyleSheet(labelStyle);
-    ui->saveButton->setStyleSheet("background-color: #FFB901;");
-    ui->discardButton->setStyleSheet("background-color: #FF0000;");
+    ui->saveButton->setStyleSheet("background-color: #FFB901; color: white; font-weight: bold;");
+    ui->discardButton->setStyleSheet("background-color: #FF0000; color: white; font-weight: bold;");
 
     QString radio1 = "QRadioButton::indicator {"
                      "    width: 150px;"

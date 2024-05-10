@@ -16,11 +16,14 @@
   <widget class="QPushButton" name="discardButton">
    <property name="geometry">
     <rect>
-     <x>580</x>
+     <x>680</x>
      <y>390</y>
      <width>83</width>
      <height>29</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: white;</string>
    </property>
    <property name="text">
     <string>Discard</string>
@@ -104,11 +107,14 @@
   <widget class="QPushButton" name="saveButton">
    <property name="geometry">
     <rect>
-     <x>680</x>
+     <x>580</x>
      <y>390</y>
      <width>83</width>
      <height>29</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: white;</string>
    </property>
    <property name="text">
     <string>Save</string>
