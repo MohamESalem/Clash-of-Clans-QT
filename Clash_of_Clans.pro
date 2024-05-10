@@ -67,21 +67,31 @@ DISTFILES += \
     audio/enemydamagefenceandcastle.wav \
     img/background.jpeg \
     img/background.png \
+    img/bullet.png \
     img/cannon.png \
     img/cannon2.png \
+    img/cannon3.png \
     img/castle.png \
     img/castle2.png \
+    img/castle3.png \
     img/enemy.png \
     img/fence.png \
     img/fence2.png \
+    img/fence3.png \
     img/gameover.jpg \
     img/grass.png \
+    img/ice.png \
+    img/ice2.png \
     img/icon.png \
+    img/settings.png \
+    img/settingsWallpaper.jpg \
     img/stone.jpg \
     img/stone.png \
     img/stone.webp \
-    img/stone2.webp \
     img/stonebackground.png \
+    img/tent.png \
+    img/tent2.png \
     img/tent2.webp \
     img/tent3.png \
+    img/test.jpg \
     img/winning.jpg
