@@ -16,13 +16,10 @@ public:
     int getX() const;
     int getY() const;
     int getStrength() const;
-
     void setXPos(int);
     void setYPos(int);
     int getXPos() const;
     int getYPos() const;
-
-
 };
 
 #endif // NODE_H
