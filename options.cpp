@@ -100,7 +100,7 @@ options::options(QWidget *parent)
     QString radio4 = "QRadioButton::indicator {"
                      "    width: 240px;"
                      "    height: 115px;"
-                     "    background-image: url(:/images/img/settingsWallpaper.jpg);" //! ?
+                     "    background-image: url(:/images/img/optionsMaps/random_map.png);"
                      "    background-repeat: no-repeat;"
                      "    border-radius: 15px;"
                      "}"

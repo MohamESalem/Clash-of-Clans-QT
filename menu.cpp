@@ -82,7 +82,6 @@ void menu::on_startButton_clicked()
     game->playSound(QUrl("qrc:/audio/audio/start.mp3"));
 }
 
-
 void menu::on_exitButton_clicked()
 {
     close();
