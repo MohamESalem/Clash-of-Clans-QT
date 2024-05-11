@@ -152,7 +152,7 @@ void Game::start(int level) {
     blockUnit = 50;
     workersMaxCount = 5;
     workersAvaCount = 0;
-    duration = 1 * 2;
+    duration = 1 * 60;
     bonusDuration = bonusDefaultDuration;
     isBulletBonus = false;
     tent1 = tent2 = NULL;
@@ -267,15 +267,14 @@ void Game::start(int level) {
 
 void Game::startNewLevel()
 {
-    hide();
     // stop timers
     gameTimer->stop();
     enemyTimer->stop();
     giftTimer->stop();
     // close and show the correct windows
+    nextLevel *n = new nextLevel();
     castleHealth = castle->getCurrHealth();
     close();
-    nextLevel *n = new nextLevel;
     n->show();
     foreach(QGraphicsItem *item, scene->items()) { // not working
         scene->removeItem(item);
