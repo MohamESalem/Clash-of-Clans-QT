@@ -30,7 +30,7 @@ private:
     double STEP_SIZE;
 
 public:
-    Worker(WorkersClan* g, int index);
+    Worker(WorkersClan*,int);
     int getHealAbility();
     void setHealAbility(int);
     WorkersClan* getGroup();
@@ -39,7 +39,7 @@ public:
     void healFence(Fence*);
     void die();
     bool isFinished();
-    void changePath(int x, int y);
+    void changePath(int,int);
 
 public slots:
     void move();

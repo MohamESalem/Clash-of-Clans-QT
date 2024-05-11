@@ -59,8 +59,8 @@ private:
     QList<int> startEnemy;
     QList<int> startGift;
     // private methods
-    void readBoardData(QString path);
-    void drawBoard(QString path);
+    void readBoardData(QString);
+    void drawBoard(QString);
     double volume;
     bool isVolSet;
     int map;
@@ -104,7 +104,7 @@ public:
     void shieldCastle();
     void doubleBullets();
     //audio
-    void playSound(QUrl url);
+    void playSound(QUrl);
     bool getIsVolSet();
     double getVolume();
     void setVolume(double);

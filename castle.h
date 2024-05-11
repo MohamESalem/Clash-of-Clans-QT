@@ -14,8 +14,8 @@ private:
     HealthBar* healthBar;
     bool isShielded;
     bool finished;
-    int row = 6;
-    int col = 7;
+    int row;
+    int col;
 public:
     Castle(int,int);
     // health functions
@@ -34,8 +34,8 @@ public:
     void setIsShielded(bool);
     int getRow() const;
     int getCol() const;
-    void setRow(int r);
-    void setCol(int c);
+    void setRow(int);
+    void setCol(int);
 
 
 public slots:

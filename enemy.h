@@ -35,6 +35,7 @@ private:
     HealthBar* healthBar;
     bool isHealthBarShown;
     bool finished = false;
+    vector<Node*> path;
     // test
     // QGraphicsItemGroup* group;
 
@@ -65,17 +66,12 @@ public:
     void attackFence(Fence*&);
     void attackCastle();
     void updatePath();
-    Node* position;
-    vector<Node*> path;
-
     void setRow(int r);
     void setCol(int c);
     void setCurr(int c);
     int getRow() const;
     int getCol() const;
     int getCurr() const;
-
-
 };
 
 #endif // ENEMY_H

@@ -7,6 +7,9 @@ extern Game* game;
 
 // constructor
 Castle::Castle(int x, int y) {
+    row = y/game->getBlockUnit();
+    col = x/game->getBlockUnit();
+
     QPixmap castleImg;
     if(game->getMap()==1) {
         castleImg = QPixmap(":/images/img/castle.png");

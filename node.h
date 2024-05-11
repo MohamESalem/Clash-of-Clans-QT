@@ -9,16 +9,16 @@ class Node
     int xPos;
     int yPos;
 public:
-    Node(int x, int y, int strength);
-    void setX(int x);
-    void setY(int y);
-    void setStrength(int strength);
+    Node(int,int,int);
+    void setX(int);
+    void setY(int);
+    void setStrength(int);
     int getX() const;
     int getY() const;
     int getStrength() const;
 
-    void setXPos(int x);
-    void setYPos(int y);
+    void setXPos(int);
+    void setYPos(int);
     int getXPos() const;
     int getYPos() const;
 

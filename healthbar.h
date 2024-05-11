@@ -20,7 +20,7 @@ public:
     void incrementCurrHealth(int);
     void provideShield();
     void removeShield();
-    void setCurrHealth(int);
+    void setCurrHealth(double);
     void show();
     void hide();
     void move(int,int);

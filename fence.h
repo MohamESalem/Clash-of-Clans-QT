@@ -16,6 +16,7 @@ private:
     HealthBar* healthBar;
     bool isHealthBarShown;
     bool finished;
+
 public:
     Fence(int x, int y);
     int getX();

@@ -83,7 +83,7 @@ void HealthBar::removeShield()
         progressBar->setBrush(red);
 }
 
-void HealthBar::setCurrHealth(int x)
+void HealthBar::setCurrHealth(double x)
 {
     currHealth = x;
     double per = currHealth/maxHealth;
