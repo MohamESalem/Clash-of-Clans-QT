@@ -1,6 +1,7 @@
 # Clash-of-Clans-QT: 
 
 This project is a clone of the popular mobile game Clash of Clans, developed using the QT framework.
+![plot](./img/game.gif)
 
 ## Game Design and Code Hierarchy Features
 **Castle & Fence:** 
