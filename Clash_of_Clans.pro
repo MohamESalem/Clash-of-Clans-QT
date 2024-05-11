@@ -21,6 +21,7 @@ SOURCES += \
     healthbar.cpp \
     main.cpp \
     menu.cpp \
+    nextlevel.cpp \
     node.cpp \
     options.cpp \
     tent.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     graph.h \
     healthbar.h \
     menu.h \
+    nextlevel.h \
     node.h \
     options.h \
     tent.h \
@@ -50,6 +52,7 @@ HEADERS += \
 FORMS += \
     gameover.ui \
     menu.ui \
+    nextlevel.ui \
     options.ui \
     winning.ui
 

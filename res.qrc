@@ -61,7 +61,9 @@
         <file>img/optionsMaps/stone.png</file>
         <file>img/optionsMaps/ice.png</file>
         <file>img/bullet2.png</file>
-        <file>img/optionsMaps/random_map.png</file>
+        <file>img/optionsMaps/random_map.jpg</file>
+        <file>img/nextlevel.jpg</file>
+        <file>img/sword.png</file>
     </qresource>
     <qresource prefix="/audio">
         <file>audio/bullet.wav</file>

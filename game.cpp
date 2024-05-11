@@ -11,6 +11,7 @@
 #include <ctime>
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include "nextlevel.h"
 
 Game::Game() {
     // initialize the scene
@@ -151,7 +152,7 @@ void Game::start(int level) {
     blockUnit = 50;
     workersMaxCount = 5;
     workersAvaCount = 0;
-    duration = 1 * 60;
+    duration = 1 * 2;
     bonusDuration = bonusDefaultDuration;
     isBulletBonus = false;
     tent1 = tent2 = NULL;
@@ -266,6 +267,7 @@ void Game::start(int level) {
 
 void Game::startNewLevel()
 {
+    hide();
     // stop timers
     gameTimer->stop();
     enemyTimer->stop();
@@ -273,12 +275,13 @@ void Game::startNewLevel()
     // close and show the correct windows
     castleHealth = castle->getCurrHealth();
     close();
+    nextLevel *n = new nextLevel;
+    n->show();
     foreach(QGraphicsItem *item, scene->items()) { // not working
         scene->removeItem(item);
         delete item;
     }
     scene->clear();
-    start(level + 1);
 }
 
 void Game::readBoardData(QString path) {

@@ -23,7 +23,9 @@ winning::winning(QWidget *parent)
     ui->replayButton->setStyleSheet("QPushButton {"
                                     "    background-color: #FFD503;" // Yellow background color
                                     "    color: #FFFFFF;"
-                                    "font-weight: bold;"
+                                    "    height: 35px;"
+                                    "    width: 200px;"
+                                    "    font-weight: bold;"
                                     "    border: none;"               // No border
                                     "    border-radius: 5px;"         // Rounded corners
                                     "}"
