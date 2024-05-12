@@ -30,7 +30,7 @@ void Gift::utilize() {
         game->playSound(QUrl("qrc:/audio/audio/castle shield-s provided 6.wav"));
         game->shieldCastle();
     } else {
-        game->playSound(QUrl("qrc:/audio/audio/doubling_bullets.mp3"));
+        game->playSound(QUrl("qrc:/audio/audio/Fire.m4a"));
         game->doubleBullets();
     }
 }

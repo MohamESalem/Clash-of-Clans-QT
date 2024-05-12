@@ -534,6 +534,7 @@ void Game::spawnEnemies() {
 void Game::randGifts()
 {
     int type = rand() % 3;
+    // int type = 2;
     // qDebug() << "Gift's type = " << type;
     int x, y;
     do {

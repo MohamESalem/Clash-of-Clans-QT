@@ -79,5 +79,6 @@
         <file>audio/start.mp3</file>
         <file>audio/smash.mp3</file>
         <file>audio/spawn.mp3</file>
+        <file>audio/Fire.m4a</file>
     </qresource>
 </RCC>

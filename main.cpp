@@ -1,7 +1,6 @@
 #include <QApplication>
 #include "game.h"
 #include "menu.h"
-#include "nextlevel.h"
 
 Game* game;
 

@@ -77,8 +77,8 @@ menu::~menu()
 void menu::on_startButton_clicked()
 {
     hide();
-    game->start(3);
     game->playSound(QUrl("qrc:/audio/audio/start.mp3"));
+    game->start(3);
 }
 
 void menu::on_exitButton_clicked()
