@@ -1,7 +1,11 @@
 # Clash-of-Clans-QT: 
 
 This project is a clone of the popular mobile game Clash of Clans, developed using the QT framework.
-![plot](./img/game.gif)
+
+<div align="center">
+<img src="./img/game.gif" alt="game demo" />
+
+</div>
 
 ## Game Design and Code Hierarchy Features
 **Castle & Fence:** 
@@ -14,7 +18,7 @@ This project is a clone of the popular mobile game Clash of Clans, developed usi
 
 **Enemy:**
 * Attributes for position and health.
-* Movement based on Euclidean algorithm.
+* Movement based on A* algorithm.
 * Controls movement, collisions, and interactions.
 
 **Citizen Workers:**
